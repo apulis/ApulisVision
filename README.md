@@ -1,5 +1,7 @@
-<<<<<<< HEAD
-# MMDetection
+
+# ApulisVision
+ApulisVision is an open computer vision toolbox based on PyTorch, We have supported Image Classification, Object Detection and Semantic Segmantation.
+
 
 **News**: We released the technical report on [ArXiv](https://arxiv.org/abs/1906.07155).
 
@@ -140,7 +142,3 @@ If you use this toolbox or benchmark in your research, please cite this project.
 
 This repo is currently maintained by Kai Chen ([@hellock](http://github.com/hellock)), Yuhang Cao ([@yhcao6](https://github.com/yhcao6)), Wenwei Zhang ([@ZwwWayne](https://github.com/ZwwWayne)),
 Jiarui Xu ([@xvjiarui](https://github.com/xvjiarui)). Other core developers include Jiangmiao Pang ([@OceanPang](https://github.com/OceanPang)) and Jiaqi Wang ([@myownskyW7](https://github.com/myownskyW7)).
-=======
-# ApulisVision
-ApulisVision is an open computer vision toolbox based on PyTorch, We have supported Image Classification, Object Detection and Semantic Segmantation.
->>>>>>> 43b00b30c76dac53d3019f346861e43027ead9b4
