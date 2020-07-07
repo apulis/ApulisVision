@@ -7,6 +7,7 @@ import numpy as np
 from PIL import Image, ImageOps
 from skimage.filters import gaussian
 from skimage.restoration import denoise_bilateral
+from ..utils.utils import read_image, mask_to_onehot, onehot_to_binary_edges, color2class, inv_mapping
 
 from ..builder import PIPELINES
 
