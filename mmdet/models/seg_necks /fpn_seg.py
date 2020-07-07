@@ -8,7 +8,7 @@ from ..builder import NECKS
 
 
 @NECKS.register_module
-class FPN(nn.Module):
+class FPNSeg(nn.Module):
 
     def __init__(self,
                  in_channels,
@@ -25,7 +25,7 @@ class FPN(nn.Module):
                  conv_cfg=None,
                  norm_cfg=None,
                  act_cfg=dict(type='ReLU'),):
-        super(FPN, self).__init__()
+        super(FPNSeg, self).__init__()
         assert isinstance(in_channels, list)
         self.in_channels = in_channels
         self.out_channels = out_channels
