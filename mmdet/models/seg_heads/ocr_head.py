@@ -8,9 +8,8 @@ import torch.nn.functional as F
 from mmdet.core import auto_fp16, force_fp32, mask_target
 from mmcv.cnn import ConvModule, constant_init, normal_init, build_conv_layer,  build_upsample_layer
 from mmdet.ops.carafe import CARAFEPack
-from objdet.models.builder import HEADS
-from objdet.models.builder import build_loss
-
+from ..builder import HEADS
+from ..builder import build_loss
 
 class SpatialGather_Module(nn.Module):
     """

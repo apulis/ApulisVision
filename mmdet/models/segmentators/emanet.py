@@ -6,8 +6,7 @@ import numpy as np
 
 from .segbase import SegBaseModel
 from .fcn import FCN
-from objdet.models.builder import DETECTORS
-from objdet.models import builder
+from ..builder import DETECTORS, build_backbone, build_head, build_neck
 
 
 @DETECTORS.register_module

@@ -5,8 +5,8 @@ import torch.nn.functional as F
 import numpy as np
 
 from .segbase import SegBaseModel
-from objdet.models.builder import DETECTORS
-from objdet.models import builder
+from ..builder import DETECTORS, build_backbone, build_head, build_neck
+
 
 
 @DETECTORS.register_module
@@ -21,12 +21,12 @@ class FPN(SegBaseModel):
                  test_cfg=None,
                  pretrained=None):
         super(FPN, self).__init__()
-        self.backbone = builder.build_backbone(backbone)
+        self.backbone = build_backbone(backbone)
         if neck is not None:
-            self.neck = builder.build_neck(neck)
+            self.neck = build_neck(neck)
         else:
             self.neck = None
-        self.mask_head = builder.build_head(mask_head)
+        self.mask_head = build_head(mask_head)
 
         self.jpu = jpu
         self.train_cfg = train_cfg

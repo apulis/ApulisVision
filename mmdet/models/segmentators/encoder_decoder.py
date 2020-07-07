@@ -4,8 +4,7 @@ import torch.nn.functional as F
 
 from .segbase import SegBaseModel
 
-from objdet.models.builder import DETECTORS
-from objdet.models import builder
+from ..builder import DETECTORS, build_backbone, build_head, build_neck
 
 
 @DETECTORS.register_module
@@ -39,11 +38,11 @@ class EncoderDecoder(SegBaseModel):
                  test_cfg=None,
                  pretrained=None):
         super(EncoderDecoder, self).__init__()
-        self.backbone = builder.build_backbone(backbone)
-        self.neck = builder.build_neck(neck) if neck is not None else None
-        self.mask_head = builder.build_head(mask_head)
+        self.backbone = build_backbone(backbone)
+        self.neck = build_neck(neck) if neck is not None else None
+        self.mask_head = build_head(mask_head)
         if aux_head is not None:
-            self.aux_head = builder.build_head(aux_head)
+            self.aux_head = build_head(aux_head)
             self.aux_level = aux_level
         else:
             self.aux_head = None
