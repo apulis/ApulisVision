@@ -3,9 +3,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from objdet.models.builder import CLASSIFIERS, build_classifier
-from objdet.models import builder
 from .adaptive_pool2d import SelectAdaptivePool2d
+from ..builder import CLASSIFIERS, build_classifier, build_backbone
 
 
 def accuracy(pred, target, topk=1):
@@ -46,7 +45,7 @@ class Classifier(nn.Module):
     """
     def __init__(self, backbone, num_classes=1000, global_pool='avg', pretrained=None):
         super(Classifier, self).__init__()
-        self.backbone = builder.build_backbone(backbone)
+        self.backbone = build_backbone(backbone)
         self.num_features = (self.backbone.feat_dim)
         self.init_weights(pretrained=pretrained)
         self.num_classes = num_classes

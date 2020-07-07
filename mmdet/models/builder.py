@@ -8,6 +8,8 @@ SHARED_HEADS = Registry('shared_head')
 HEADS = Registry('head')
 LOSSES = Registry('loss')
 DETECTORS = Registry('detector')
+CLASSIFIERS = Registry('classifier')
+SEGMENTATORS = Registry('segmentators')
 
 
 def build(cfg, registry, default_args=None):
@@ -65,3 +67,11 @@ def build_loss(cfg):
 def build_detector(cfg, train_cfg=None, test_cfg=None):
     """Build detector."""
     return build(cfg, DETECTORS, dict(train_cfg=train_cfg, test_cfg=test_cfg))
+
+
+def build_segmentators(cfg, train_cfg=None, test_cfg=None):
+    """Build detector."""
+    return build(cfg, SEGMENTATORS, dict(train_cfg=train_cfg, test_cfg=test_cfg))
+
+def build_classifier(cfg):
+    return build(cfg, CLASSIFIERS)
