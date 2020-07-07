@@ -3,8 +3,8 @@ import numpy as np
 from PIL import Image
 import mmcv
 from torch.utils.data import Dataset
-from objdet.datasets.pipelines import Compose
-from objdet.datasets.builder import DATASETS
+from .builder import DATASETS
+from .pipelines import Compose
 from .utils import inv_mapping
 
 @DATASETS.register_module()
