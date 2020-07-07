@@ -110,7 +110,6 @@ class ToArray(object):
         return results
 
 
-@PIPELINES.register_module
 class Resize(object):
     '''
     Resize image to exact size of crop
