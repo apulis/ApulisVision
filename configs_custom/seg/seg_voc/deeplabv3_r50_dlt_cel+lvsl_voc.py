@@ -29,7 +29,7 @@ model = dict(
         upsample_cfg=dict(type='bilinear', upsample_size=input_size),
         num_classes=num_classes,
         loss_mask=dict(
-            type='CrossEntropyLoss', loss_weight=1.0),
+            type='CrossEntropySegLoss', loss_weight=1.0),
         loss_mask_aux=dict(
             type='LovaszSoftmax', loss_weight=0.5)))
 # model training and testing settings

@@ -115,3 +115,39 @@ class MultiScaleFlipAug(object):
         repr_str += f'img_scale={self.img_scale}, flip={self.flip})'
         repr_str += f'flip_direction={self.flip_direction}'
         return repr_str
+
+@PIPELINES.register_module
+class MultiTestAug(object):
+
+    def __init__(self, transforms, aug_list=None):
+        self.transforms = Compose(transforms)
+        self.aug_list = []
+        if aug_list:
+            for aug in aug_list:
+                if isinstance(aug_list[0], list):
+                    self.aug_list.append(aug)
+                else:
+                    self.aug_list.append([aug])
+
+    def __call__(self, results):
+        aug_data = []
+        _results = results.copy()
+        aug_data.append(self.transforms(_results))
+        for aug in self.aug_list:
+            augs = Compose(aug)
+            _results = results.copy()
+            _results = augs(_results)
+            data = self.transforms(_results)
+            aug_data.append(data)
+        # list of dict to dict of list
+        aug_data_dict = {key: [] for key in aug_data[0]}
+        for data in aug_data:
+            for key, val in data.items():
+                aug_data_dict[key].append(val)
+        return aug_data_dict
+
+    def __repr__(self):
+        repr_str = self.__class__.__name__
+        repr_str += '(transforms={}, img_scale={}, flip={})'.format(
+            self.transforms, self.img_scale, self.flip)
+        return repr_str
