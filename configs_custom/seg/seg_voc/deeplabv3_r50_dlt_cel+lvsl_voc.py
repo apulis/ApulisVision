@@ -85,20 +85,20 @@ data = dict(
     train=dict(
         type=dataset_type,
         ann_file=data_root + 'VOC2012/ImageSets/Segmentation/train.txt',
-        img_prefix=data_root + 'VOC2012/',
-        seg_prefix=data_root + 'VOC2012/',
+        img_prefix=data_root + 'VOC2012/JPEGImages/',
+        seg_prefix=data_root + 'VOC2012/SegmentationClass/',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
         ann_file=data_root + 'VOC2012/ImageSets/Segmentation/val.txt',
-        img_prefix=data_root + 'VOC2012/',
-        seg_prefix=data_root + 'VOC2012/',
+        img_prefix=data_root + 'VOC2012/JPEGImages/',
+        seg_prefix=data_root + 'VOC2012/SegmentationClass/',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
         ann_file=data_root + 'VOC2012/ImageSets/Segmentation/val.txt',
-        img_prefix=data_root + 'VOC2012/',
-        seg_prefix=data_root + 'VOC2012/',
+        img_prefix=data_root + 'VOC2012/JPEGImages/',
+        seg_prefix=data_root + 'VOC2012/SegmentationClass/',
         pipeline=test_pipeline))
 # optimizer
 optimizer = dict(type='SGD', lr=0.007, momentum=0.9, weight_decay=0.0001)

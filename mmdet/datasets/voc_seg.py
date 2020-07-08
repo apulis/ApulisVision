@@ -70,10 +70,9 @@ class VOCSegmentation(Dataset):
         data_infos = []
         img_ids =  self.read_imglist(ann_file)
         for img_id in img_ids:
-            filename = f'JPEGImages/{img_id}.jpg'
+            filename = f'{img_id}.jpg'
 
-            img_path = osp.join(self.img_prefix, 'JPEGImages',
-                                    '{}.jpg'.format(img_id))
+            img_path = osp.join(self.img_prefix, '{}.jpg'.format(img_id))
             img = Image.open(img_path)
             width, height = img.size
             data_infos.append(
@@ -93,17 +92,17 @@ class VOCSegmentation(Dataset):
     def get_ann_info(self, idx):
         img_info = self.data_infos[idx]
         img_id = img_info['id']
-        seg_map = f'SegmentationClass/{img_id}.png'
-        seg_path = osp.join(self.seg_prefix, 'SegmentationClass',
-                                    '{}.png'.format(img_id))
-        ann = dict(seg_map=seg_map, seg_path=seg_path)
+        seg_path = osp.join(self.seg_prefix, '{}.png'.format(img_id))
+        ann = dict(seg_path=seg_path)
         return ann
+
 
     def pre_pipeline(self, results):
         results['img_prefix'] = self.img_prefix
         results['seg_prefix'] = self.seg_prefix
         results['mask_fields'] = []
         results['seg_fields'] = []
+
 
     def _filter_imgs(self, min_size=32):
         """Filter images too small."""
@@ -125,7 +124,6 @@ class VOCSegmentation(Dataset):
             if img_info['width'] / img_info['height'] > 1:
                 self.flag[i] = 1
 
-
     def __len__(self):
         return len(self.data_infos)
 
@@ -146,7 +144,6 @@ class VOCSegmentation(Dataset):
                        rgb2label = self.rgb2label,
                        num_classes =  self.num_classes
                        )
-        #results = dict(img_info=img_info, ann_info=ann_info)
         self.pre_pipeline(results)
         return self.pipeline(results)
 
@@ -160,6 +157,5 @@ class VOCSegmentation(Dataset):
                        rgb2label = self.rgb2label,
                        num_classes =  self.num_classes
                        )
-        #results = dict(img_info=img_info)
         self.pre_pipeline(results)
         return self.pipeline(results)
