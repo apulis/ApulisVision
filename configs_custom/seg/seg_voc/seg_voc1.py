@@ -42,8 +42,8 @@ img_norm_cfg = dict(
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=False, with_label=False, with_mask=False, with_seg=True),
-    dict(type='Resize', img_scale=(1000, 600), keep_ratio=True),
-    dict(type='RandomCrop', crop_size=input_size),
+    dict(type='Resize', img_scale=(600, 600), keep_ratio=False),
+    dict(type='RandomCrop', crop_size=(input_size, input_size)),
     dict(type='RandomFlip', flip_ratio=0.5),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='DefaultFormatBundle'),
@@ -51,18 +51,13 @@ train_pipeline = [
 ]
 test_pipeline = [
     dict(type='LoadImageFromFile'),
-    dict(
-        type='MultiScaleFlipAug',
-        img_scale=(1333, 800),
-        flip=False,
-        transforms=[
-            dict(type='Resize', keep_ratio=True),
-            dict(type='RandomFlip'),
-            dict(type='Normalize', **img_norm_cfg),
-            dict(type='Pad', size_divisor=32),
-            dict(type='ImageToTensor', keys=['img']),
-            dict(type='Collect', keys=['img']),
-        ])
+    dict(type='LoadAnnotations', with_bbox=False, with_label=False, with_mask=False, with_seg=True),
+    dict(type='Resize', img_scale=(600, 600), keep_ratio=False),
+    dict(type='RandomCrop', crop_size=(input_size, input_size)),
+    dict(type='RandomFlip', flip_ratio=0.5),
+    dict(type='Normalize', **img_norm_cfg),
+    dict(type='DefaultFormatBundle'),
+    dict(type='Collect', keys=['img', 'gt_semantic_seg']),
 ]
 data = dict(
     samples_per_gpu=2,
@@ -70,10 +65,16 @@ data = dict(
     train=dict(
         type=dataset_type,
         data_root=data_root,
-        imglist_name=data_root + 'VOC2012/ImageSets/Segmentation/train.txt',
+        ann_file=data_root + 'VOC2012/ImageSets/Segmentation/train.txt',
         img_prefix=data_root + 'VOC2012/JPEGImages/',
         seg_prefix=data_root + 'VOC2012/SegmentationClass/',
         pipeline=train_pipeline),
+    val=dict(
+        type=dataset_type,
+        ann_file=data_root + 'VOC2012/ImageSets/Segmentation/val.txt',
+        img_prefix=data_root + 'VOC2012/JPEGImages/',
+        seg_prefix=data_root + 'VOC2012/SegmentationClass/',
+        pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
         ann_file=data_root + 'VOC2012/ImageSets/Segmentation/val.txt',

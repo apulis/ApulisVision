@@ -145,6 +145,7 @@ class VOCSegmentation(Dataset):
                        rgb2label = self.rgb2label,
                        num_classes =  self.num_classes
                        )
+        #results = dict(img_info=img_info, ann_info=ann_info)
         self.pre_pipeline(results)
         return self.pipeline(results)
 
@@ -158,5 +159,6 @@ class VOCSegmentation(Dataset):
                        rgb2label = self.rgb2label,
                        num_classes =  self.num_classes
                        )
+        #results = dict(img_info=img_info)
         self.pre_pipeline(results)
         return self.pipeline(results)

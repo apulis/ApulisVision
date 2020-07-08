@@ -45,14 +45,14 @@ class CityscapeSegmentation(Dataset):
 
     def __init__(self, 
                  data_root=None, 
-                 imglist_name=None,
+                 ann_file=None,
                  pipeline=None,
                  img_prefix=None,
                  seg_prefix=None,
                  test_mode=False,):
 
         self.data_root = data_root
-        self.imglist_name = imglist_name,
+        self.ann_file = ann_file,
         self.img_prefix = img_prefix
         self.seg_prefix = seg_prefix
         self.test_mode = test_mode
@@ -66,7 +66,7 @@ class CityscapeSegmentation(Dataset):
                 self.seg_prefix = osp.join(self.data_root, self.seg_prefix)
 
         # load annotations (and proposals)
-        self.data_infos = self.load_annotations(self.imglist_name)
+        self.data_infos = self.load_annotations(self.ann_file)
  
         # filter images too small
         if not test_mode:
