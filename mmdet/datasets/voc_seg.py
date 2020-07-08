@@ -7,6 +7,7 @@ from .builder import DATASETS
 from .pipelines import Compose
 from mmdet.datasets.utils.utils import inv_mapping
 
+
 @DATASETS.register_module()
 class VOCSegmentation(Dataset):
 

@@ -21,7 +21,7 @@ if platform.system() != 'Windows':
 
 DATASETS = Registry('dataset')
 PIPELINES = Registry('pipeline')
-
+TRANSFORMS = Registry('transform')
 
 def _concat_dataset(cfg, default_args=None):
     from .dataset_wrappers import ConcatDataset
