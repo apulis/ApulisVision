@@ -167,7 +167,7 @@ data = dict(
         type='RPCDataset',
         ann_file=data_root + 'instances_val2019.json',
         img_prefix=data_root + 'val2019/',
-        export_result_dir = "./work_dir/faster_rcnn_r101_fpn_mmdet_rpc_baseline/val_result/",
+        export_result_dir = "./work_dirs/faster_rcnn_r101_fpn_mmdet_rpc_baseline/val_result/",
         generate_pseudo_label=True,
         pipeline=test_pipeline),
     test=dict(
@@ -201,7 +201,7 @@ log_config = dict(
 total_epochs = 12
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dir/faster_rcnn_r101_fpn_mmdet_rpc_baseline/'
+work_dirs = './work_dirs/faster_rcnn_r101_fpn_mmdet_rpc_baseline/'
 load_from = None
 resume_from = None
 workflow = [('train', 1)]

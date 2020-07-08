@@ -140,7 +140,7 @@ evaluation = dict(interval=1)
 total_epochs = 120
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dir/deeplabv3+_xception65_cel_ade20k'
+work_dirs = './work_dirs/deeplabv3+_xception65_cel_ade20k'
 label_suffix = '_mask'
 load_from = None
 resume_from = None

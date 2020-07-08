@@ -165,7 +165,7 @@ evaluation = dict(interval=1)
 total_epochs = 120
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dir/deeplabv3_r50_ds_dlt_cel+lvsl_gn_DGLandcover_1'
+work_dirs = './work_dirs/deeplabv3_r50_ds_dlt_cel+lvsl_gn_DGLandcover_1'
 label_suffix = '_mask'
 load_from = None
 resume_from = None

@@ -178,7 +178,7 @@ evaluation = dict(interval=1)
 total_epochs = 120
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dir/test'
+work_dirs = './work_dirs/test'
 label_suffix = '_mask'
 load_from = None
 resume_from = None

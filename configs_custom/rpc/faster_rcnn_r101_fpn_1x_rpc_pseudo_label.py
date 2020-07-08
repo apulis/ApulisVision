@@ -168,7 +168,7 @@ data = dict(
 
     pseudo=dict(
         type='RPC_Dataset',
-        ann_file='/home/jianzhnie/objdetection/work_dir/faster_rcnn_r101_fpn_mmdet_rpc_pseudo_label/test_result/pseudo_label.json',
+        ann_file='/home/jianzhnie/objdetection/work_dirs/faster_rcnn_r101_fpn_mmdet_rpc_pseudo_label/test_result/pseudo_label.json',
         img_prefix=data_root + 'test2019/',
         csp=False,
         n_class_density_map=1,
@@ -178,7 +178,7 @@ data = dict(
         type='RPC_Dataset',
         ann_file=data_root + 'instances_val2019.json',
         img_prefix=data_root + 'val2019/',
-        export_result_dir = "./work_dir/faster_rcnn_r101_fpn_mmdet_rpc_pseudo_label/val_result/",
+        export_result_dir = "./work_dirs/faster_rcnn_r101_fpn_mmdet_rpc_pseudo_label/val_result/",
         generate_pseudo_label=True,
         pipeline=test_pipeline),
 
@@ -186,7 +186,7 @@ data = dict(
         type='RPC_Dataset',
         ann_file=data_root + 'instances_test2019.json',
         img_prefix=data_root + 'test2019/',
-        export_result_dir = "./work_dir/faster_rcnn_r101_fpn_mmdet_rpc_pseudo_label/test_result/",
+        export_result_dir = "./work_dirs/faster_rcnn_r101_fpn_mmdet_rpc_pseudo_label/test_result/",
         generate_pseudo_label=True,
         pipeline=test_pipeline))
 
@@ -217,7 +217,7 @@ train_mode = 'cross-fintue'
 validate = True
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dir/faster_rcnn_r101_fpn_mmdet_rpc_pseudo_label/'
-load_from = "./work_dir/faster_rcnn_r101_fpn_mmdet_rpc_pseudo_label/epoch_1.pth"
+work_dirs = './work_dirs/faster_rcnn_r101_fpn_mmdet_rpc_pseudo_label/'
+load_from = "./work_dirs/faster_rcnn_r101_fpn_mmdet_rpc_pseudo_label/epoch_1.pth"
 resume_from = None
 workflow = [('train', 1)]

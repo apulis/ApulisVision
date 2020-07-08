@@ -190,7 +190,7 @@ total_epochs = 20
 checkpoint_period = 500
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = '/data/wedward/jobs/20200514_faster_rcnn_r101_fpn_mmdet_rpc_final_finetune/'
+work_dirs = '/data/wedward/jobs/20200514_faster_rcnn_r101_fpn_mmdet_rpc_final_finetune/'
 load_from = "/data/wedward/jobs/20200513_faster_rcnn_r101_fpn_mmdet_rpc_pseudo_label/epoch_77.pth"
 resume_from = None
 workflow = [('train', 1)]

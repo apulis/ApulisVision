@@ -160,7 +160,7 @@ evaluation = dict(interval=1)
 total_epochs = 150
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dir/fpn_r50_cel_DGLandcover_1'
+work_dirs = './work_dirs/fpn_r50_cel_DGLandcover_1'
 label_suffix = '_mask'
 load_from = None
 resume_from = None

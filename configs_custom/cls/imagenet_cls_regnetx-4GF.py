@@ -56,7 +56,7 @@ log_config = dict(
 total_epochs = 1
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = "work_dir/cls/resnet50"
+work_dirs = "./work_dirs/cls/resnet50"
 load_from = None
 resume_from = None
 workflow = [('train', 1)]

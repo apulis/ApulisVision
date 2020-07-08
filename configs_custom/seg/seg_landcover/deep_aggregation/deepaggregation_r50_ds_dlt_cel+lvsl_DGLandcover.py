@@ -160,7 +160,7 @@ evaluation = dict(interval=1)
 total_epochs = 150
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dir/deepaggregation_r50_ds_dlt_cel+lvsl_DGLandcover_1'
+work_dirs = './work_dirs/deepaggregation_r50_ds_dlt_cel+lvsl_DGLandcover_1'
 label_suffix = '_mask'
 load_from = None
 resume_from = None

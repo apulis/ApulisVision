@@ -105,7 +105,7 @@ log_config = dict(
 total_epochs = 4  # actual epoch = 4 * 3 = 12
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dir/deeplabv3_r50_dlt_cel'
+work_dirs = './work_dirs/deeplabv3_r50_dlt_cel'
 load_from = None
 resume_from = None
 workflow = [('train', 1)]

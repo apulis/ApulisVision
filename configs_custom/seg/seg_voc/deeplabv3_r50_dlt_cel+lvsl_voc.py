@@ -125,7 +125,7 @@ evaluation = dict(interval=1)
 total_epochs = 50 
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-work_dir = './work_dir/voc_deeplabv3_r50_dlt_cel'
+work_dirs = './work_dirs/voc_deeplabv3_r50_dlt_cel'
 load_from = None
 resume_from = None
 workflow = [('train', 1)]
