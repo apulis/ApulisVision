@@ -7,14 +7,14 @@ from .utils import weight_reduce_loss
 
 
 @LOSSES.register_module
-class FocalLoss(nn.Module):
+class FocalSegLoss(nn.Module):
     def __init__(self,
                  use_sigmoid=False,
                  gamma=2.0,
                  alpha=None,
                  reduction='mean',
                  loss_weight=1.0):
-        super(FocalLoss, self).__init__()
+        super(FocalSegLoss, self).__init__()
         self.use_sigmoid = use_sigmoid
         self.gamma = gamma
         self.reduction = reduction

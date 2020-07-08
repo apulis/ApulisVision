@@ -7,13 +7,13 @@ from .utils import weight_reduce_loss
 
 
 @LOSSES.register_module
-class CrossEntropyLoss(nn.Module):
+class CrossEntropySegLoss(nn.Module):
     def __init__(self,
                  use_sigmoid=False,
                  alpha=None,
                  reduction='mean',
                  loss_weight=1.0):
-        super(CrossEntropyLoss, self).__init__()
+        super(CrossEntropySegLoss, self).__init__()
         self.use_sigmoid = use_sigmoid
         self.reduction = reduction
         self.loss_weight = loss_weight
