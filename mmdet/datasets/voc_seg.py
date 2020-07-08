@@ -92,8 +92,9 @@ class VOCSegmentation(Dataset):
     def get_ann_info(self, idx):
         img_info = self.data_infos[idx]
         img_id = img_info['id']
+        seg_map =  f'{img_id}.png'
         seg_path = osp.join(self.seg_prefix, '{}.png'.format(img_id))
-        ann = dict(seg_path=seg_path)
+        ann = dict(seg_map=seg_map, seg_path=seg_path)
         return ann
 
 

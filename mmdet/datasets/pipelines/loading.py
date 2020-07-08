@@ -1,5 +1,5 @@
 import os.path as osp
-
+import cv2
 import mmcv
 import numpy as np
 import pycocotools.mask as maskUtils
@@ -395,3 +395,53 @@ class LoadProposals(object):
     def __repr__(self):
         return self.__class__.__name__ + \
             f'(num_max_proposals={self.num_max_proposals})'
+
+
+@PIPELINES.register_module()
+class LoadSemanticSeg(object):
+    """Load semantic segs.
+    """
+    def __init__(self, dataset_type="voc"):
+        self.with_seg = True
+        self.dataset_type = dataset_type
+        assert self.dataset_type in ['voc', 'coco', 'cityscapes', 'ade', 'landcover']
+
+    def _load_semantic_seg(self, results):
+        """Private function to load semantic segmentation annotations.
+
+        Args:
+            results (dict): Result dict from :obj:`dataset`.
+
+        Returns:
+            dict: The dict contains loaded semantic segmentation annotations.
+        """
+        filename = osp.join(results['seg_prefix'],results['ann_info']['seg_map'])
+        if self.dataset_type == 'ade':
+            results['gt_semantic_seg'] =  np.array(cv2.imread(filename, cv2.IMREAD_GRAYSCALE))
+        if self.dataset_type == 'voc':
+            results['gt_semantic_seg'] =  np.array(cv2.imread(filename, cv2.IMREAD_GRAYSCALE))
+        if self.dataset_type == 'cityscapes':
+            results['gt_semantic_seg'] =  np.array(cv2.imread(filename, cv2.IMREAD_GRAYSCALE), dtype=np.float32)
+
+        results['seg_fields'].append('gt_semantic_seg')
+        return results
+
+
+    def __call__(self, results):
+        """Call function to load multiple types annotations.
+
+        Args:
+            results (dict): Result dict from :obj:`mmdet.CustomDataset`.
+
+        Returns:
+            dict: The dict contains loaded bounding box, label, mask and
+                semantic segmentation annotations.
+        """
+        results = self._load_semantic_seg(results)
+        return results
+
+
+    def __repr__(self):
+        repr_str = self.__class__.__name__
+        repr_str += f'with_seg={self.with_seg})'
+        return repr_str
