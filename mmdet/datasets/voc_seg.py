@@ -151,7 +151,7 @@ class VOCSegmentation(Dataset):
         img_info = self.data_infos[idx]
         results = dict(img_path=img_info['img_path'], 
                        label_path=None,
-                       img_id=img_info['img_id'],
+                       img_id=img_info['id'],
                        h = img_info['height'],
                        w = img_info['width'],
                        rgb2label = self.rgb2label,

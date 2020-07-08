@@ -57,11 +57,12 @@ train_pipeline = [
 validation_pipeline = [
     dict(type='ReadImage'),
     dict(type='ToPilImage'),
+    dict(type='RandomSizeAndCrop', crop_nopad=False, size=input_size, scale_min=0.66, scale_max=1.5),
     dict(type='ToArray', **img_norm_cfg),
     dict(
         type='Collect',
         keys=['img', 'gt_semantic_seg'],
-        meta_keys=['img_id', 'img_shape', 'img_norm_cfg', 'h', 'w']),
+        meta_keys=['img_id', 'img_norm_cfg', 'h', 'w']),
 ]
 test_pipeline = [
     dict(type='ReadImage'),
@@ -93,7 +94,7 @@ data = dict(
         ann_file=data_root + 'VOC2012/ImageSets/Segmentation/val.txt',
         img_prefix=data_root + 'VOC2012/JPEGImages/',
         seg_prefix=data_root + 'VOC2012/SegmentationClass/',
-        pipeline=test_pipeline),
+        pipeline=validation_pipeline),
     test=dict(
         type=dataset_type,
         ann_file=data_root + 'VOC2012/ImageSets/Segmentation/val.txt',
