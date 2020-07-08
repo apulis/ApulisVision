@@ -1,5 +1,5 @@
 import inspect
-
+import cv2
 import mmcv
 import numpy as np
 from numpy import random
@@ -363,6 +363,52 @@ class RandomFlip(object):
 
     def __repr__(self):
         return self.__class__.__name__ + f'(flip_ratio={self.flip_ratio})'
+
+
+@PIPELINES.register_module()
+class RandomRotate(object):
+    """Ratate the image & bbox & mask.
+
+    If the input dict contains the key "flip", then the flag will be used,
+    otherwise it will be randomly decided by a ratio specified in the init
+    method.
+
+    Args:
+        flip_ratio (float, optional): The flipping probability. Default: None.
+        direction(str, optional): The flipping direction. Options are
+            'horizontal' and 'vertical'. Default: 'horizontal'.
+    """
+
+    def __init__(self, rote_ratio=0.5, angle=30):
+        self.rote_ratio = rote_ratio
+        self.angle = (-angle, angle) if isinstance(angle, (int, float)) else angle
+
+    def __call__(self, results):
+        """Call function to rotate bounding boxes, masks, semantic segmentation
+        maps.
+
+        Args:
+            results (dict): Result dict from loading pipeline.
+
+        Returns:
+            dict: Flipped results, 'rotate', 'rotate_degree' keys are added into
+                result dict.
+        """
+        if 'rotate' not in results:
+            rotate = True if np.random.rand() < self.rote_ratio else False
+            results['rotate'] = rotate
+        if 'rotate_angle' not in results:
+            results['rotate_angle'] = self.angle
+        if results['rotate']:
+            # flip image
+            for key in results.get('img_fields', ['img']):
+                results[key] = mmcv.imrotate(
+                    results[key], angle=results['rotate_angle'])
+            # flip segs
+            for key in results.get('seg_fields', []):
+                results[key] = mmcv.imrotate(
+                    results[key], angle=results['rotate_angle'])
+        return results
 
 
 @PIPELINES.register_module()
