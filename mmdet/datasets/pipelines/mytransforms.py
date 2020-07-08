@@ -10,7 +10,7 @@ from skimage.filters import gaussian
 from skimage.restoration import denoise_bilateral
 from ..utils.utils import read_image, mask_to_onehot, onehot_to_binary_edges, color2class, inv_mapping
 
-from ..builder import TRANSFORMS
+from ..builder import PIPELINES
 
 try:
     from imagecorruptions import corrupt
@@ -37,7 +37,7 @@ def _is_pil_image(img):
     else:
         return isinstance(img, Image.Image)
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class ToPilImage(object):
     def __call__(self, results):
         for key in ['img', 'gt_semantic_seg', 'gt_edge', 'valid_pixels']:
@@ -46,7 +46,7 @@ class ToPilImage(object):
                     results[key] = Image.fromarray(results[key])
         return results
 
-@TRANSFORM.register_module
+@PIPELINES.register_module
 class ReadImage(object):
     def __init__(self, get_edge=False):
         self.get_edge = get_edge
@@ -90,7 +90,7 @@ class ReadImage(object):
         return results
 
 
-@TRANSFORM.register_module
+@PIPELINES.register_module
 class ToArray(object):
     def __init__(self, normalize=False, mean=None, std=None):
         self.normalize = normalize
@@ -110,7 +110,7 @@ class ToArray(object):
         results['img_norm_cfg'] = dict(normalize=self.normalize, mean=self.mean, std=self.std)
         return results
 
-@TRANSFORM.register_module()
+#@PIPELINES.register_module()
 class Resize(object):
     '''
     Resize image to exact size of crop
@@ -127,7 +127,7 @@ class Resize(object):
         return results
 
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class ResizeImg(object):
     '''
     Resize image to exact size of crop
@@ -141,7 +141,7 @@ class ResizeImg(object):
         return results
 
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class CenterCrop(object):
     def __init__(self, size):
         if isinstance(size, numbers.Number):
@@ -249,7 +249,7 @@ class RandomCrop(object):
 
 
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class RandomSizeAndCrop(object):
     def __init__(self, size, crop_nopad=True, scale_min=0.5, scale_max=2.0, ignore_index=0, pre_size=None):
         self.size = size
@@ -283,7 +283,7 @@ class RandomSizeAndCrop(object):
         return self.crop(results, centroid)
 
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class PadImage(object):
     def __init__(self, size, ignore_index):
         self.size = size
@@ -315,7 +315,7 @@ class PadImage(object):
         return results
 
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class HorizontallyFlip(object):
     def __call__(self, results):
         for key in ['img', 'gt_semantic_seg', 'gt_edge', 'valid_pixels']:
@@ -325,7 +325,7 @@ class HorizontallyFlip(object):
 
         return results
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class RandomHorizontallyFlip(object):
     def __init__(self, p=0.5):
         self.p = p
@@ -338,7 +338,7 @@ class RandomHorizontallyFlip(object):
         return results
 
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class VerticalFlip(object):
     def __call__(self, results):
         for key in ['img', 'gt_semantic_seg', 'gt_edge', 'valid_pixels']:
@@ -348,7 +348,7 @@ class VerticalFlip(object):
         return results
 
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class RandomVerticalFlip(object):
     def __init__(self, p=0.5):
         self.p = p
@@ -361,7 +361,7 @@ class RandomVerticalFlip(object):
         return results
 
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class Rotate(object):
     def __init__(self, degree):
         assert degree in [90, 180, 270]
@@ -376,7 +376,7 @@ class Rotate(object):
         return results
 
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class RandomRotate(object):
     def __init__(self, degree=90):
         assert degree in [90, 180, 270]
@@ -391,7 +391,7 @@ class RandomRotate(object):
         return results
 
 
-@TRANSFORM.register_module()
+@PIPELINES.register_module()
 class RandomGaussianBlur(object):
     def __init__(self, p=0.5):
         self.p = p
@@ -405,7 +405,7 @@ class RandomGaussianBlur(object):
         return results
 
 
-@TRANSFORM.register_module
+@PIPELINES.register_module
 class RandomBilateralBlur(object):
     def __init__(self, p=0.5):
         self.p = p
@@ -419,7 +419,7 @@ class RandomBilateralBlur(object):
         return results
 
 
-@TRANSFORM.register_module
+@PIPELINES.register_module
 class ColorJitter(object):
     """Randomly change the brightness, contrast and saturation of an image.
 
