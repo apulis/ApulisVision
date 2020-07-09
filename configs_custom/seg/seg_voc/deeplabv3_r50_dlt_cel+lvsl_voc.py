@@ -81,7 +81,7 @@ test_pipeline = [
                 keys=['img'],
                 meta_keys=('img_id', 'horizontal_flip', 'vertical_flip', 'rotate', 'full_shape', 'tile_size', 'img_shape', 'img_norm_cfg', 'h', 'w'))])]
 data = dict(
-    samples_per_gpu=2,
+    samples_per_gpu=4,
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
@@ -102,7 +102,7 @@ data = dict(
         seg_prefix=data_root + 'VOC2012/SegmentationClass/',
         pipeline=test_pipeline))
 # optimizer
-optimizer = dict(type='SGD', lr=0.007, momentum=0.9, weight_decay=0.0001)
+optimizer = dict(type='SGD', lr=0.001, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
 # learning policy
 lr_config = dict(
