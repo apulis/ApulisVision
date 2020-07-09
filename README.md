@@ -1,10 +1,8 @@
-# ApulisVision
-ApulisVision is an open computer vision toolbox based on PyTorch, We have supported Image Classification, Object Detection and Semantic Segmantation.
-
-
 <div align="center">
-  <img src="resources/mmdet-logo.png" width="600"/>
+  <img src="resources/apulisvision-logo.png" width="600"/>
 </div>
+
+ApulisVision is an open computer vision toolbox based on PyTorch, We have supported Image Classification,Object Detection and Semantic Segmantation.
 
 **News**: We released the technical report on [ArXiv](https://arxiv.org/abs/1906.07155).
 
