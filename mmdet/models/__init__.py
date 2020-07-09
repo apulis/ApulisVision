@@ -4,7 +4,7 @@ from .builder import (BACKBONES, DETECTORS, HEADS, LOSSES, NECKS, CLASSIFIERS, S
                       build_detector, build_head, build_loss, build_neck, 
                       build_classifier, build_segmentators,
                       build_roi_extractor, build_shared_head)
-from .cls import *
+from .classifiers import *
 from .dense_heads import *  # noqa: F401,F403
 from .detectors import *  # noqa: F401,F403
 #from .losses import *  # noqa: F401,F403
