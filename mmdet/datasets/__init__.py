@@ -14,6 +14,8 @@ from .voc_seg import VOCSegmentation
 from .cityscapes_seg import CityscapeSegmentation
 from .ade_seg import ADE20KSegmentation
 from .multiclassdataset import MultiClassDataset
+from .imageclass import ImageFolderDataset
+
 
 __all__ = [
     'CustomDataset', 'XMLDataset', 'CocoDataset', 'DeepFashionDataset',
@@ -21,5 +23,6 @@ __all__ = [
     'DistributedGroupSampler', 'DistributedSampler', 'build_dataloader',
     'ConcatDataset', 'RepeatDataset', 'ClassBalancedDataset',
     'WIDERFaceDataset', 'DATASETS', 'PIPELINES', 'build_dataset', 'TRANSFORMS',
-    'VOCSegmentation', 'CityscapeSegmentation', 'ADE20KSegmentation', 'MultiClassDataset'
+    'VOCSegmentation', 'CityscapeSegmentation', 'ADE20KSegmentation', 'MultiClassDataset',
+    'ImageFolderDataset'
 ]

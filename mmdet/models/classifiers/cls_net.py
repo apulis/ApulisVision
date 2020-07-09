@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from .adaptive_pool2d import SelectAdaptivePool2d
-from ..builder import CLASSIFIERS, build_classifier, build_backbone
+from ..builder import CLASSIFIERS,  build_backbone
 
 
 def accuracy(pred, target, topk=1):
@@ -64,7 +64,7 @@ class Classifier(nn.Module):
         x = self.backbone(img)
         return x
 
-    def forward(self, img, gt_labels=None, return_loss=True, **kwargs):
+    def forward(self, img, img_metas, return_loss=True, **kwargs):
         """
         Calls either forward_train or forward_test depending on whether
         return_loss=True. Note this setting will change the expected inputs.
@@ -74,11 +74,11 @@ class Classifier(nn.Module):
         the outer list indicating test time augmentations.
         """
         if return_loss:
-            return self.forward_train(img, gt_labels, **kwargs)
+            return self.forward_train(img, img_metas, **kwargs)
         else:
-            return self.forward_test(img, gt_labels, **kwargs)
+            return self.forward_test(img, img_metas, **kwargs)
 
-    def forward_train(self, img, gt_labels,**kwargs):
+    def forward_train(self, img, img_metas, gt_labels,**kwargs):
         """
         Args:
             img (Tensor): of shape (N, C, H, W) encoding input images.
@@ -104,7 +104,7 @@ class Classifier(nn.Module):
         losses['acc@5'] = accuracy(output, gt_labels, topk=5)
         return losses
 
-    def forward_test(self, img, gt_labels, **kwargs):
+    def forward_test(self, img, img_metas, **kwargs):
         """
         Args:
             imgs (List[Tensor]): the outer list indicates test-time

@@ -12,7 +12,8 @@ from .transforms import (Albu, Expand, MinIoURandomCrop, Normalize, Pad,
 from .mytransforms import (ReadImage, ToPilImage, ToArray, ResizeImg, CenterCrop,
                          RandomSizeAndCrop, PadImage, HorizontallyFlip, VerticalFlip,
                          RandomHorizontallyFlip, RandomVerticalFlip,
-                         Rotate, RandomRotate, RandomGaussianBlur, RandomBilateralBlur)
+                         Rotate, RandomRotate, RandomGaussianBlur, RandomBilateralBlur,
+                         TorchNormalize, PILToTensor)
 
 __all__ = [
     'Compose', 'to_tensor', 'ToTensor', 'ImageToTensor', 'ToDataContainer',
@@ -23,4 +24,4 @@ __all__ = [
     'InstaBoost', 'RandomCenterCropPad', 'AutoAugment',
     'ReadImage', 'ToPilImage', 'ToArray', 'ResizeImg', 'CenterCrop', 'RandomSizeAndCrop',
     'PadImage', 'HorizontallyFlip', 'VerticalFlip', 'RandomHorizontallyFlip', 'RandomVerticalFlip',
-    'Rotate', 'RandomRotate', 'RandomGaussianBlur']
+    'Rotate', 'RandomRotate', 'RandomGaussianBlur', 'TorchNormalize', 'PILToTensor']
