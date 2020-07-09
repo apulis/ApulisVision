@@ -97,16 +97,24 @@ def build_dataloader(dataset,
     if dist:
         # DistributedGroupSampler will definitely shuffle the data to satisfy
         # that images on each GPU are in the same group
-        if shuffle:
-            sampler = DistributedGroupSampler(dataset, samples_per_gpu,
-                                              world_size, rank)
+        if dataset.dataset_type=='ImageClassification':
+            if shuffle:
+                sampler = DistributedSampler(dataset, world_size, rank, shuffle=True)
+            else:
+                sampler = DistributedSampler(dataset, world_size, rank, shuffle=False)
         else:
-            sampler = DistributedSampler(
-                dataset, world_size, rank, shuffle=False)
+            if shuffle:
+                sampler = DistributedGroupSampler(dataset, samples_per_gpu,world_size, rank)
+            else:
+                sampler = DistributedSampler(dataset, world_size, rank, shuffle=False)
         batch_size = samples_per_gpu
         num_workers = workers_per_gpu
     else:
-        sampler = GroupSampler(dataset, samples_per_gpu) if shuffle else None
+        if dataset.dataset_type=='ImageClassification':
+            sampler = None
+        else:
+            sampler = GroupSampler(dataset, samples_per_gpu) if shuffle else None
+
         batch_size = num_gpus * samples_per_gpu
         num_workers = num_gpus * workers_per_gpu
 

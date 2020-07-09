@@ -138,3 +138,57 @@ class DistributedGroupSampler(Sampler):
 
     def set_epoch(self, epoch):
         self.epoch = epoch
+
+class EquibatchSampler(Sampler):
+
+    def __init__(self, dataset, samples_per_gpu=1):
+        assert hasattr(dataset, 'class_flag')
+        self.dataset = dataset
+        self.samples_per_gpu = samples_per_gpu
+        self.flag = dataset.class_flag.astype(np.int64)
+        ori_pool = set(range(len(self.dataset)))
+        num_classes = self.dataset.num_classes
+        min_size = int(np.ceil(len(self.dataset) / num_classes))
+        indices = []
+        sizes = []
+        for i in range(num_classes):
+            indice = set(np.where(self.flag % (2 ** (i + 1)) // (2 ** i) > 0)[0])
+            indice.intersection_update(ori_pool)
+            indice = list(indice)
+            np.random.shuffle(indice)
+            if len(indice) > min_size:
+                indice = indice[:min_size]
+            indices.append(indice)
+            ori_pool.difference_update(set(indice))
+            sizes.append(len(indice))
+
+        if len(ori_pool) > 0:
+            for i in range(num_classes):
+                indice = set(np.where(self.flag // (2 ** i) > 0)[0])
+                indice.intersection_update(ori_pool)
+                indice = list(indice)
+                np.random.shuffle(indice)
+                indices[i].extend(indice)
+                ori_pool.difference_update(set(indice))
+                sizes[i] = len(indices[i])
+
+        size = np.max(sizes)
+        for i in range(num_classes):
+            if sizes[i] < size:
+                indices[i].extend(indices[i][:size - sizes[i]])
+
+        indices = np.array(indices).T
+        indices = np.concatenate(indices)
+        indices = [
+            indices[i * self.samples_per_gpu:(i + 1) * self.samples_per_gpu]
+            for i in range(len(indices) // self.samples_per_gpu)]
+        indices = np.concatenate(indices)
+        self.indices = indices.astype(np.int64).tolist()
+        # assert len(indices) == self.num_samples
+        self.num_samples = len(indices)
+
+    def __iter__(self):
+        return iter(self.indices)
+
+    def __len__(self):
+        return self.num_samples

@@ -9,7 +9,7 @@ from .test_time_aug import MultiScaleFlipAug, MultiTestAug
 from .transforms import (Albu, Expand, MinIoURandomCrop, Normalize, Pad,
                          PhotoMetricDistortion, RandomCenterCropPad,
                          RandomCrop, RandomFlip, Resize, SegRescale)
-from .mytransforms import (ReadImage, ToPilImage, ToArray, ResizeImg, CenterCrop,
+from .mytransforms import (ReadImage, ToPilImage, ToArray, ResizeImage, CenterCrop,
                          RandomSizeAndCrop, PadImage, HorizontallyFlip, VerticalFlip,
                          RandomHorizontallyFlip, RandomVerticalFlip,
                          Rotate, RandomRotate, RandomGaussianBlur, RandomBilateralBlur,

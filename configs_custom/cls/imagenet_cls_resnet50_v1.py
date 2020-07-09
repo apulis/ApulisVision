@@ -11,6 +11,9 @@ model = dict(
         frozen_stages=0,
         norm_cfg=dict(type='BN', requires_grad=True),
         style='pytorch'))
+# model training and testing settings
+train_cfg = None
+test_cfg = None    
 # dataset settings
 dataset_type = 'ImageFolderDataset'
 root = '/data/cls_datasets/256_obj/'
@@ -22,7 +25,8 @@ train_pipeline = [
     dict(type='RandomVerticalFlip'),
     dict(type='ColorJitter', brightness=0.2, contrast=0.1, saturation=0.2, hue=0.1),
     dict(type='PILToTensor'),
-    dict(type='TensorNormalize', mean=[0.485, 0.456, 0.406],std=[0.229, 0.224, 0.225])
+    dict(type='TorchNormalize', mean=[0.485, 0.456, 0.406],std=[0.229, 0.224, 0.225]),
+    dict(type='Collect', keys=['img', 'gt_labels'], meta_keys=['filename'])
 ]
 data = dict(
     samples_per_gpu=32,    
@@ -30,12 +34,10 @@ data = dict(
     train=dict(
         type=dataset_type,
         data_root=root + 'train/',
-        test_mode=False,
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
         data_root=root + 'val/',
-        train_mode=False,
         pipeline=train_pipeline),
     test=dict(
         type=dataset_type,
@@ -49,13 +51,13 @@ optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
 lr_config = dict(
     policy='step',
     warmup='linear',
-    warmup_iters=10,
+    warmup_iters=100,
     warmup_ratio=1.0 / 3,
     step=[3, 5])
 checkpoint_config = dict(interval=1)
 # yapf:disable
 log_config = dict(
-    interval=1,  # 100 steps and show loss
+    interval=100,  # 100 steps and show loss
     hooks=[
         dict(type='TextLoggerHook'),
         dict(type='TensorboardLoggerHook')

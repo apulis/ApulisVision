@@ -118,6 +118,7 @@ class PILToTensor(object):
     def __call__(self, results):
         tr = torch_tr.ToTensor()
         results['img'] = tr(results['img'])
+        return results
 
 
 @PIPELINES.register_module
@@ -173,7 +174,7 @@ class Resize(object):
 
 
 @PIPELINES.register_module()
-class ResizeImg(object):
+class ResizeImage(object):
     '''
     Resize image to exact size of crop
     '''

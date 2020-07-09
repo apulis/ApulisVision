@@ -66,6 +66,7 @@ class  ImageFolderDataset(Dataset):
 
         # processing pipeline
         self.pipeline = Compose(pipeline)
+        self.dataset_type='ImageClassification'
 
 
     def _find_classes(self, dir):
@@ -108,14 +109,14 @@ class  ImageFolderDataset(Dataset):
     def prepare_train_img(self, idx):
         img_path, target = self.samples[idx]
         img = default_loader(img_path)
-        results = dict(img=img, gt_labels=target)
+        results = dict(img=img, gt_labels=target, filename=img_path)
         return self.pipeline(results)
 
 
     def prepare_test_img(self, idx):
         img_path, target = self.samples[idx]
         img = default_loader(img_path)
-        results = dict(img=img, gt_labels=target)
+        results = dict(img=img, gt_labels=target, filename=img_path)
         return self.pipeline(results)
 
 
