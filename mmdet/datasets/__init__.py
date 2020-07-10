@@ -15,6 +15,7 @@ from .cityscapes_seg import CityscapeSegmentation
 from .ade_seg import ADE20KSegmentation
 from .multiclassdataset import MultiClassDataset
 from .imageclass import ImageFolderDataset
+from .landcover import DGLandcoverDataset
 
 
 __all__ = [
@@ -24,5 +25,5 @@ __all__ = [
     'ConcatDataset', 'RepeatDataset', 'ClassBalancedDataset',
     'WIDERFaceDataset', 'DATASETS', 'PIPELINES', 'build_dataset', 'TRANSFORMS',
     'VOCSegmentation', 'CityscapeSegmentation', 'ADE20KSegmentation', 'MultiClassDataset',
-    'ImageFolderDataset'
+    'ImageFolderDataset', 'DGLandcoverDataset'
 ]

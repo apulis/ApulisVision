@@ -40,7 +40,7 @@ class DGLandcoverDataset(Dataset):
     def __init__(self,
                  ann_file,
                  pipeline,
-                 data_root,
+                 data_root=None,
                  img_prefix='',
                  seg_prefix='',
                  n_channels=3,
@@ -89,7 +89,7 @@ class DGLandcoverDataset(Dataset):
                     for j in range(0, self.WIDTH, self.stride):
                         i_idx = min(i, self.HEIGHT - self.tile_size)
                         j_idx = min(j, self.WIDTH - self.tile_size)
-                        data_infos.append(dict(id=img_id, filename=filename, w=i_idx, h=j_idx))
+                        data_infos.append(dict(id=img_id, filename=filename, img_path=img_path, w=i_idx, h=j_idx))
                         if (j + self.stride) >= self.HEIGHT:
                             break
                     if (i + self.stride) >= self.WIDTH:
@@ -113,9 +113,9 @@ class DGLandcoverDataset(Dataset):
     def get_ann_info(self, idx):
         img_info = self.data_infos[idx]
         img_id = img_info['id']
-
-        seg_map =  f'{img_id}.png'
-        seg_path = osp.join(self.seg_prefix, '{}.png'.format(img_id))
+        seg_id = img_id.replace("sat", "mask")
+        seg_map =  f'{seg_id}.png'
+        seg_path = osp.join(self.seg_prefix, '{}.png'.format(seg_id))
         ann = dict(seg_map=seg_map, seg_path=seg_path)
         return ann
 
