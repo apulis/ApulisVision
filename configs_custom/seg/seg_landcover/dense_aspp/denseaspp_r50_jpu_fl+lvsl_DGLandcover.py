@@ -33,7 +33,7 @@ model = dict(
         num_classes=7,
         upsample_cfg=dict(type='bilinear', upsample_size=input_size),
         loss_mask=dict(
-            type='FocalLoss', gamma=0.3, loss_weight=0.67),
+            type='FocalSegLoss', gamma=0.3, loss_weight=0.67),
         loss_mask_aux=dict(
             type='LovaszSoftmax', loss_weight=0.33)))
 # model training and testing settings
@@ -41,6 +41,7 @@ train_cfg = None
 test_cfg = None
 # dataset settings
 dataset_type = 'DGLandcoverDataset'
+data_root = '/data/landcover/'
 img_norm_cfg = dict(
     normalize=True, mean=[104.0936, 96.6689, 71.8065], std=[37.4711, 29.2703, 26.8835])
 
@@ -53,7 +54,6 @@ train_pipeline = [
     dict(type='RandomGaussianBlur'),
     dict(type='ColorJitter', brightness=0.2, contrast=0.1, saturation=0.2, hue=0.1),
     dict(type='ToArray', **img_norm_cfg),
-    #dict(type='DefaultFormatBundle'),
     dict(
         type='Collect',
         keys=['img', 'gt_semantic_seg'],
@@ -110,58 +110,45 @@ data = dict(
     sampler='group',
     train=dict(
         type=dataset_type,
-        pipeline=train_pipeline,
-        data_path='/data/landcover/DGland/images',
-        label_path='/data/landcover/DGland/labels',
+        ann_file=data_root + 'DGland_annotations/DGland_train.txt',
+        img_prefix=data_root + 'DGland_train/images/',
+        seg_prefix=data_root + 'DGland_train/labels/',
         tile_size=1500,
         stride=1500,
-        mode='train'),
+        pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
-        pipeline=validation_pipeline,
-        data_path='/data/landcover/DGland_val/images',
-        label_path='/data/landcover/DGland_val/labels',
+        ann_file=data_root + 'DGland_annotations/DGland_val.txt',
+        img_prefix=data_root + 'DGland_val/images/',
+        seg_prefix=data_root + 'DGland_val/labels/',
         tile_size=input_size,
         stride=input_size,
-        mode='val'),
+        pipeline=validation_pipeline),
     eval=dict(
         type=dataset_type,
-        pipeline=eval_pipeline,
-        data_path='/data/landcover/DGland_val/images',
-        label_path='/data/landcover/DGland_val/labels',
+        ann_file=data_root + 'DGland_annotations/DGland_val.txt',
+        img_prefix=data_root + 'DGland_val/images/',
+        seg_prefix=data_root + 'DGland_val/labels/',
         tile_size=2448,
         stride=2448,
-        mode='val'),
+        pipeline=eval_pipeline),
     test=dict(
         type=dataset_type,
-        pipeline=test_pipeline,
-        data_path='/data/landcover/DGland_validation/images',
+        ann_file=data_root + 'DGland_annotations/DGland_val.txt',
+        data_path=data_root + 'DGland_validation/images/',
         tile_size=2448,
         stride=2448,
-        mode='test'))
+        test_mode=True,
+        pipeline=test_pipeline))
 # optimizer
 optimizer = dict(type='SGD', lr=0.03, momentum=0.9, weight_decay=0.0005)
 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
-#optimizer_config = None
-# learning policy
-# lr_config = dict(
-#    policy='step',
-#    warmup='linear',
-#    warmup_iters=500,
-#    warmup_ratio=1.0 / 3,
-#    gamma=0.63,
-#    step=[6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 80, 100, 120])
 lr_config = dict(
     policy='poly',
     warmup='linear',
     warmup_iters=500,
     warmup_ratio=1.0 / 3,
     power = 1.5)
-# lr_config = dict(
-#     policy='cosine',
-#     warmup='linear',
-#     warmup_iters=500,
-#     warmup_ratio=1.0 / 3)
 checkpoint_config = dict(interval=1)
 # yapf:disable
 log_config = dict(

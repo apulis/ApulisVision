@@ -39,6 +39,7 @@ dataset_type = 'DGLandcoverDataset'
 data_root = '/data/landcover/'
 img_norm_cfg = dict(
     normalize=True, mean=[104.0936, 96.6689, 71.8065], std=[37.4711, 29.2703, 26.8835])
+
 train_pipeline = [
     dict(type='ReadImage'),
     dict(type='ToPilImage'),
