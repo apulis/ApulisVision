@@ -1,3 +1,5 @@
+#!/usr/bin/python
+import random
 import mmcv
 import os.path as osp
 import numpy as np
@@ -8,30 +10,54 @@ from .pipelines import Compose
 from mmdet.datasets.utils.utils import inv_mapping
 
 
-@DATASETS.register_module()
-class VOCSegmentation(Dataset):
+@DATASETS.register_module
+class DGLandcoverDataset(Dataset):
+    """A generic data loader where the images are arranged in this way: ::
 
-    CLASSES = ('aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car',
-               'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse',
-               'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train',
-               'tvmonitor')
+    images:
+        root/image/xxx.jpg
+        root/image/xxy.jpg
+        root/image/xxz.jpg
+
+    labels:
+        root/label/xxx.png
+        root/label/xxy.png
+        root/label/xxz.png
+
+    Args:
+        data_path (string): Root directory path.
+        label_path (string): Root directory path
+        pipeline (callable, optional): A function/transform that  takes in an PIL image
+            and returns a transformed version. E.g, ``transforms.RandomCrop``
+
+    """
+
+    CLASSES = ['Unknown', 'Urban land', 'Agriculture land', 'Range land', 'Forest land', 'Water', 'Barren land']
+    COLORS = {0: [0, 0, 0], 1: [0, 255, 255], 2: [255, 255, 0], 3: [255, 0, 255], 4: [0, 255, 0], 5: [0, 0, 255], 6: [255, 255, 255]}
+    HEIGHT = 2448
+    WIDTH = 2448
 
     def __init__(self,
                  ann_file,
                  pipeline,
-                 data_root=None,
+                 data_root,
                  img_prefix='',
                  seg_prefix='',
+                 n_channels=3,
+                 tile_size=1500,
+                 stride=1500,
                  test_mode=False):
+
         self.data_root = data_root
         self.ann_file = ann_file,
         self.img_prefix = img_prefix
         self.seg_prefix = seg_prefix
         self.test_mode = test_mode
-        self.num_classes = len(self.CLASSES) + 1
-        self.COLORS = self.get_class_colors()
-        self.lable2color = {i:cat_id for i, cat_id in enumerate(self.COLORS)}
-        self.rgb2label = inv_mapping(self.lable2color)
+        self.n_channels = n_channels
+        self.tile_size = tile_size
+        self.stride = stride
+        self.num_classes = len(self.CLASSES)
+        self.rgb2label = inv_mapping(self.COLORS)
 
         # join paths if data_root is specified
         if self.data_root is not None:
@@ -45,40 +71,35 @@ class VOCSegmentation(Dataset):
         # load annotations (and proposals)
         self.data_infos = self.load_annotations(self.ann_file)
  
-        # filter images too small
-        if not test_mode:
-            valid_inds = self._filter_imgs()
-            self.data_infos = [self.data_infos[i] for i in valid_inds]
-
         # set group flag for the sampler
         if not self.test_mode:
             self._set_group_flag()
         # processing pipeline
         self.pipeline = Compose(pipeline)
 
-    def get_class_colors(self):
-        return [[0, 0, 0], [0, 0, 128], [0, 128, 0], [0, 128, 128],
-                [128, 0, 0], [128, 0, 128], [128, 128, 0],
-                [128, 128, 128],
-                [0, 0, 64], [0, 0, 192], [0, 128, 64],
-                [0, 128, 192],
-                [128, 0, 64], [128, 0, 192], [128, 128, 64],
-                [128, 128, 192], [0, 64, 0], [0, 64, 128],
-                [0, 192, 0],
-                [0, 192, 128], [128, 64, 0], ]
 
     def load_annotations(self, ann_file):
         data_infos = []
         img_ids =  self.read_imglist(ann_file)
         for img_id in img_ids:
             filename = f'{img_id}.jpg'
-
             img_path = osp.join(self.img_prefix, '{}.jpg'.format(img_id))
-            img = Image.open(img_path)
-            width, height = img.size
-            data_infos.append(
-                dict(id=img_id, filename=filename, img_path=img_path, width=width, height=height))
-
+            if not self.test_mode:
+                for i in range(0, self.HEIGHT, self.stride):
+                    for j in range(0, self.WIDTH, self.stride):
+                        i_idx = min(i, self.HEIGHT - self.tile_size)
+                        j_idx = min(j, self.WIDTH - self.tile_size)
+                        data_infos.append(dict(id=img_id, filename=filename, w=i_idx, h=j_idx))
+                        if (j + self.stride) >= self.HEIGHT:
+                            break
+                    if (i + self.stride) >= self.WIDTH:
+                        break
+            else:
+                for i in range(0, self.HEIGHT, self.tile_size):
+                    for j in range(0, self.WIDTH, self.tile_size):
+                        i_idx = min(i, self.HEIGHT - self.tile_size)
+                        j_idx = min(j, self.WIDTH - self.tile_size)
+                        data_infos.append(dict(id=img_id, filename=filename, img_path=img_path, w=i_idx, h=j_idx))
         return data_infos
 
 
@@ -89,30 +110,21 @@ class VOCSegmentation(Dataset):
                 filelist.append(line.strip())
         return filelist
 
-
     def get_ann_info(self, idx):
         img_info = self.data_infos[idx]
         img_id = img_info['id']
+
         seg_map =  f'{img_id}.png'
         seg_path = osp.join(self.seg_prefix, '{}.png'.format(img_id))
         ann = dict(seg_map=seg_map, seg_path=seg_path)
         return ann
-
 
     def pre_pipeline(self, results):
         results['img_prefix'] = self.img_prefix
         results['seg_prefix'] = self.seg_prefix
         results['mask_fields'] = []
         results['seg_fields'] = []
-
-
-    def _filter_imgs(self, min_size=32):
-        """Filter images too small."""
-        valid_inds = []
-        for i, img_info in enumerate(self.data_infos):
-            if min(img_info['width'], img_info['height']) >= min_size:
-                valid_inds.append(i)
-        return valid_inds
+    
 
     def _set_group_flag(self):
         """Set flag according to image aspect ratio.
@@ -121,10 +133,6 @@ class VOCSegmentation(Dataset):
         otherwise group 0.
         """
         self.flag = np.zeros(len(self), dtype=np.uint8)
-        for i in range(len(self)):
-            img_info = self.data_infos[i]
-            if img_info['width'] / img_info['height'] > 1:
-                self.flag[i] = 1
 
     def __len__(self):
         return len(self.data_infos)
@@ -141,12 +149,15 @@ class VOCSegmentation(Dataset):
         results = dict(img_path=img_info['img_path'], 
                        label_path=ann_info['seg_path'],
                        img_id=img_info['id'],
-                       h = img_info['height'],
-                       w = img_info['width'],
+                       full_shape=(self.HEIGHT, self.WIDTH),
+                       ori_shape=(self.tile_size, self.tile_size),
+                       tile_size=self.tile_size,
+                       img_shape=(self.tile_size, self.tile_size),
+                       h = img_info['h'],
+                       w = img_info['w'],
                        rgb2label = self.rgb2label,
                        num_classes =  self.num_classes
                        )
-        #results = dict(img_info=img_info, ann_info=ann_info)
         self.pre_pipeline(results)
         return self.pipeline(results)
 
@@ -155,11 +166,14 @@ class VOCSegmentation(Dataset):
         results = dict(img_path=img_info['img_path'], 
                        label_path=None,
                        img_id=img_info['id'],
-                       h = img_info['height'],
-                       w = img_info['width'],
+                       full_shape=(self.HEIGHT, self.WIDTH),
+                       ori_shape=(self.tile_size, self.tile_size),
+                       tile_size=self.tile_size,
+                       img_shape=(self.tile_size, self.tile_size),
+                       h = img_info['h'],
+                       w = img_info['w'],
                        rgb2label = self.rgb2label,
                        num_classes =  self.num_classes
                        )
-        #results = dict(img_info=img_info)
         self.pre_pipeline(results)
         return self.pipeline(results)
