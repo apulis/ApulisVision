@@ -18,5 +18,7 @@ RUN git clone https://github.com/open-mmlab/mmdetection.git /mmdetection
 WORKDIR /mmdetection
 ENV FORCE_CUDA="1"
 RUN pip install cython --no-cache-dir
+RUN pip install scipy --no-cache-dir
+RUN pip install scikit-image --no-cache-dir
 RUN pip install "git+https://github.com/open-mmlab/cocoapi.git#subdirectory=pycocotools"
 RUN pip install --no-cache-dir -e .
