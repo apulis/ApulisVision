@@ -15,9 +15,8 @@ The master branch works with **PyTorch 1.3 to 1.5**, and it is based on mmdetect
 
 ## Main Support
 - [x] [Image Classification](/docs/Image-classification.md)
-- [x] [Object Detection](/docs/Object-detection.md)
-- [x] [Semantic Segmantation](/docs/Semantic-segmantation.md)
-
+- [x] [Object Detection](/docs/Object-Detection.md)
+- [x] [Semantic Segmantation](/docs/Semantic-Segmentation.md)
 
 ## License
 
