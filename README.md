@@ -44,4 +44,4 @@ We wish that the toolbox and benchmark could serve the growing research communit
 
 ## Contact
 
-This repo is currently maintained by Qi Wen([@loveunk](https://github.com/loveunk)),Yuan Hui([@koala0qoo](https://github.com/koala0qoo)) JianZheng Nie ([@jianzhnie](https://github.com/jianzhnie)).
+This repo is currently maintained by Qi Wen([@loveunk](https://github.com/loveunk)),Yuan Hui([@koala0qoo](https://github.com/koala0qoo)) and JianZheng Nie ([@jianzhnie](https://github.com/jianzhnie)).
