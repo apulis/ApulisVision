@@ -20,6 +20,7 @@ To do list:
 * GoogleNet
 * MobileNet
 * EfficientNet
+* Xception
 
 ## Get Started
 Please see [GETTING_STARTED.md](https://github.com/open-mmlab/mmdetection/blob/master/docs/getting_started.md) for the basic usage of MMDetection.

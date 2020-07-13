@@ -1,9 +1,24 @@
 
 # Semantic-Segmentation
 
+<p align="center"><img width="100%" src="../resources/weimar_000091_000019_gtFine_color.png" /></p>
+
 ## Introduction
 
-Welcome to the Semantic-Segmentation, we have implemented the Semantic-Segmentation train pipeline based on [mmdetection](https://github.com/open-mmlab/mmdetection).
+Welcome to the Semantic-Segmentation part, we have implemented the Semantic-Segmentation train pipeline based on [mmdetection](https://github.com/open-mmlab/mmdetection). Compared to other semantic segmentation codebase, this project aims at providing a concise, easy-to-use, modifiable reference implementation for semantic segmentation models using PyTorch.
+
+- **Modular Design**
+
+  We decompose the Semantic-Segmentation framework into different components and one can easily construct a customized Semantic-Segmentation framework by combining different modules.
+
+- **Support of multiple frameworks out of box**
+
+  The toolbox directly supports popular and contemporary segmentation frameworks, *e.g.* FCN, Unet, DeepLab, etc.
+
+- **High efficiency**
+
+  All image and mask operations run on GPUs. The training speed is faster than or comparable to other codebases, including [Detectron2](https://github.com/facebookresearch/detectron2), [maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) and [SimpleDet](https://github.com/TuSimple/simpledet).
+
 
 ## Supported Models
 
@@ -24,6 +39,49 @@ Following models are implemented using PyTorch.
 ## Get Started
 Please see [GETTING_STARTED.md](https://github.com/open-mmlab/mmdetection/blob/master/docs/getting_started.md) for the basic usage of ApulisVison.
 
+
+## Dataset
+
+The following table collects information about various datasets we have supported in this project, please prepare your datasets as one of the formate of them.
+
+|                           Dataset                            | training set | validation set | testing set |
+| :----------------------------------------------------------: | :----------: | :------------: | :---------: |
+| [VOC2012](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar) |     1464     |      1449      |      ✘      |
+| [VOCAug](http://www.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/semantic_contours/benchmark.tgz) |    11355     |      2857      |      ✘      |
+| [ADK20K](http://groups.csail.mit.edu/vision/datasets/ADE20K/) |    20210     |      2000      |      ✘      |
+| [Cityscapes](https://www.cityscapes-dataset.com/downloads/)  |     2975     |      500       |      ✘      |
+| [COCO](http://cocodataset.org/#download)           |              |                |             |
+| [SBU-shadow](http://www3.cs.stonybrook.edu/~cvl/content/datasets/shadow_db/SBU-shadow.zip) |     4085     |      638       |      ✘      |
+| [LIP(Look into Person)](http://sysu-hcp.net/lip/)       |    30462     |     10000      |    10000    |
+
+
+
+## Train a model
+### Train with a single GPU
+
+```shell
+python tools/train.py ${CONFIG_FILE}
+```
+
+If you want to specify the working directory in the command, you can add an argument `--work_dir ${YOUR_WORK_DIR}`.
+
+### Train with multiple GPUs
+
+```shell
+./tools/dist_train.sh ${CONFIG_FILE} ${GPU_NUM} [optional arguments]
+```
+
+### Test 
+
+You can use the following commands to test a dataset.
+
+```shell
+# single-gpu testing
+python tools/test.py ${CONFIG_FILE} ${CHECKPOINT_FILE} [--out ${RESULT_FILE}] [--eval ${EVAL_METRICS}] [--show]
+
+# multi-gpu testing
+./tools/dist_test.sh ${CONFIG_FILE} ${CHECKPOINT_FILE} ${GPU_NUM} [--out ${RESULT_FILE}] [--eval ${EVAL_METRICS}]
+```
 
 ## Experiments on DeepGlobe Landcover Dataset
 
