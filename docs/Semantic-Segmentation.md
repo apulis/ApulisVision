@@ -3,13 +3,11 @@
 
 ## Introduction
 
-Welcome to the Image-Classification part, we have implemented the image-classification train pipeline based on [mmdetection](https://github.com/open-mmlab/mmdetection).
+Welcome to the Semantic-Segmentation, we have implemented the Semantic-Segmentation train pipeline based on [mmdetection](https://github.com/open-mmlab/mmdetection).
 
+## Supported Models
 
-
-## Support
-
-### Model
+Following models are implemented using PyTorch. 
 
 - [DeepLabv3](https://arxiv.org/abs/1706.05587.pdf)
 - [DeepLabv3+](https://arxiv.org/pdf/1802.02611.pdf)
@@ -21,6 +19,10 @@ Welcome to the Image-Classification part, we have implemented the image-classifi
 - [DANet](https://arxiv.org/pdf/1809.02983.pdf)
 - [CCNet](https://arxiv.org/pdf/1811.11721.pdf)
 - [OCR](https://arxiv.org/pdf/1909.11065.pdf)
+
+
+## Get Started
+Please see [GETTING_STARTED.md](https://github.com/open-mmlab/mmdetection/blob/master/docs/getting_started.md) for the basic usage of ApulisVison.
 
 
 ## Experiments on DeepGlobe Landcover Dataset
