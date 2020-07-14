@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y git ninja-build libglib2.0-0 libsm6 lib
 
 # Install mmdetection
 RUN conda clean --all
-RUN git clone https://github.com/open-mmlab/mmdetection.git /mmdetection
-WORKDIR /mmdetection
+RUN git clone https://github.com/apulis/ApulisVision.git /ApulisVision
+WORKDIR /ApulisVision
 ENV FORCE_CUDA="1"
 RUN pip install cython --no-cache-dir
 RUN pip install scipy --no-cache-dir
