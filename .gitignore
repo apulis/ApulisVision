@@ -104,6 +104,7 @@ venv.bak/
 .mypy_cache/
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 mmdet/version.py
 data/
 .vscode
@@ -117,13 +118,26 @@ data
 >>>>>>> mmseg/master
 
 # custom
+=======
+# custom
+mmcls/version.py
+data
+.vscode
+.idea
+>>>>>>> mmcls/master
 *.pkl
 *.pkl.json
 *.log.json
 work_dirs/
+<<<<<<< HEAD
 work_dir/
 
 # Pytorch
 *.pth
 *.py~
 *.sh~
+=======
+
+# Pytorch
+*.pth
+>>>>>>> mmcls/master

@@ -190,6 +190,7 @@ Copyright 2018-2019 Open-MMLab. All rights reserved.
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
    Copyright 2018-2019 Open-MMLab.
 =======
    Copyright [yyyy] [name of copyright owner]
@@ -197,6 +198,9 @@ Copyright 2018-2019 Open-MMLab. All rights reserved.
 =======
    Copyright 2020 The MMSegmentation Authors.
 >>>>>>> mmseg/master
+=======
+   Copyright 2020 MMClassification Authors.
+>>>>>>> mmcls/master
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

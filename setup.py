@@ -62,7 +62,6 @@ def get_hash():
 def write_version_py():
     content = """# GENERATED VERSION FILE
 # TIME: {}
-
 __version__ = '{}'
 short_version = '{}'
 version_info = ({})
