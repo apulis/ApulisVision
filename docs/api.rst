@@ -1,27 +1,4 @@
 API Reference
-=================
-
-mmdet.apis
---------------
-.. automodule:: mmdet.apis
-    :members:
-
-mmdet.core
---------------
-
-anchor
-^^^^^^^^^^
-.. automodule:: mmdet.core.anchor
-    :members:
-
-bbox
-^^^^^^^^^^
-.. automodule:: mmdet.core.bbox
-    :members:
-
-mask
-^^^^^^^^^^
-.. automodule:: mmdet.core.mask
     :members:
 
 evaluation

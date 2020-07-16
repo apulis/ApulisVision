@@ -103,11 +103,18 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+<<<<<<< HEAD
 mmdet/version.py
 data/
 .vscode
 .idea
 .DS_Store
+=======
+mmseg/version.py
+data
+.vscode
+.idea
+>>>>>>> mmseg/master
 
 # custom
 *.pkl

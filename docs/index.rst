@@ -1,5 +1,4 @@
 Welcome to MMDetection's documentation!
-=======================================
 
 .. toctree::
    :maxdepth: 2
