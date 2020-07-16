@@ -87,12 +87,12 @@ def mmseg_get_hash():
 
 def mmcls_write_version_py():
     content = """# GENERATED VERSION FILE
-    # TIME: {}
+# TIME: {}
 
-    __version__ = '{}'
-    short_version = '{}'
-    version_info = ({})
-    """
+__version__ = '{}'
+short_version = '{}'
+version_info = ({})
+"""
     sha = mmdet_get_hash()
     with open('mmcls/VERSION', 'r') as f:
         SHORT_VERSION = f.read().strip()
@@ -107,12 +107,12 @@ def mmcls_write_version_py():
 
 def mmdet_write_version_py():
     content = """# GENERATED VERSION FILE
-    # TIME: {}
+# TIME: {}
 
-    __version__ = '{}'
-    short_version = '{}'
-    version_info = ({})
-    """
+__version__ = '{}'
+short_version = '{}'
+version_info = ({})
+"""
     sha = mmdet_get_hash()
     with open('mmdet/VERSION', 'r') as f:
         SHORT_VERSION = f.read().strip()
@@ -127,12 +127,12 @@ def mmdet_write_version_py():
 
 def mmseg_write_version_py():
     content = """# GENERATED VERSION FILE
-    # TIME: {}
+# TIME: {}
 
-    __version__ = '{}'
-    short_version = '{}'
-    version_info = ({})
-    """
+__version__ = '{}'
+short_version = '{}'
+version_info = ({})
+"""
     sha = mmdet_get_hash()
     with open('mmseg/VERSION', 'r') as f:
         SHORT_VERSION = f.read().strip()
