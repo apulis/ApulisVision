@@ -12,7 +12,10 @@ RUN apt-get update && apt-get install -y git ninja-build libglib2.0-0 libsm6 lib
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install mmdetection
+# Install MMCV
+RUN pip install mmcv-full==latest+torch1.5.0+cu101 -f https://openmmlab.oss-accelerate.aliyuncs.com/mmcv/dist/index.html
+
+# Install MMDetection
 RUN conda clean --all
 RUN git clone https://github.com/apulis/ApulisVision.git /ApulisVision
 WORKDIR /ApulisVision
