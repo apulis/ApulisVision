@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y git ninja-build libglib2.0-0 libsm6 lib
 # Install MMCV
 RUN pip install mmcv-full==latest+torch1.5.0+cu101 -f https://openmmlab.oss-accelerate.aliyuncs.com/mmcv/dist/index.html
 
-# Install MMDetection
+# Install ApulisVision
 RUN conda clean --all
 RUN git clone https://github.com/apulis/ApulisVision.git /ApulisVision
 WORKDIR /ApulisVision
@@ -24,6 +24,6 @@ RUN pip install cython --no-cache-dir
 RUN pip install scipy --no-cache-dir
 RUN pip install scikit-image --no-cache-dir
 RUN pip install tensorboard --no-cache-dir
-RUN pip install "git+https://github.com/open-mmlab/cocoapi.git#subdirectory=pycocotools"
 RUN pip install -r requirements/build.txt
+RUN pip install -r requirements/optional.txt
 RUN pip install --no-cache-dir -e .
