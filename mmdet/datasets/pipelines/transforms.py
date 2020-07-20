@@ -365,7 +365,7 @@ class RandomFlip(object):
         return self.__class__.__name__ + f'(flip_ratio={self.flip_ratio})'
 
 
-#@PIPELINES.register_module()
+@PIPELINES.register_module()
 class RandomRotate(object):
     """Ratate the image & bbox & mask.
 
