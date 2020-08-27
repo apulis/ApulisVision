@@ -1,5 +1,6 @@
 import argparse
 import copy
+import json
 import os
 import os.path as osp
 import time
@@ -14,12 +15,15 @@ from mmcls.apis import set_random_seed, train_model
 from mmcls.datasets import build_dataset
 from mmcls.models import build_classifier
 from mmcls.utils import collect_env, get_root_logger
+from ConfigTransform import JsonTransformer
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a model')
-    parser.add_argument('config', help='train config file path')
-    parser.add_argument('--work-dir', help='the dir to save logs and models')
+    parser.add_argument('--output_path', help='the dir to save logs and models')
+    parser.add_argument('--data_path', help='the datasets path')
+    parser.add_argument('--models', help='models config')
+    parser.add_argument('--type', help='job type')
     parser.add_argument(
         '--resume-from', help='the checkpoint file to resume from')
     parser.add_argument(
@@ -31,13 +35,13 @@ def parse_args():
         '--gpus',
         type=int,
         help='number of gpus to use '
-        '(only applicable to non-distributed training)')
+             '(only applicable to non-distributed training)')
     group_gpus.add_argument(
         '--gpu-ids',
         type=int,
         nargs='+',
         help='ids of gpus to use '
-        '(only applicable to non-distributed training)')
+             '(only applicable to non-distributed training)')
     parser.add_argument('--seed', type=int, default=None, help='random seed')
     parser.add_argument(
         '--deterministic',
@@ -58,14 +62,20 @@ def parse_args():
     args = parser.parse_args()
     if 'LOCAL_RANK' not in os.environ:
         os.environ['LOCAL_RANK'] = str(args.local_rank)
-
     return args
 
 
 def main():
     args = parse_args()
-
-    cfg = Config.fromfile(args.config)
+    # 解析传入参数
+    jsonTransformer = JsonTransformer()
+    print(args.models)
+    models=args.models
+    models.replace("'","")
+    models=json.loads(models)
+    models = jsonTransformer.toConfig(models,args.type, '/data/premodel/code/ApulisVision/configs/mnist/lenet5.py')
+    print(models)
+    return
     if args.options is not None:
         cfg.merge_from_dict(args.options)
     # set cudnn_benchmark
@@ -155,3 +165,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
