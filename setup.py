@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 import os
-import subprocess
-import time
 from setuptools import find_packages, setup
 
 import torch
@@ -178,7 +176,6 @@ def make_cuda_ext(name, module, sources, sources_cuda=[]):
     else:
         print(f'Compiling {name} without CUDA')
         extension = CppExtension
-        # raise EnvironmentError('CUDA is required to compile MMDetection!')
 
     return extension(
         name=f'{module}.{name}',
@@ -308,19 +305,20 @@ def mmdetbuild():
         version=mmdet_get_version(),
         description='Open MMLab Detection Toolbox and Benchmark',
         long_description=readme(),
+        long_description_content_type='text/markdown',
         author='OpenMMLab',
-        author_email='chenkaidev@gmail.com',
+        author_email='openmmlab@gmail.com',
         keywords='computer vision, object detection',
         url='https://github.com/open-mmlab/mmdetection',
         packages=find_packages(exclude=('configs', 'tools', 'demo', 'mmcls', 'mmseg')),
         classifiers=[
-            'Development Status :: 4 - Beta',
+            'Development Status :: 5 - Production/Stable',
             'License :: OSI Approved :: Apache Software License',
             'Operating System :: OS Independent',
             'Programming Language :: Python :: 3',
-            'Programming Language :: Python :: 3.5',
             'Programming Language :: Python :: 3.6',
             'Programming Language :: Python :: 3.7',
+            'Programming Language :: Python :: 3.8',
         ],
         license='Apache License 2.0',
         setup_requires=parse_requirements('requirements/build.txt'),

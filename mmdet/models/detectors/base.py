@@ -29,21 +29,18 @@ class BaseDetector(nn.Module, metaclass=ABCMeta):
     @property
     def with_shared_head(self):
         """bool: whether the detector has a shared head in the RoI Head"""
-        return hasattr(self.roi_head,
-                       'shared_head') and self.roi_head.shared_head is not None
+        return hasattr(self, 'roi_head') and self.roi_head.with_shared_head
 
     @property
     def with_bbox(self):
         """bool: whether the detector has a bbox head"""
-        return ((hasattr(self.roi_head, 'bbox_head')
-                 and self.roi_head.bbox_head is not None)
+        return ((hasattr(self, 'roi_head') and self.roi_head.with_bbox)
                 or (hasattr(self, 'bbox_head') and self.bbox_head is not None))
 
     @property
     def with_mask(self):
         """bool: whether the detector has a mask head"""
-        return ((hasattr(self.roi_head, 'mask_head')
-                 and self.roi_head.mask_head is not None)
+        return ((hasattr(self, 'roi_head') and self.roi_head.with_mask)
                 or (hasattr(self, 'mask_head') and self.mask_head is not None))
 
     @abstractmethod
@@ -180,8 +177,8 @@ class BaseDetector(nn.Module, metaclass=ABCMeta):
                 losses and other necessary infomation.
 
         Returns:
-            tuple[Tensor, dict]: (loss, log_vars), loss is the loss tensor
-                which may be a weighted sum of all losses, log_vars contains
+            tuple[Tensor, dict]: (loss, log_vars), loss is the loss tensor \
+                which may be a weighted sum of all losses, log_vars contains \
                 all the variables to be sent to the logger.
         """
         log_vars = OrderedDict()
@@ -223,14 +220,15 @@ class BaseDetector(nn.Module, metaclass=ABCMeta):
                 and reserved.
 
         Returns:
-            dict: It should contain at least 3 keys: ``loss``, ``log_vars``,
+            dict: It should contain at least 3 keys: ``loss``, ``log_vars``, \
                 ``num_samples``.
-                ``loss`` is a tensor for back propagation, which can be a
+
+                - ``loss`` is a tensor for back propagation, which can be a \
                 weighted sum of multiple losses.
-                ``log_vars`` contains all the variables to be sent to the
+                - ``log_vars`` contains all the variables to be sent to the
                 logger.
-                ``num_samples`` indicates the batch size (when the model is
-                DDP, it means the batch size on each GPU), which is used for
+                - ``num_samples`` indicates the batch size (when the model is \
+                DDP, it means the batch size on each GPU), which is used for \
                 averaging the logs.
         """
         losses = self(**data)
