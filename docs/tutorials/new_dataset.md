@@ -213,7 +213,7 @@ You may use `'P'` mode of [pillow](https://pillow.readthedocs.io/en/stable/handb
 
 ## Customize datasets by mixing dataset
 
-MMDetection also supports to mix dataset for training.
+MMClassification also supports to mix dataset for training.
 Currently it supports to concat and repeat datasets.
 
 ### Repeat dataset
