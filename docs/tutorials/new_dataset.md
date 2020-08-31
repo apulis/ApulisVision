@@ -208,6 +208,9 @@ dataset_A_train = dict(
 )
 ```
 
+Note: The annotations are images of shape (H, W), the value pixel should fall in range `[0, num_classes - 1]`.
+You may use `'P'` mode of [pillow](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#palette) to create your annotation image with color.
+
 ## Customize datasets by mixing dataset
 
 MMDetection also supports to mix dataset for training.

@@ -290,7 +290,7 @@ Optional arguments are:
 If you run MMDetection on a cluster managed with [slurm](https://slurm.schedmd.com/), you can use the script `slurm_train.sh`. (This script also supports single machine training.)
 
 ```shell
-[GPUS=${GPUS}] ./tools/slurm_train.sh ${PARTITION} ${JOB_NAME} ${CONFIG_FILE} ${WORK_DIR}
+[GPUS=${GPUS}] ./tools/slurm_train.sh ${PARTITION} ${JOB_NAME} ${CONFIG_FILE} --work-dir ${WORK_DIR}
 ```
 
 Here is an example of using 16 GPUs to train Mask R-CNN on the dev partition.
@@ -308,9 +308,9 @@ Usually it is slow if you do not have high speed networking like InfiniBand.
 ### Launch multiple jobs on a single machine
 
 If you launch multiple jobs on a single machine, e.g., 2 jobs of 4-GPU training on a machine with 8 GPUs,
-you need to specify different ports (29500 by default) for each job to avoid communication conflict.
+you need to specify different ports (29500 by default) for each job to avoid communication conflict. Otherwise, there will be error message saying `RuntimeError: Address already in use`.
 
-If you use `dist_train.sh` to launch training jobs, you can set the port in commands.
+If you use `dist_train.sh` to launch training jobs, you can set the port in commands with environment variable `PORT`.
 
 ```shell
 CUDA_VISIBLE_DEVICES=0,1,2,3 PORT=29500 ./tools/dist_train.sh ${CONFIG_FILE} 4

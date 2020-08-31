@@ -1,6 +1,4 @@
-## Installation
-
-### Requirements
+## Requirements
 
 - Linux or macOS (Windows is not currently officially supported)
 - Python 3.6+
@@ -123,7 +121,7 @@ It is recommended that you run step d each time you pull some updates from githu
 
 2. Following the above instructions, ApulisVision is installed on `dev` mode, any local modifications made to the code will take effect without the need to reinstall it (unless you submit some commits and want to update the version number).
 
-3. If you would like to use `opencv-python-headless` instead of `opencv-python`,
+4. If you would like to use `opencv-python-headless` instead of `opencv-python`,
 you can install it before installing MMCV.
 
 4. Some dependencies are optional. Simply running `pip install -v -e .` will only install the minimum runtime requirements. To use optional dependencies like `albumentations` and `imagecorruptions` either install them manually with `pip install -r requirements/optional.txt` or specify desired extras when calling `pip` (e.g. `pip install -v -e .[optional]`). Valid keys for the extras field are: `all`, `tests`, `build`, and `optional`.
@@ -160,7 +158,9 @@ Run it with
 docker run --gpus all --shm-size=8g -it -v {DATA_DIR}:/ApulisVision/data ApulisVision
 ```
 
-### A from-scratch setup script
+
+## A from-scratch setup script
+### Linux
 
 Here is a full script for setting up ApulisVision with conda.
 
@@ -189,4 +189,23 @@ To use the default ApulisVision installed in the environment rather than that yo
 
 ```shell
 PYTHONPATH="$(dirname $0)/..":$PYTHONPATH
+```
+
+### Windows(Experimental)
+Here is a full script for setting up mmsegmentation with conda and link the dataset path (supposing that your dataset path is
+%DATA_ROOT%. Notice: It must be an absolute path).
+
+```shell
+conda create -n open-mmlab python=3.7 -y
+conda activate open-mmlab
+
+conda install pytorch=1.6.0 torchvision cudatoolkit=10.1 -c pytorch
+set PATH=full\path\to\your\cpp\compiler;%PATH%
+pip install mmcv
+
+git clone https://github.com/open-mmlab/mmsegmentation.git
+cd mmsegmentation
+pip install -e .  # or "python setup.py develop"
+
+mklink /D data %DATA_ROOT%
 ```
