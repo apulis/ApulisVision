@@ -26,4 +26,5 @@ RUN pip install scikit-image --no-cache-dir
 RUN pip install tensorboard --no-cache-dir
 RUN pip install -r requirements/build.txt
 RUN pip install -r requirements/optional.txt
+RUN pip install jupyterlab --no-cache-dir
 RUN pip install --no-cache-dir -e .

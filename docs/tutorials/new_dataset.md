@@ -212,8 +212,7 @@ Note: The annotations are images of shape (H, W), the value pixel should fall in
 You may use `'P'` mode of [pillow](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#palette) to create your annotation image with color.
 
 ## Customize datasets by mixing dataset
-
-MMClassification also supports to mix dataset for training.
+MMDetection also supports to mix dataset for training.
 Currently it supports to concat and repeat datasets.
 
 ### Repeat dataset

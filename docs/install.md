@@ -1,4 +1,6 @@
-## Requirements
+## Installation
+
+### Requirements
 
 - Linux or macOS (Windows is not currently officially supported)
 - Python 3.6+

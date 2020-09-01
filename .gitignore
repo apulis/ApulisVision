@@ -108,17 +108,9 @@ data/
 .vscode
 .idea
 .DS_Store
-
 mmseg/version.py
-data
-.vscode
-.idea
-
-# custom
 mmcls/version.py
-data
-.vscode
-.idea
+
 
 *.pkl
 *.pkl.json

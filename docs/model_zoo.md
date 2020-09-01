@@ -158,18 +158,6 @@ We also benchmark some methods on [PASCAL VOC](https://github.com/open-mmlab/mmd
 
 We also train [Faster R-CNN](https://github.com/open-mmlab/mmdetection/blob/master/configs/faster_rcnn) and [Mask R-CNN](https://github.com/open-mmlab/mmdetection/blob/master/configs/mask_rcnn) using ResNet-50 and [RegNetX-3.2G](https://github.com/open-mmlab/mmdetection/blob/master/configs/regnet) with multi-scale training and longer schedules. These models serve as strong pre-trained models for downstream tasks for convenience.
 
-### Fast-SCNN
-
-Please refer to [Fast-SCNN](https://github.com/open-mmlab/mmsegmentation/blob/master/configs/fastscnn) for details.
-
-### ResNeSt
-
-Please refer to [ResNeSt](https://github.com/open-mmlab/mmsegmentation/blob/master/configs/resnest) for details.
-
-### Mixed Precision (FP16) Training
-
-Please refer [Mixed Precision (FP16) Training](https://github.com/open-mmlab/mmsegmentation/blob/master/configs/fp16/README.md) for details.
-
 ## Speed benchmark
 We compare the training speed of Mask R-CNN with some other popular frameworks (The data is copied from [detectron2](https://github.com/facebookresearch/detectron2/blob/master/docs/notes/benchmarks.md)).
 For mmdetection, we benchmark with [mask_rcnn_r50_caffe_fpn_poly_1x_coco_v1.py](https://github.com/open-mmlab/mmdetection/blob/master/configs/mask_rcnn/mask_rcnn_r50_caffe_fpn_poly_1x_coco_v1.py), which should have the same setting with [mask_rcnn_R_50_FPN_noaug_1x.yaml](https://github.com/facebookresearch/detectron2/blob/master/configs/Detectron1-Comparisons/mask_rcnn_R_50_FPN_noaug_1x.yaml) of detectron2.
