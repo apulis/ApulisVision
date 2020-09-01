@@ -1,5 +1,5 @@
 import inspect
-import cv2
+
 import mmcv
 import numpy as np
 from numpy import random
@@ -398,7 +398,8 @@ class RandomRotate(object):
 
     def __init__(self, rote_ratio=0.5, angle=30):
         self.rote_ratio = rote_ratio
-        self.angle = (-angle, angle) if isinstance(angle, (int, float)) else angle
+        self.angle = (-angle, angle) if isinstance(angle, (int, float)) \
+            else angle
 
     def __call__(self, results):
         """Call function to rotate bounding boxes, masks, semantic segmentation
@@ -408,8 +409,8 @@ class RandomRotate(object):
             results (dict): Result dict from loading pipeline.
 
         Returns:
-            dict: Flipped results, 'rotate', 'rotate_degree' keys are added into
-                result dict.
+            dict: Flipped results, 'rotate', 'rotate_degree' keys are added \
+                into result dict.
         """
         if 'rotate' not in results:
             rotate = True if np.random.rand() < self.rote_ratio else False

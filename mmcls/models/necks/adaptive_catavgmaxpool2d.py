@@ -1,14 +1,12 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 
 from ..builder import NECKS
 
 
-
-
 @NECKS.register_module()
 class AdaptiveCatAvgMaxPool2d(nn.Module):
+
     def __init__(self):
         super(AdaptiveCatAvgMaxPool2d, self).__init__()
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))

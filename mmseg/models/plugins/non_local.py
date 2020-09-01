@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from mmcv.cnn import ConvModule, constant_init, normal_init
 
+
 class NonLocal2D(nn.Module):
     """Non-local module.
 
@@ -36,20 +37,11 @@ class NonLocal2D(nn.Module):
         # g, theta, phi are actually `nn.Conv2d`. Here we use ConvModule for
         # potential usage.
         self.g = ConvModule(
-            self.in_channels,
-            self.inter_channels,
-            kernel_size=1,
-            act_cfg=None)
+            self.in_channels, self.inter_channels, kernel_size=1, act_cfg=None)
         self.theta = ConvModule(
-            self.in_channels,
-            self.inter_channels,
-            kernel_size=1,
-            act_cfg=None)
+            self.in_channels, self.inter_channels, kernel_size=1, act_cfg=None)
         self.phi = ConvModule(
-            self.in_channels,
-            self.inter_channels,
-            kernel_size=1,
-            act_cfg=None)
+            self.in_channels, self.inter_channels, kernel_size=1, act_cfg=None)
         self.conv_out = ConvModule(
             self.inter_channels,
             self.in_channels,

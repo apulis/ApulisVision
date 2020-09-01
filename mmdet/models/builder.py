@@ -9,6 +9,7 @@ HEADS = Registry('head')
 LOSSES = Registry('loss')
 DETECTORS = Registry('detector')
 
+
 def build(cfg, registry, default_args=None):
     """Build a module.
 

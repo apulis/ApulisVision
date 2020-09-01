@@ -1,13 +1,12 @@
 #!/usr/bin/python
-import random
-import mmcv
 import os.path as osp
+
 import numpy as np
-from PIL import Image
 from torch.utils.data import Dataset
+
 from .builder import DATASETS
 from .pipelines import Compose
-from mmdet.datasets.utils.utils import inv_mapping
+from .utils.utils import inv_mapping
 
 
 @DATASETS.register_module
@@ -27,13 +26,24 @@ class DGLandcoverDataset(Dataset):
     Args:
         data_path (string): Root directory path.
         label_path (string): Root directory path
-        pipeline (callable, optional): A function/transform that  takes in an PIL image
-            and returns a transformed version. E.g, ``transforms.RandomCrop``
-
+        pipeline (callable, optional): A function/transform that
+            takes in an PIL image and returns a transformed version.
+        E.g, ``transforms.RandomCrop``
     """
 
-    CLASSES = ['Unknown', 'Urban land', 'Agriculture land', 'Range land', 'Forest land', 'Water', 'Barren land']
-    COLORS = {0: [0, 0, 0], 1: [0, 255, 255], 2: [255, 255, 0], 3: [255, 0, 255], 4: [0, 255, 0], 5: [0, 0, 255], 6: [255, 255, 255]}
+    CLASSES = [
+        'Unknown', 'Urban land', 'Agriculture land', 'Range land',
+        'Forest land', 'Water', 'Barren land'
+    ]
+    COLORS = {
+        0: [0, 0, 0],
+        1: [0, 255, 255],
+        2: [255, 255, 0],
+        3: [255, 0, 255],
+        4: [0, 255, 0],
+        5: [0, 0, 255],
+        6: [255, 255, 255]
+    }
     HEIGHT = 2448
     WIDTH = 2448
 
@@ -70,17 +80,15 @@ class DGLandcoverDataset(Dataset):
 
         # load annotations (and proposals)
         self.data_infos = self.load_annotations(self.ann_file)
- 
         # set group flag for the sampler
         if not self.test_mode:
             self._set_group_flag()
         # processing pipeline
         self.pipeline = Compose(pipeline)
 
-
     def load_annotations(self, ann_file):
         data_infos = []
-        img_ids =  self.read_imglist(ann_file)
+        img_ids = self.read_imglist(ann_file)
         for img_id in img_ids:
             filename = f'{img_id}.jpg'
             img_path = osp.join(self.img_prefix, '{}.jpg'.format(img_id))
@@ -89,7 +97,13 @@ class DGLandcoverDataset(Dataset):
                     for j in range(0, self.WIDTH, self.stride):
                         i_idx = min(i, self.HEIGHT - self.tile_size)
                         j_idx = min(j, self.WIDTH - self.tile_size)
-                        data_infos.append(dict(id=img_id, filename=filename, img_path=img_path, w=i_idx, h=j_idx))
+                        data_infos.append(
+                            dict(
+                                id=img_id,
+                                filename=filename,
+                                img_path=img_path,
+                                w=i_idx,
+                                h=j_idx))
                         if (j + self.stride) >= self.HEIGHT:
                             break
                     if (i + self.stride) >= self.WIDTH:
@@ -99,9 +113,14 @@ class DGLandcoverDataset(Dataset):
                     for j in range(0, self.WIDTH, self.tile_size):
                         i_idx = min(i, self.HEIGHT - self.tile_size)
                         j_idx = min(j, self.WIDTH - self.tile_size)
-                        data_infos.append(dict(id=img_id, filename=filename, img_path=img_path, w=i_idx, h=j_idx))
+                        data_infos.append(
+                            dict(
+                                id=img_id,
+                                filename=filename,
+                                img_path=img_path,
+                                w=i_idx,
+                                h=j_idx))
         return data_infos
-
 
     def read_imglist(self, imglist):
         filelist = []
@@ -113,8 +132,8 @@ class DGLandcoverDataset(Dataset):
     def get_ann_info(self, idx):
         img_info = self.data_infos[idx]
         img_id = img_info['id']
-        seg_id = img_id.replace("sat", "mask")
-        seg_map =  f'{seg_id}.png'
+        seg_id = img_id.replace('sat', 'mask')
+        seg_map = f'{seg_id}.png'
         seg_path = osp.join(self.seg_prefix, '{}.png'.format(seg_id))
         ann = dict(seg_map=seg_map, seg_path=seg_path)
         return ann
@@ -124,7 +143,6 @@ class DGLandcoverDataset(Dataset):
         results['seg_prefix'] = self.seg_prefix
         results['mask_fields'] = []
         results['seg_fields'] = []
-    
 
     def _set_group_flag(self):
         """Set flag according to image aspect ratio.
@@ -146,34 +164,34 @@ class DGLandcoverDataset(Dataset):
     def prepare_train_img(self, idx):
         img_info = self.data_infos[idx]
         ann_info = self.get_ann_info(idx)
-        results = dict(img_path=img_info['img_path'], 
-                       label_path=ann_info['seg_path'],
-                       img_id=img_info['id'],
-                       full_shape=(self.HEIGHT, self.WIDTH),
-                       ori_shape=(self.tile_size, self.tile_size),
-                       tile_size=self.tile_size,
-                       img_shape=(self.tile_size, self.tile_size),
-                       h = img_info['h'],
-                       w = img_info['w'],
-                       rgb2label = self.rgb2label,
-                       num_classes =  self.num_classes
-                       )
+        results = dict(
+            img_path=img_info['img_path'],
+            label_path=ann_info['seg_path'],
+            img_id=img_info['id'],
+            full_shape=(self.HEIGHT, self.WIDTH),
+            ori_shape=(self.tile_size, self.tile_size),
+            tile_size=self.tile_size,
+            img_shape=(self.tile_size, self.tile_size),
+            h=img_info['h'],
+            w=img_info['w'],
+            rgb2label=self.rgb2label,
+            num_classes=self.num_classes)
         self.pre_pipeline(results)
         return self.pipeline(results)
 
     def prepare_test_img(self, idx):
         img_info = self.data_infos[idx]
-        results = dict(img_path=img_info['img_path'], 
-                       label_path=None,
-                       img_id=img_info['id'],
-                       full_shape=(self.HEIGHT, self.WIDTH),
-                       ori_shape=(self.tile_size, self.tile_size),
-                       tile_size=self.tile_size,
-                       img_shape=(self.tile_size, self.tile_size),
-                       h = img_info['h'],
-                       w = img_info['w'],
-                       rgb2label = self.rgb2label,
-                       num_classes =  self.num_classes
-                       )
+        results = dict(
+            img_path=img_info['img_path'],
+            label_path=None,
+            img_id=img_info['id'],
+            full_shape=(self.HEIGHT, self.WIDTH),
+            ori_shape=(self.tile_size, self.tile_size),
+            tile_size=self.tile_size,
+            img_shape=(self.tile_size, self.tile_size),
+            h=img_info['h'],
+            w=img_info['w'],
+            rgb2label=self.rgb2label,
+            num_classes=self.num_classes)
         self.pre_pipeline(results)
         return self.pipeline(results)

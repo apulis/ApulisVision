@@ -1,19 +1,17 @@
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
 import logging
 
-import torch.utils.checkpoint as cp
-from .utils import load_checkpoint
-from torch.nn.modules.batchnorm import _BatchNorm
-from ..builder import BACKBONES
-from mmdet.models.plugins import GeneralizedAttention
-from mmdet.ops import ContextBlock, DeformConv, ModulatedDeformConv
+import torch.nn as nn
+import torch.nn.functional as F
 from mmcv.cnn import (build_conv_layer, build_norm_layer, constant_init,
                       kaiming_init)
+from torch.nn.modules.batchnorm import _BatchNorm
+
+from ..builder import BACKBONES
+from .utils import load_checkpoint
 
 
 class SeparableConv2d(nn.Module):
+
     def __init__(self,
                  inplanes,
                  planes,
@@ -27,9 +25,9 @@ class SeparableConv2d(nn.Module):
                  gcb=None,
                  gen_attention=None):
         super(SeparableConv2d, self).__init__()
-        assert dcn is None, "Not implemented yet."
-        assert gen_attention is None, "Not implemented yet."
-        assert gcb is None, "Not implemented yet."
+        assert dcn is None, 'Not implemented yet.'
+        assert gen_attention is None, 'Not implemented yet.'
+        assert gcb is None, 'Not implemented yet.'
 
         self.kernel_size = kernel_size
         self.dilation = dilation
@@ -48,11 +46,7 @@ class SeparableConv2d(nn.Module):
             bias=bias)
         self.add_module(self.norm_name, norm)
         self.pointwise = build_conv_layer(
-            conv_cfg,
-            inplanes,
-            planes,
-            1,
-            bias=bias)
+            conv_cfg, inplanes, planes, 1, bias=bias)
 
     @property
     def norm(self):
@@ -67,7 +61,8 @@ class SeparableConv2d(nn.Module):
         return x
 
     def fix_padding(self, x, kernel_size, dilation):
-        kernel_size_effective = kernel_size + (kernel_size - 1) * (dilation - 1)
+        kernel_size_effective = kernel_size + (kernel_size - 1) * \
+            (dilation - 1)
         pad_total = kernel_size_effective - 1
         pad_beg = pad_total // 2
         pad_end = pad_total - pad_beg
@@ -76,6 +71,7 @@ class SeparableConv2d(nn.Module):
 
 
 class Block(nn.Module):
+
     def __init__(self,
                  inplanes,
                  planes,
@@ -91,20 +87,15 @@ class Block(nn.Module):
                  gcb=None,
                  gen_attention=None):
         super(Block, self).__init__()
-        assert dcn is None, "Not implemented yet."
-        assert gen_attention is None, "Not implemented yet."
-        assert gcb is None, "Not implemented yet."
+        assert dcn is None, 'Not implemented yet.'
+        assert gen_attention is None, 'Not implemented yet.'
+        assert gcb is None, 'Not implemented yet.'
 
-        self.skipnorm_name, skipnorm = build_norm_layer(norm_cfg, planes, postfix='skip')
+        self.skipnorm_name, skipnorm = build_norm_layer(
+            norm_cfg, planes, postfix='skip')
         if planes != inplanes or stride != 1:
             self.skip = build_conv_layer(
-                conv_cfg,
-                inplanes,
-                planes,
-                1,
-                stride=stride,
-                bias=False
-            )
+                conv_cfg, inplanes, planes, 1, stride=stride, bias=False)
             self.add_module(self.skipnorm_name, skipnorm)
         else:
             self.skip = None
@@ -114,24 +105,63 @@ class Block(nn.Module):
         if grow_first:
             if start_with_relu:
                 rep.append(self.relu)
-            rep.append(SeparableConv2d(inplanes, planes, 3, 1, dilation, conv_cfg=conv_cfg, norm_cfg=norm_cfg))
+            rep.append(
+                SeparableConv2d(
+                    inplanes,
+                    planes,
+                    3,
+                    1,
+                    dilation,
+                    conv_cfg=conv_cfg,
+                    norm_cfg=norm_cfg))
             rep.append(build_norm_layer(norm_cfg, planes)[1])
             filters = planes
         for i in range(reps - 1):
             if grow_first or start_with_relu:
                 rep.append(self.relu)
-            rep.append(SeparableConv2d(filters, filters, 3, 1, dilation, conv_cfg=conv_cfg, norm_cfg=norm_cfg))
+            rep.append(
+                SeparableConv2d(
+                    filters,
+                    filters,
+                    3,
+                    1,
+                    dilation,
+                    conv_cfg=conv_cfg,
+                    norm_cfg=norm_cfg))
             rep.append(build_norm_layer(norm_cfg, filters)[1])
         if not grow_first:
             rep.append(self.relu)
-            rep.append(SeparableConv2d(inplanes, planes, 3, 1, dilation, conv_cfg=conv_cfg, norm_cfg=norm_cfg))
+            rep.append(
+                SeparableConv2d(
+                    inplanes,
+                    planes,
+                    3,
+                    1,
+                    dilation,
+                    conv_cfg=conv_cfg,
+                    norm_cfg=norm_cfg))
         if stride != 1:
             rep.append(self.relu)
-            rep.append(SeparableConv2d(planes, planes, 3, stride, conv_cfg=conv_cfg, norm_cfg=norm_cfg))
+            rep.append(
+                SeparableConv2d(
+                    planes,
+                    planes,
+                    3,
+                    stride,
+                    conv_cfg=conv_cfg,
+                    norm_cfg=norm_cfg))
             rep.append(build_norm_layer(norm_cfg, planes)[1])
         elif is_last:
             rep.append(self.relu)
-            rep.append(SeparableConv2d(planes, planes, 3, 1, dilation, conv_cfg=conv_cfg, norm_cfg=norm_cfg))
+            rep.append(
+                SeparableConv2d(
+                    planes,
+                    planes,
+                    3,
+                    1,
+                    dilation,
+                    conv_cfg=conv_cfg,
+                    norm_cfg=norm_cfg))
             rep.append(build_norm_layer(norm_cfg, planes)[1])
         self.rep = nn.Sequential(*rep)
 
@@ -148,10 +178,10 @@ class Block(nn.Module):
         out = out + skip
         return out
 
+
 @BACKBONES.register_module
 class Xception(nn.Module):
-    """Modified Aligned Xception
-    """
+    """Modified Aligned Xception."""
 
     def __init__(self,
                  depth,
@@ -193,58 +223,131 @@ class Xception(nn.Module):
 
         # Entry flow
         self.conv1 = build_conv_layer(
-            conv_cfg,
-            in_channels,
-            32,
-            3,
-            stride=2,
-            padding=1,
-            bias=False)
+            conv_cfg, in_channels, 32, 3, stride=2, padding=1, bias=False)
         self.norm1_name, norm1 = build_norm_layer(norm_cfg, 32, postfix=1)
         self.add_module(self.norm1_name, norm1)
         self.relu = nn.ReLU(True)
 
         self.conv2 = build_conv_layer(
-            conv_cfg,
-            32,
-            64,
-            3,
-            stride=1,
-            padding=1,
-            bias=False)
+            conv_cfg, 32, 64, 3, stride=1, padding=1, bias=False)
         self.norm2_name, norm2 = build_norm_layer(norm_cfg, 64, postfix=2)
         self.add_module(self.norm2_name, norm2)
 
-        self.block1 = Block(64, 128, reps=2, stride=2, conv_cfg=conv_cfg, norm_cfg=norm_cfg, start_with_relu=False)
+        self.block1 = Block(
+            64,
+            128,
+            reps=2,
+            stride=2,
+            conv_cfg=conv_cfg,
+            norm_cfg=norm_cfg,
+            start_with_relu=False)
         if depth == 65:
-            self.block2 = Block(128, 256, reps=2, stride=2, conv_cfg=conv_cfg, norm_cfg=norm_cfg, start_with_relu=False,
-                                grow_first=True)
-            self.block3 = Block(256, 728, reps=2, stride=entry_block3_stride, conv_cfg=conv_cfg, norm_cfg=norm_cfg,
-                                start_with_relu=True, grow_first=True, is_last=True)
+            self.block2 = Block(
+                128,
+                256,
+                reps=2,
+                stride=2,
+                conv_cfg=conv_cfg,
+                norm_cfg=norm_cfg,
+                start_with_relu=False,
+                grow_first=True)
+            self.block3 = Block(
+                256,
+                728,
+                reps=2,
+                stride=entry_block3_stride,
+                conv_cfg=conv_cfg,
+                norm_cfg=norm_cfg,
+                start_with_relu=True,
+                grow_first=True,
+                is_last=True)
         elif depth == 71:
             self.block2 = nn.Sequential(
-                Block(128, 256, reps=2, stride=2, conv_cfg=conv_cfg, norm_cfg=norm_cfg, start_with_relu=False, grow_first=True),
-                Block(256, 728, reps=2, stride=2, conv_cfg=conv_cfg, norm_cfg=norm_cfg, start_with_relu=False, grow_first=True))
-            self.block3 = Block(728, 728, reps=2, stride=entry_block3_stride, conv_cfg=conv_cfg, norm_cfg=norm_cfg,
-                                start_with_relu=True, grow_first=True, is_last=True)
+                Block(
+                    128,
+                    256,
+                    reps=2,
+                    stride=2,
+                    conv_cfg=conv_cfg,
+                    norm_cfg=norm_cfg,
+                    start_with_relu=False,
+                    grow_first=True),
+                Block(
+                    256,
+                    728,
+                    reps=2,
+                    stride=2,
+                    conv_cfg=conv_cfg,
+                    norm_cfg=norm_cfg,
+                    start_with_relu=False,
+                    grow_first=True))
+            self.block3 = Block(
+                728,
+                728,
+                reps=2,
+                stride=entry_block3_stride,
+                conv_cfg=conv_cfg,
+                norm_cfg=norm_cfg,
+                start_with_relu=True,
+                grow_first=True,
+                is_last=True)
 
         # Middle flow
         midflow = list()
         for i in range(4, 20):
-            midflow.append(Block(728, 728, reps=3, stride=1, dilation=middle_block_dilation, conv_cfg=conv_cfg,
-                                 norm_cfg=norm_cfg, start_with_relu=True, grow_first=True))
+            midflow.append(
+                Block(
+                    728,
+                    728,
+                    reps=3,
+                    stride=1,
+                    dilation=middle_block_dilation,
+                    conv_cfg=conv_cfg,
+                    norm_cfg=norm_cfg,
+                    start_with_relu=True,
+                    grow_first=True))
         self.midflow = nn.Sequential(*midflow)
 
         # Exit flow
-        self.block20 = Block(728, 1024, reps=2, stride=exit_block20_stride, dilation=exit_block_dilations[0],
-                             conv_cfg=conv_cfg, norm_cfg=norm_cfg, start_with_relu=True, grow_first=False, is_last=True)
-        self.conv3 = SeparableConv2d(1024, 1536, 3, 1, dilation=exit_block_dilations[1], conv_cfg=conv_cfg, norm_cfg=norm_cfg)
+        self.block20 = Block(
+            728,
+            1024,
+            reps=2,
+            stride=exit_block20_stride,
+            dilation=exit_block_dilations[0],
+            conv_cfg=conv_cfg,
+            norm_cfg=norm_cfg,
+            start_with_relu=True,
+            grow_first=False,
+            is_last=True)
+        self.conv3 = SeparableConv2d(
+            1024,
+            1536,
+            3,
+            1,
+            dilation=exit_block_dilations[1],
+            conv_cfg=conv_cfg,
+            norm_cfg=norm_cfg)
         self.norm3_name, norm3 = build_norm_layer(norm_cfg, 1536, postfix=3)
         self.add_module(self.norm3_name, norm3)
-        self.conv4 = SeparableConv2d(1536, 1536, 3, stride=1, dilation=exit_block_dilations[1], conv_cfg=conv_cfg, norm_cfg=norm_cfg)
+        self.conv4 = SeparableConv2d(
+            1536,
+            1536,
+            3,
+            stride=1,
+            dilation=exit_block_dilations[1],
+            conv_cfg=conv_cfg,
+            norm_cfg=norm_cfg)
         self.norm4_name, norm4 = build_norm_layer(norm_cfg, 1536, postfix=4)
         self.add_module(self.norm4_name, norm4)
-        self.conv5 = SeparableConv2d(1536, 2048, 3, 1, dilation=exit_block_dilations[1], conv_cfg=conv_cfg, norm_cfg=norm_cfg)
+        self.conv5 = SeparableConv2d(
+            1536,
+            2048,
+            3,
+            1,
+            dilation=exit_block_dilations[1],
+            conv_cfg=conv_cfg,
+            norm_cfg=norm_cfg)
         self.norm5_name, norm5 = build_norm_layer(norm_cfg, 2048, postfix=5)
         self.add_module(self.norm5_name, norm5)
 
@@ -287,10 +390,8 @@ class Xception(nn.Module):
                     kaiming_init(m)
                 elif isinstance(m, (_BatchNorm, nn.GroupNorm)):
                     constant_init(m, 1)
-
         else:
             raise TypeError('pretrained must be a str or None')
-
 
     def forward(self, x):
         outs = []

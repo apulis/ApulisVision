@@ -22,6 +22,7 @@ if platform.system() != 'Windows':
 DATASETS = Registry('dataset')
 PIPELINES = Registry('pipeline')
 
+
 def _concat_dataset(cfg, default_args=None):
     from .dataset_wrappers import ConcatDataset
     ann_files = cfg['ann_file']

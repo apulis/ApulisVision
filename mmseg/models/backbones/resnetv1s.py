@@ -2,15 +2,16 @@ import logging
 
 import torch.nn as nn
 import torch.utils.checkpoint as cp
-from torch.nn.modules.batchnorm import _BatchNorm
-
-from mmdet.models.plugins import GeneralizedAttention
-from mmdet.core import JPU
-from .utils import load_checkpoint
-from ..builder import BACKBONES
-from mmdet.ops import ContextBlock, DeformConv, ModulatedDeformConv
 from mmcv.cnn import (build_conv_layer, build_norm_layer, constant_init,
                       kaiming_init)
+from torch.nn.modules.batchnorm import _BatchNorm
+
+from mmdet.core import JPU
+from mmdet.models.plugins import GeneralizedAttention
+from mmdet.ops import ContextBlock, DeformConv, ModulatedDeformConv
+from ..builder import BACKBONES
+from .utils import load_checkpoint
+
 
 class BasicBlockV1s(nn.Module):
     expansion = 1
@@ -29,9 +30,9 @@ class BasicBlockV1s(nn.Module):
                  gcb=None,
                  gen_attention=None):
         super(BasicBlockV1s, self).__init__()
-        assert dcn is None, "Not implemented yet."
-        assert gen_attention is None, "Not implemented yet."
-        assert gcb is None, "Not implemented yet."
+        assert dcn is None, 'Not implemented yet.'
+        assert gen_attention is None, 'Not implemented yet.'
+        assert gcb is None, 'Not implemented yet.'
 
         self.norm1_name, norm1 = build_norm_layer(norm_cfg, planes, postfix=1)
         self.norm2_name, norm2 = build_norm_layer(norm_cfg, planes, postfix=2)
@@ -100,8 +101,9 @@ class BottleneckV1s(nn.Module):
                  gcb=None,
                  gen_attention=None):
         """Bottleneck block for ResNet.
-        If style is "pytorch", the stride-two layer is the 3x3 conv layer,
-        if it is "caffe", the stride-two layer is the first 1x1 conv layer.
+
+        If style is "pytorch", the stride-two layer is the 3x3 conv layer, if
+        it is "caffe", the stride-two layer is the first 1x1 conv layer.
         """
         super(BottleneckV1s, self).__init__()
         assert style in ['pytorch', 'caffe']
@@ -327,7 +329,7 @@ def make_res_layer(block,
                 gen_attention=gen_attention if
                 (0 in gen_attention_blocks) else None))
     else:
-        raise RuntimeError("=> unknown dilation size: {}".format(dilation))
+        raise RuntimeError('=> unknown dilation size: {}'.format(dilation))
     inplanes = planes * block.expansion
     for i in range(1, blocks):
         layers.append(
@@ -448,16 +450,18 @@ class ResNetV1s(nn.Module):
         self.block, stage_blocks = self.arch_settings[depth]
         self.stage_blocks = stage_blocks[:num_stages]
         self.inplanes = 128 if deep_stem else 64
-        jpu_layers = [self.block.expansion * 64 * 2**(
-            len(self.stage_blocks) - 3), self.block.expansion * 64 * 2**(
-            len(self.stage_blocks) - 2), self.block.expansion * 64 * 2**(
-            len(self.stage_blocks) - 1)]
-        self.jpu = JPU(jpu_layers,
-                       width=jpu_layers[0],
-                       mode='bilinear',
-                       align_corners=True,
-                       conv_cfg=conv_cfg,
-                       norm_cfg=norm_cfg) if jpu else None
+        jpu_layers = [
+            self.block.expansion * 64 * 2**(len(self.stage_blocks) - 3),
+            self.block.expansion * 64 * 2**(len(self.stage_blocks) - 2),
+            self.block.expansion * 64 * 2**(len(self.stage_blocks) - 1)
+        ]
+        self.jpu = JPU(
+            jpu_layers,
+            width=jpu_layers[0],
+            mode='bilinear',
+            align_corners=True,
+            conv_cfg=conv_cfg,
+            norm_cfg=norm_cfg) if jpu else None
 
         self._make_stem_layer(in_channels, deep_stem)
 
@@ -508,8 +512,7 @@ class ResNetV1s(nn.Module):
                     stride=2,
                     padding=1,
                     bias=False),
-                build_norm_layer(self.norm_cfg, 64)[1],
-                nn.ReLU(True),
+                build_norm_layer(self.norm_cfg, 64)[1], nn.ReLU(True),
                 build_conv_layer(
                     self.conv_cfg,
                     64,
@@ -518,8 +521,7 @@ class ResNetV1s(nn.Module):
                     stride=1,
                     padding=1,
                     bias=False),
-                build_norm_layer(self.norm_cfg, 64)[1],
-                nn.ReLU(True),
+                build_norm_layer(self.norm_cfg, 64)[1], nn.ReLU(True),
                 build_conv_layer(
                     self.conv_cfg,
                     64,
@@ -527,8 +529,7 @@ class ResNetV1s(nn.Module):
                     kernel_size=3,
                     stride=1,
                     padding=1,
-                    bias=False)
-            )
+                    bias=False))
 
         else:
             self.conv1 = build_conv_layer(
@@ -539,7 +540,8 @@ class ResNetV1s(nn.Module):
                 stride=2,
                 padding=3,
                 bias=False)
-        self.norm1_name, norm1 = build_norm_layer(self.norm_cfg, self.inplanes, postfix=1)
+        self.norm1_name, norm1 = build_norm_layer(
+            self.norm_cfg, self.inplanes, postfix=1)
         self.add_module(self.norm1_name, norm1)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)

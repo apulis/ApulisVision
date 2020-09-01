@@ -139,6 +139,7 @@ class DistributedGroupSampler(Sampler):
     def set_epoch(self, epoch):
         self.epoch = epoch
 
+
 class EquibatchSampler(Sampler):
 
     def __init__(self, dataset, samples_per_gpu=1):
@@ -152,7 +153,8 @@ class EquibatchSampler(Sampler):
         indices = []
         sizes = []
         for i in range(num_classes):
-            indice = set(np.where(self.flag % (2 ** (i + 1)) // (2 ** i) > 0)[0])
+            indice_ = np.where(self.flag % (2**(i + 1)) // (2**i) > 0)[0]
+            indice = set(indice_)
             indice.intersection_update(ori_pool)
             indice = list(indice)
             np.random.shuffle(indice)
@@ -164,7 +166,7 @@ class EquibatchSampler(Sampler):
 
         if len(ori_pool) > 0:
             for i in range(num_classes):
-                indice = set(np.where(self.flag // (2 ** i) > 0)[0])
+                indice = set(np.where(self.flag // (2**i) > 0)[0])
                 indice.intersection_update(ori_pool)
                 indice = list(indice)
                 np.random.shuffle(indice)
@@ -181,7 +183,8 @@ class EquibatchSampler(Sampler):
         indices = np.concatenate(indices)
         indices = [
             indices[i * self.samples_per_gpu:(i + 1) * self.samples_per_gpu]
-            for i in range(len(indices) // self.samples_per_gpu)]
+            for i in range(len(indices) // self.samples_per_gpu)
+        ]
         indices = np.concatenate(indices)
         self.indices = indices.astype(np.int64).tolist()
         # assert len(indices) == self.num_samples

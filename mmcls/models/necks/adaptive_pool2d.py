@@ -9,19 +9,21 @@ def adaptive_pool_feat_mult(pool_type='avg'):
     else:
         return 1
 
+
 def adaptive_avgmax_pool2d(x, output_size=1):
     x_avg = F.adaptive_avg_pool2d(x, output_size)
     x_max = F.adaptive_max_pool2d(x, output_size)
     return 0.5 * (x_avg + x_max)
+
 
 def adaptive_catavgmax_pool2d(x, output_size=1):
     x_avg = F.adaptive_avg_pool2d(x, output_size)
     x_max = F.adaptive_max_pool2d(x, output_size)
     return torch.cat((x_avg, x_max), 1)
 
+
 def select_adaptive_pool2d(x, pool_type='avg', output_size=1):
-    """Selectable global pooling function with dynamic input kernel size
-    """
+    """Selectable global pooling function with dynamic input kernel size."""
     if pool_type == 'avg':
         x = F.adaptive_avg_pool2d(x, output_size)
     elif pool_type == 'avgmax':
@@ -36,6 +38,7 @@ def select_adaptive_pool2d(x, pool_type='avg', output_size=1):
 
 
 class AdaptiveAvgMaxPool2d(nn.Module):
+
     def __init__(self, output_size=1):
         super(AdaptiveAvgMaxPool2d, self).__init__()
         self.output_size = output_size
@@ -45,6 +48,7 @@ class AdaptiveAvgMaxPool2d(nn.Module):
 
 
 class AdaptiveCatAvgMaxPool2d(nn.Module):
+
     def __init__(self, output_size=1):
         super(AdaptiveCatAvgMaxPool2d, self).__init__()
         self.output_size = output_size
@@ -54,8 +58,8 @@ class AdaptiveCatAvgMaxPool2d(nn.Module):
 
 
 class SelectAdaptivePool2d(nn.Module):
-    """Selectable global pooling layer with dynamic input kernel size
-    """
+    """Selectable global pooling layer with dynamic input kernel size."""
+
     def __init__(self, output_size=1, pool_type='avg', flatten=False):
         super(SelectAdaptivePool2d, self).__init__()
         self.output_size = output_size

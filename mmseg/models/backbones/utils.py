@@ -1,6 +1,8 @@
+from collections import OrderedDict
+
 import torch
 from mmcv.runner import _load_checkpoint, load_state_dict
-from collections import OrderedDict
+
 
 def load_checkpoint(model,
                     filename,
@@ -44,9 +46,10 @@ def load_checkpoint(model,
             print(state_dict[key].shape[1], model_dict[key].shape[1])
             v = state_dict[key]
             tensor = torch.zeros(model_dict[key].shape, dtype=torch.float32)
-            for i in range(model_dict[key].shape[1] - state_dict[key].shape[1]):
+            for i in range(model_dict[key].shape[1] -
+                           state_dict[key].shape[1]):
                 tensor[:, i, :, :] = v[:, 0, :, :]
-            tensor[:, i+1:, :, :] = v
+            tensor[:, i + 1:, :, :] = v
             state_dict[key] = tensor
     # load state_dict
     if hasattr(model, 'module'):
