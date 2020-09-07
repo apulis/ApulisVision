@@ -6,14 +6,13 @@ import time
 
 import mmcv
 import torch
-from mmcv import Config, DictAction
-from mmcv.runner import init_dist
-
 from mmcls import __version__
 from mmcls.apis import set_random_seed, train_model
 from mmcls.datasets import build_dataset
 from mmcls.models import build_classifier
 from mmcls.utils import collect_env, get_root_logger
+from mmcv import Config, DictAction
+from mmcv.runner import init_dist
 
 
 def parse_args():
@@ -100,6 +99,8 @@ def main():
 
     # create work_dir
     mmcv.mkdir_or_exist(osp.abspath(cfg.work_dir))
+    # dump config
+    cfg.dump(osp.join(cfg.work_dir, osp.basename(args.config)))
     # init the logger before other steps
     timestamp = time.strftime('%Y%m%d_%H%M%S', time.localtime())
     log_file = osp.join(cfg.work_dir, f'{timestamp}.log')

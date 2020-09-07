@@ -6,7 +6,9 @@
 
 **ApulisVision** is a high-level computer vision toolbox based on PyTorch. It supports several major computer vision tasks, including  **Image Classification**, **Object Detection**, and **Semantic Segmantation**. ApulisVision is an open source project developed by [ApulisTech](https://github.com/apulis).
 
-The master branch works with **PyTorch 1.3 to 1.5**. 
+The master branch works with **PyTorch 1.3 to 1.5**.
+
+
 
 <div align="center">
   <img src="resources/demo.png" width="600"/>
