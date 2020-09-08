@@ -16,6 +16,7 @@ def _get_config_directory():
         import mmdet
         repo_dpath = dirname(dirname(mmdet.__file__))
     config_dpath = join(repo_dpath, 'configs')
+    print(repo_dpath, config_dpath)
     if not exists(config_dpath):
         raise Exception('Cannot find config path')
     return config_dpath
