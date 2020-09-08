@@ -1,7 +1,10 @@
 #!/usr/bin/env python
+import os
 from setuptools import find_packages, setup
 
-from torch.utils.cpp_extension import BuildExtension
+import torch
+from torch.utils.cpp_extension import (BuildExtension, CppExtension,
+                                       CUDAExtension)
 
 
 def readme():
@@ -31,6 +34,31 @@ def mmseg_get_version():
     with open(mmseg_version_file, 'r') as f:
         exec(compile(f.read(), mmseg_version_file, 'exec'))
     return locals()['__version__']
+
+
+def make_cuda_ext(name, module, sources, sources_cuda=[]):
+
+    define_macros = []
+    extra_compile_args = {'cxx': []}
+
+    if torch.cuda.is_available() or os.getenv('FORCE_CUDA', '0') == '1':
+        define_macros += [('WITH_CUDA', None)]
+        extension = CUDAExtension
+        extra_compile_args['nvcc'] = [
+            '-D__CUDA_NO_HALF_OPERATORS__',
+            '-D__CUDA_NO_HALF_CONVERSIONS__',
+            '-D__CUDA_NO_HALF2_OPERATORS__',
+        ]
+        sources += sources_cuda
+    else:
+        print(f'Compiling {name} without CUDA')
+        extension = CppExtension
+
+    return extension(
+        name=f'{module}.{name}',
+        sources=[os.path.join(*module.split('.'), p) for p in sources],
+        define_macros=define_macros,
+        extra_compile_args=extra_compile_args)
 
 
 def parse_requirements(fname='requirements.txt', with_version=True):
@@ -153,7 +181,7 @@ def mmdetbuild():
     setup(
         name='mmdet',
         version=mmdet_get_version(),
-        description='Open MMLab Detection Toolbox and Benchmark',
+        description='OpenMMLab Detection Toolbox and Benchmark',
         long_description=readme(),
         long_description_content_type='text/markdown',
         author='OpenMMLab',
