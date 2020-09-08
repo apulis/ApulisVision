@@ -53,7 +53,7 @@ jobs:
       - name: Install unittest dependencies
         run: pip install -r requirements/tests.txt -r requirements/optional.txt
       - name: Build and install
-        run: rm -rf .eggs && pip install -e .
+        run: rm -rf *.eggs && pip install -e .
       - name: Run unittests and generate coverage report
         run: |
           coverage run --branch --source mmdet -m pytest tests/
