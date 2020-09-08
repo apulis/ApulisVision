@@ -3,12 +3,12 @@ import logging
 import torch
 import torch.nn as nn
 import torch.utils.checkpoint as cp
+from mmcls.models.utils import channel_shuffle, make_divisible
 from mmcv.cnn import (ConvModule, build_activation_layer, constant_init,
                       normal_init)
 from mmcv.runner import load_checkpoint
 from torch.nn.modules.batchnorm import _BatchNorm
 
-from mmcls.models.utils import channel_shuffle, make_divisible
 from ..builder import BACKBONES
 from .base_backbone import BaseBackbone
 
@@ -271,7 +271,7 @@ class ShuffleNetV1(BaseBackbone):
                             f'{type(pretrained)}')
 
     def make_layer(self, out_channels, num_blocks, first_block=False):
-        """ Stack ShuffleUnit blocks to make a layer.
+        """Stack ShuffleUnit blocks to make a layer.
 
         Args:
             out_channels (int): out_channels of the block.

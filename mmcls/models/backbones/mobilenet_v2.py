@@ -2,11 +2,11 @@ import logging
 
 import torch.nn as nn
 import torch.utils.checkpoint as cp
+from mmcls.models.utils import make_divisible
 from mmcv.cnn import ConvModule, constant_init, kaiming_init
 from mmcv.runner import load_checkpoint
 from torch.nn.modules.batchnorm import _BatchNorm
 
-from mmcls.models.utils import make_divisible
 from ..builder import BACKBONES
 from .base_backbone import BaseBackbone
 
@@ -199,7 +199,7 @@ class MobileNetV2(BaseBackbone):
         self.layers.append('conv2')
 
     def make_layer(self, out_channels, num_blocks, stride, expand_ratio):
-        """ Stack InvertedResidual blocks to build a layer for MobileNetV2.
+        """Stack InvertedResidual blocks to build a layer for MobileNetV2.
 
         Args:
             out_channels (int): out_channels of block.

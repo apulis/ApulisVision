@@ -155,8 +155,8 @@ class RandomResizedCrop(object):
         else:
             self.size = (size, size)
         if (scale[0] > scale[1]) or (ratio[0] > ratio[1]):
-            raise ValueError("range should be of kind (min, max). "
-                             f"But received {scale}")
+            raise ValueError('range should be of kind (min, max). '
+                             f'But received {scale}')
         if backend not in ['cv2', 'pillow']:
             raise ValueError(f'backend: {backend} is not supported for resize.'
                              'Supported backends are "cv2", "pillow"')
@@ -260,7 +260,6 @@ class RandomGrayscale(object):
             - If input image is 1 channel: grayscale version is 1 channel.
             - If input image is 3 channel: grayscale version is 3 channel
                 with r == g == b.
-
     """
 
     def __init__(self, gray_prob=0.1):
@@ -363,8 +362,8 @@ class Resize(object):
             assert size[0] > 0 and (size[1] > 0 or size[1] == -1)
             if size[1] == -1:
                 self.resize_w_short_side = True
-        assert interpolation in ("nearest", "bilinear", "bicubic", "area",
-                                 "lanczos")
+        assert interpolation in ('nearest', 'bilinear', 'bicubic', 'area',
+                                 'lanczos')
         if backend not in ['cv2', 'pillow']:
             raise ValueError(f'backend: {backend} is not supported for resize.'
                              'Supported backends are "cv2", "pillow"')

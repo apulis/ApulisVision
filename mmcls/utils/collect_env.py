@@ -4,11 +4,10 @@ import sys
 from collections import defaultdict
 
 import cv2
+import mmcls
 import mmcv
 import torch
 import torchvision
-
-import mmcls
 
 
 def collect_env():

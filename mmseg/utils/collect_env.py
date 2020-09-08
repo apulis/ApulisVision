@@ -5,11 +5,10 @@ from collections import defaultdict
 
 import cv2
 import mmcv
+import mmseg
 import torch
 import torchvision
 from mmcv.utils import get_build_config, get_git_hash
-
-import mmseg
 
 
 def collect_env():

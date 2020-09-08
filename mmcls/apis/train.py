@@ -2,13 +2,12 @@ import random
 
 import numpy as np
 import torch
-from mmcv.parallel import MMDataParallel, MMDistributedDataParallel
-from mmcv.runner import DistSamplerSeedHook, EpochBasedRunner, build_optimizer
-
 from mmcls.core import (DistEvalHook, DistOptimizerHook, EvalHook,
                         Fp16OptimizerHook)
 from mmcls.datasets import build_dataloader, build_dataset
 from mmcls.utils import get_root_logger
+from mmcv.parallel import MMDataParallel, MMDistributedDataParallel
+from mmcv.runner import DistSamplerSeedHook, EpochBasedRunner, build_optimizer
 
 
 def set_random_seed(seed, deterministic=False):

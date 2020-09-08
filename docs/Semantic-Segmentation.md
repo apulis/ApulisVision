@@ -22,7 +22,7 @@ Welcome to the Semantic-Segmentation part, we have implemented the Semantic-Segm
 
 ## Supported Models
 
-Following models are implemented using PyTorch. 
+Following models are implemented using PyTorch.
 
 - [DeepLabv3](https://arxiv.org/abs/1706.05587.pdf)
 - [DeepLabv3+](https://arxiv.org/pdf/1802.02611.pdf)
@@ -71,7 +71,7 @@ If you want to specify the working directory in the command, you can add an argu
 ./tools/dist_train.sh ${CONFIG_FILE} ${GPU_NUM} [optional arguments]
 ```
 
-### Test 
+### Test
 
 You can use the following commands to test a dataset.
 

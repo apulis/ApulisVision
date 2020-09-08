@@ -27,8 +27,8 @@ Please see [GETTING_STARTED.md](https://github.com/open-mmlab/mmdetection/blob/m
 
 ### Prepare datasets
 
-For image-classificatin, you need to prepare your datasets in the following formate. 
-If your folder structure is different, you may need to change the corresponding paths in config files. 
+For image-classificatin, you need to prepare your datasets in the following formate.
+If your folder structure is different, you may need to change the corresponding paths in config files.
 
 ```plain
 hymenoptera_data/
@@ -55,7 +55,7 @@ If you want to specify the working directory in the command, you can add an argu
 ./tools/dist_train.sh ${CONFIG_FILE} ${GPU_NUM} [optional arguments]
 ```
 
-### Test 
+### Test
 
 You can use the following commands to test a dataset.
 

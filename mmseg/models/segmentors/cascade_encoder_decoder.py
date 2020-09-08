@@ -1,7 +1,7 @@
-from torch import nn
-
 from mmseg.core import add_prefix
 from mmseg.ops import resize
+from torch import nn
+
 from .. import builder
 from ..builder import SEGMENTORS
 from .encoder_decoder import EncoderDecoder

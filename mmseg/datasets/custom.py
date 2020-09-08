@@ -4,10 +4,10 @@ from functools import reduce
 import mmcv
 import numpy as np
 from mmcv.utils import print_log
-from torch.utils.data import Dataset
-
 from mmseg.core import mean_iou
 from mmseg.utils import get_root_logger
+from torch.utils.data import Dataset
+
 from .builder import DATASETS
 from .pipelines import Compose
 

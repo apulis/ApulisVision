@@ -1,4 +1,5 @@
 from mmcls.models.losses import Accuracy
+
 from ..builder import HEADS, build_loss
 from .base_head import BaseHead
 
