@@ -53,7 +53,7 @@ jobs:
       - name: Install unittest dependencies
         run: pip install -r requirements/tests.txt -r requirements/optional.txt
       - name: Build and install
-        run: rm -rf *.eggs && pip install -e .
+        run: rm -rf .eggs && pip install -e .
       - name: Run unittests and generate coverage report
         run: |
           coverage run --branch --source mmdet -m pytest tests/
@@ -120,8 +120,8 @@ jobs:
           pip install -r requirements.txt
       - name: Build and install
         run: |
-          rm -rf *.eggs
-          python setup_mmdet.py check -m -s
+          rm -rf .eggs
+          python setup.py check -m -s
           TORCH_CUDA_ARCH_LIST=7.0 pip install .
       - name: Run unittests and generate coverage report
         run: |

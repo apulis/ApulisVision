@@ -224,6 +224,6 @@ def mmsegbuild():
 
 
 if __name__ == '__main__':
-    mmclsbuild()
+    # mmclsbuild()
     mmdetbuild()
-    mmsegbuild()
+    # mmsegbuild()
