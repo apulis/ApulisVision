@@ -103,15 +103,10 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-mmdet/version.py
 data/
 .vscode
 .idea
 .DS_Store
-mmseg/version.py
-mmcls/version.py
-
-
 *.pkl
 *.pkl.json
 *.log.json
