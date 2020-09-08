@@ -1,3 +1,3 @@
-yapf -r -i mmdet/ configs/ tests/mmdet/ tools/
-isort -rc mmdet/ configs/ tests/mmdet/ tools/
+yapf -r -i mmdet/ mmcls/ mmseg/ configs/ tests/mmdet/ tools/
+isort -rc mmdet/ mmcls/ mmseg/ configs/ tests/mmdet/ tools/
 flake8 .
