@@ -120,7 +120,7 @@ jobs:
           pip install -r requirements.txt
       - name: Build and install
         run: |
-          rm -rf .eggs
+          rm -rf *.eggs
           python setup_mmdet.py check -m -s
           TORCH_CUDA_ARCH_LIST=7.0 pip install .
       - name: Run unittests and generate coverage report
