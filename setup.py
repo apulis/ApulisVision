@@ -150,8 +150,8 @@ def mmclsbuild():
         keywords='computer vision, image classification',
         url='https://github.com/open-mmlab/mmclassification',
         packages=find_packages(
-            exclude=('configs', 'configs_custom', 'tools', 'demo', 'mmdet',
-                     'mmseg')),
+            exclude=('configs', 'configs_mmseg', 'configs_mmcls',
+                     'configs_custom', 'tools', 'demo', 'mmdet', 'mmseg')),
         package_data={'mmcls.ops': ['*/*.so']},
         classifiers=[
             'Development Status :: 4 - Beta',
@@ -189,8 +189,8 @@ def mmdetbuild():
         keywords='computer vision, object detection',
         url='https://github.com/open-mmlab/mmdetection',
         packages=find_packages(
-            exclude=('configs', 'configs_custom', 'tools', 'demo', 'mmcls',
-                     'mmseg')),
+            exclude=('configs', 'configs_mmseg', 'configs_mmcls',
+                     'configs_custom', 'tools', 'demo', 'mmcls', 'mmseg')),
         classifiers=[
             'Development Status :: 5 - Production/Stable',
             'License :: OSI Approved :: Apache Software License',
@@ -226,8 +226,8 @@ def mmsegbuild():
         keywords='computer vision, semantic segmentation',
         url='https://github.com/open-mmlab/mmsegmentation',
         packages=find_packages(
-            exclude=('configs', 'configs_custom', 'tools', 'demo', 'mmcls',
-                     'mmdet')),
+            exclude=('configs', 'configs_mmseg', 'configs_mmcls',
+                     'configs_custom', 'tools', 'demo', 'mmcls', 'mmdet')),
         classifiers=[
             'Development Status :: 4 - Beta',
             'License :: OSI Approved :: Apache Software License',
@@ -252,6 +252,6 @@ def mmsegbuild():
 
 
 if __name__ == '__main__':
-    # mmclsbuild()
+    mmclsbuild()
     mmdetbuild()
-    # mmsegbuild()
+    mmsegbuild()
