@@ -16,7 +16,7 @@ def _get_config_directory():
         # For IPython development when this __file__ is not defined
         import mmseg
         repo_dpath = dirname(dirname(mmseg.__file__))
-    config_dpath = join(repo_dpath, 'configs')
+    config_dpath = join(repo_dpath, 'configs_mmseg')
     if not exists(config_dpath):
         raise Exception('Cannot find config path')
     return config_dpath

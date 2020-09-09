@@ -167,8 +167,8 @@ if __name__ == '__main__':
         keywords='computer vision, image classification',
         url='https://github.com/open-mmlab/mmclassification',
         packages=find_packages(
-            exclude=('configs', 'configs_custom', 'mmdet', 'mmseg', 'tools',
-                     'demo')),
+            exclude=('configs_mmdet', 'configs_mmseg', 'configs_mmcls',
+                     'configs_custom', 'mmdet', 'mmseg', 'tools', 'demo')),
         package_data={'mmcls.ops': ['*/*.so']},
         classifiers=[
             'Development Status :: 4 - Beta',
