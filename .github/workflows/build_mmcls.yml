@@ -54,7 +54,6 @@ jobs:
           TORCH_CUDA_ARCH_LIST=${CUDA_ARCH} python setup_mmcls.py build_ext --inplace
       - name: Run unittests and generate coverage report
         run: |
-          coverage run --branch --source mmcls -m pytest tests_mmcls/
           coverage xml
           coverage report -m --omit="mmcls/utils/*","mmcls/apis/*"
       # Only upload coverage report for python3.7 && pytorch1.5
