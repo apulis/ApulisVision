@@ -42,7 +42,6 @@ class ImageNet(BaseDataset):
             info['img_info'] = {'filename': filename}
             info['gt_label'] = np.array(gt_label, dtype=np.int64)
             data_infos.append(info)
-        print(data_infos)
         return data_infos
 
 
