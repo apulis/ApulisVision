@@ -13,13 +13,16 @@ from mmcls.models import build_classifier
 from mmcls.utils import collect_env, get_root_logger
 from mmcv import Config, DictAction
 from mmcv.runner import init_dist
+from update_config import merge_from_mycfg, update_configs
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a model')
-    parser.add_argument('config', help='train config file path')
-    parser.add_argument('pipeline_config', help='train config file path')
+    parser.add_argument('--config', help='train config file path')
+    parser.add_argument('--pipeline_config', help='train config file path')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
+    parser.add_argument('--data_path', help='the dataset dir')
+    parser.add_argument('--output_path', help='the dir to save models')
     parser.add_argument(
         '--resume-from', help='the checkpoint file to resume from')
     parser.add_argument(
@@ -66,6 +69,10 @@ def main():
     args = parse_args()
 
     cfg = Config.fromfile(args.config)
+    pipeline_cfg = Config.fromfile(args.pipeline_config)
+    my_cfg = update_configs(pipeline_cfg)
+    cfg = merge_from_mycfg(my_cfg, cfg)
+
     if args.options is not None:
         cfg.merge_from_dict(args.options)
     # set cudnn_benchmark
