@@ -1,6 +1,7 @@
 import argparse
 import os
 
+import mmcv
 from mmcv import Config
 
 BACKBONES_ = dict(
@@ -93,8 +94,12 @@ def merge_from_mycfg(my_cfg, cfg):
 
 def main():
     args = parse_args()
+    output_dict = {}
     cfg = Config.fromfile(args.config)
-    input_cfg = Config.fromfile(args.pipeline_config)
+    input_cfg = mmcv.load(args.pipeline_config)
+    output_dict['nodes'] = input_cfg
+    mmcv.dump(output_dict, file='panel.json', file_format='json')
+    input_cfg = Config.fromfile('panel.json')
     my_cfg = update_configs(input_cfg)
     print(my_cfg)
     new_cfg = merge_from_mycfg(my_cfg, cfg)
