@@ -58,6 +58,10 @@ def update_configs(input_cfg):
                 my_cfg['head'] = {}
                 my_cfg['head']['type'] = HEADS_[mdict.name.lower()]
                 my_cfg['head'].update(mdict.config)
+                if my_cfg['head']['num_classes'] > 5:
+                    my_cfg['head']['topk'] = (1, 5)
+                else:
+                    my_cfg['head']['topk'] = (1, )
         # optimizer
         if name == 'optimizer':
             if mdict.name.lower() in OPTS_:
@@ -65,7 +69,7 @@ def update_configs(input_cfg):
                 my_cfg['optimizer']['type'] = OPTS_[mdict.name.lower()]
                 my_cfg['optimizer'].update(mdict.config)
         # output
-        if name == 'runtime':
+        if name == 'output':
             my_cfg['runtime'] = {}
             my_cfg['runtime'].update(mdict.config)
     return my_cfg
