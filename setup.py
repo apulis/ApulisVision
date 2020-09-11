@@ -170,10 +170,7 @@ def mmclsbuild():
             'all': parse_requirements('requirements.txt'),
             'tests': parse_requirements('requirements/tests.txt'),
             'build': parse_requirements('requirements/build.txt'),
-            'optional': parse_requirements('requirements/optional.txt'),
         },
-        ext_modules=[],
-        cmdclass={'build_ext': BuildExtension},
         zip_safe=False)
 
 
@@ -247,7 +244,6 @@ def mmsegbuild():
             'optional': parse_requirements('requirements/optional.txt'),
         },
         ext_modules=[],
-        cmdclass={'build_ext': BuildExtension},
         zip_safe=False)
 
 

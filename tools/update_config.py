@@ -91,6 +91,7 @@ def merge_from_mycfg(my_cfg, cfg):
     my_cfg['test_data'] = os.path.join(data_path, dataset_name)
     cfg.data.train.data_prefix = my_cfg['train_data']
     cfg.data.val.data_prefix = my_cfg['test_data']
+    cfg.data.test.data_prefix = my_cfg['test_data']
     cfg.data.samples_per_gpu = my_cfg['runtime']['batch_size']
     # update optimizer
     cfg.optimizer.update(my_cfg['optimizer'])

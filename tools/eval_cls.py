@@ -17,8 +17,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description='mmcls test model')
     parser.add_argument(
         '--config',
-        default='/data/premodel/code/ApulisVision/configs_custom/mmcls/ \
-        dog-vs-cat/resnet50_b32x8.py',
+        default='/data/premodel/code/ApulisVision/configs_custom/mmcls\
+            /dog-vs-cat/resnet50_b32x8.py',
         help='train config file path')
     parser.add_argument('--pipeline_config', help='train config file path')
     parser.add_argument('--checkpoint', help='checkpoint file')
