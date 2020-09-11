@@ -18,11 +18,10 @@ from update_config import merge_from_mycfg, update_configs
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a model')
-    parser.add_argument('--config', help='train config file path')
     parser.add_argument(
         '--config',
-        default='/data/premodel/code/ApulisVision \
-                        /configs_custom/mmcls/dog-vs-cat/resnet50_b32x8.py',
+        default='/data/premodel/code/ApulisVision/configs_custom/mmcls/ \
+        dog-vs-cat/resnet50_b32x8.py',
         help='train config file path')
     parser.add_argument('--pipeline_config', help='train config file path')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
@@ -75,6 +74,7 @@ def main():
     cfg = Config.fromfile(args.config)
     input_cfg = mmcv.load(args.pipeline_config)
     my_cfg = update_configs(input_cfg)
+    print(my_cfg)
     cfg = merge_from_mycfg(my_cfg, cfg)
 
     if args.options is not None:
