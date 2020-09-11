@@ -72,14 +72,9 @@ def parse_args():
 
 def main():
     args = parse_args()
-    temp_dict = dict()
     cfg = Config.fromfile(args.config)
     input_cfg = mmcv.load(args.pipeline_config)
-    temp_dict['nodes'] = input_cfg
-    mmcv.dump(temp_dict, 'panel.json', file_format='json')
-
-    pipeline_cfg = Config.fromfile('panel.json')
-    my_cfg = update_configs(pipeline_cfg)
+    my_cfg = update_configs(input_cfg)
     cfg = merge_from_mycfg(my_cfg, cfg)
 
     if args.options is not None:
