@@ -74,7 +74,6 @@ def main():
     cfg = Config.fromfile(args.config)
     input_cfg = mmcv.load(args.pipeline_config)
     my_cfg = update_configs(input_cfg)
-    print(my_cfg)
     cfg = merge_from_mycfg(my_cfg, cfg)
 
     if args.options is not None:
