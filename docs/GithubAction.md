@@ -1,8 +1,9 @@
-# 基于  Github  Action 的 CI/CD 流程
+# 基于  Github Action 的 CI/CD 流程
 
+## 前言
 在大型的开源项目或者软件开发过程中， 很多开发者都会去提交`PR`或者进行代码的 `push`操作。如果对于每次代码合并都需要项目的核心维护者进行 `code review`，这项工作是及其困难而且耗时的。因此许多团队都会指定一套代码规范, 然后编写测试用例严格的检查每次代码修改， 这样能够非常有效的减少后期代码维护的成本。
 
-现在，基于 `Github Action`, 我们可以自动化而且免费的完成代码的 `CI/CD' 工作流。
+现在，基于 $Github  Action$, 我们可以自动化的完成代码的 `CI/CD' 工作流。$Github Ac­tions$是 GitHub 推出的持续集成 (Con­tin­u­ous in­te­gra­tion，简称 CI) 服务，它提供了配置非常不错的虚拟服务器环境，基于它可以进行构建、测试、打包、部署项目。简单来讲就是将软件开发中的一些流程交给云服务器自动化处理，比方说开发者把代码 push 到 GitHub 后它会自动测试、编译、发布。有了持续集成服务开发者就可以专心于写代码，其它乱七八糟的事情就不用管了，这样可以大大提高开发效率。本篇文章将介绍 GitHub Ac­tions 的基本使用方法。
 
 ## [Git hooks](https://githooks.com)
 ### 1. 什么是 Git hooks
@@ -170,4 +171,15 @@ system
 
 ## CI
 ## CD
-## Github Action
+## $Github Action$
+
+### Let’s get started
+
+#### 1. Create Actions (workflow)
+
+$$Github Action$s$ 必须在`.github/workflow` 文件夹中创建，以便Github可以访问它. 创建文件夹结构，请在代码根目录下运行以下命令.
+
+```python
+mkdir .github/
+mkdir .github/workflows/
+```
