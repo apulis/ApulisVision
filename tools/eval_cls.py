@@ -15,12 +15,12 @@ from update_config import merge_from_mycfg, update_configs
 
 def parse_args():
     parser = argparse.ArgumentParser(description='mmcls test model')
-    parser.add_argument(
-        '--config',
-        default='/data/premodel/code/ApulisVision/configs_custom/mmcls\
-            /dog-vs-cat/resnet50_b32x8.py',
-        help='train config file path')
-    parser.add_argument('--pipeline_config', help='train config file path')
+    parser.add_argument('--config',
+                        default='/data/premodel/code/ApulisVision/configs_custom/mmcls/dog-vs-cat/resnet50_b32x8.py',
+                        help='train config file path')
+    parser.add_argument('--checkpoint_path ', help='train config file path')
+    parser.add_argument('--pipeline_config', help='train config file path',
+                        default='data/premodel/code/ApulisVision/panel.json')
     parser.add_argument('--data_path', help='the dataset dir')
     parser.add_argument('--output_path', help='the dir to save models')
     parser.add_argument('--checkpoint', help='checkpoint file')

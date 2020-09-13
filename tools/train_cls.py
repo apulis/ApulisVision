@@ -23,7 +23,8 @@ def parse_args():
         default='/data/premodel/code/ApulisVision/configs_custom/mmcls/ \
         dog-vs-cat/resnet50_b32x8.py',
         help='train config file path')
-    parser.add_argument('--pipeline_config', help='train config file path')
+    parser.add_argument('--pipeline_config', help='train config file path',
+                        default='data/premodel/code/ApulisVision/panel.json')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
     parser.add_argument('--data_path', help='the dataset dir')
     parser.add_argument('--output_path', help='the dir to save models')
@@ -38,13 +39,13 @@ def parse_args():
         '--gpus',
         type=int,
         help='number of gpus to use '
-        '(only applicable to non-distributed training)')
+             '(only applicable to non-distributed training)')
     group_gpus.add_argument(
         '--gpu-ids',
         type=int,
         nargs='+',
         help='ids of gpus to use '
-        '(only applicable to non-distributed training)')
+             '(only applicable to non-distributed training)')
     parser.add_argument('--seed', type=int, default=None, help='random seed')
     parser.add_argument(
         '--deterministic',
