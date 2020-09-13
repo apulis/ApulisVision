@@ -111,7 +111,7 @@ def main():
         assert sum(nums) == len(dataset)
         for topk, accs in results.items():
             avg_acc = np.average(accs, weights=nums)
-            print(f'\n{topk} accuracy: {avg_acc:.2f}')
+            print(f'\nevaluation_results/{topk} Accuracy[{avg_acc:.2f}]')
 
     args.out = os.path.join(cfg.work_dir, 'eval_result.pkl')
     if args.out and rank == 0:
