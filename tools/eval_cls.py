@@ -21,6 +21,8 @@ def parse_args():
             /dog-vs-cat/resnet50_b32x8.py',
         help='train config file path')
     parser.add_argument('--pipeline_config', help='train config file path')
+    parser.add_argument('--data_path', help='the dataset dir')
+    parser.add_argument('--output_path', help='the dir to save models')
     parser.add_argument('--checkpoint', help='checkpoint file')
     parser.add_argument('--out', help='output result file')
     parser.add_argument(
