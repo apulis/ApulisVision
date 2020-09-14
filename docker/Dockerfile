@@ -16,8 +16,8 @@ RUN apt-get update && apt-get install -y git vim ninja-build libglib2.0-0 libsm6
 RUN pip install mmcv-full==latest+torch1.5.0+cu101 -f https://openmmlab.oss-accelerate.aliyuncs.com/mmcv/dist/index.html -i  https://pypi.tuna.tsinghua.edu.cn/simple
 # Install ApulisVision
 RUN conda clean --all
-#RUN git clone https://github.com/apulis/ApulisVision.git /ApulisVision
-RUN COPY ../ApulisVision /ApulisVision
+RUN git clone https://github.com/apulis/ApulisVision.git /ApulisVision
+# RUN COPY ../ApulisVision /ApulisVision
 WORKDIR /ApulisVision
 ENV FORCE_CUDA="1"
 RUN pip install cython
