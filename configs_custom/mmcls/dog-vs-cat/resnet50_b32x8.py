@@ -47,7 +47,7 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type='ImageNet',
-        data_prefix='data/dog-vs-cat/dogs-vs-cats/train',
+        data_prefix='data/dog-vs-cat/dog-vs-cat/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(type='RandomResizedCrop', size=224),
