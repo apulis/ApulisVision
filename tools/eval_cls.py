@@ -17,10 +17,16 @@ def parse_args():
     parser = argparse.ArgumentParser(description='mmcls test model')
     parser.add_argument(
         '--config',
-        default='/data/premodel/code/ApulisVision/configs_custom/mmcls\
-            /dog-vs-cat/resnet50_b32x8.py',
+        default='/data/premodel/code/ApulisVision/configs_custom\
+            /mmcls/dog-vs-cat/resnet50_b32x8.py',
         help='train config file path')
-    parser.add_argument('--pipeline_config', help='train config file path')
+    parser.add_argument('--checkpoint_path ', help='train config file path')
+    parser.add_argument(
+        '--pipeline_config',
+        help='train config file path',
+        default='/data/premodel/code/ApulisVision/panel.json')
+    parser.add_argument('--data_path', help='the dataset dir')
+    parser.add_argument('--output_path', help='the dir to save models')
     parser.add_argument('--checkpoint', help='checkpoint file')
     parser.add_argument('--out', help='output result file')
     parser.add_argument(
@@ -109,7 +115,7 @@ def main():
         assert sum(nums) == len(dataset)
         for topk, accs in results.items():
             avg_acc = np.average(accs, weights=nums)
-            print(f'\n{topk} accuracy: {avg_acc:.2f}')
+            print(f'\nevaluation_results/{topk} Accuracy[{avg_acc:.2f}]')
 
     args.out = os.path.join(cfg.work_dir, 'eval_result.pkl')
     if args.out and rank == 0:

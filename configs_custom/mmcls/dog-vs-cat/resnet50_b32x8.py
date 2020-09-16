@@ -101,7 +101,10 @@ optimizer_config = dict(grad_clip=None)
 lr_config = dict(policy='step', step=[30, 60, 90])
 total_epochs = 100
 checkpoint_config = dict(interval=1)
-log_config = dict(interval=100, hooks=[dict(type='TextLoggerHook')])
+log_config = dict(
+    interval=500,
+    hooks=[dict(type='TextLoggerHook'),
+           dict(type='TensorboardLoggerHook')])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 load_from = None
