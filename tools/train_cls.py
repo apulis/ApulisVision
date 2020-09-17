@@ -13,7 +13,7 @@ from mmcls.models import build_classifier
 from mmcls.utils import collect_env, get_root_logger
 from mmcv import Config, DictAction
 from mmcv.runner import init_dist
-from update_config import merge_from_mycfg, update_configs
+from update_cls_config import merge_from_mycfg, update_configs
 
 
 def parse_args():
