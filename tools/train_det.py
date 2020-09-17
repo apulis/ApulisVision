@@ -25,8 +25,10 @@ def parse_args():
     parser.add_argument(
         '--pipeline_config',
         help='train config file path',
-        default='/data/premodel/code/ApulisVision/panel.json')
-    parser.add_argument('--work-dir', help='the dir to save logs and models')
+        default='/data/premodel/code/ApulisVision/det_panel.json')
+    parser.add_argument('--work-dir', hedata_pathlp='the dir to save logs and models')
+    parser.add_argument('--data_path', help='the dataset dir')
+    parser.add_argument('--output_path', help='the dir to save models')
     parser.add_argument(
         '--resume-from', help='the checkpoint file to resume from')
     parser.add_argument(
