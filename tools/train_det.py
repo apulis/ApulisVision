@@ -10,6 +10,7 @@ import torch
 from mmcv import Config, DictAction
 from mmcv.runner import init_dist
 from mmcv.utils import get_git_hash
+from update_det_config import merge_from_mycfg, update_configs
 
 from mmdet import __version__
 from mmdet.apis import set_random_seed, train_detector
@@ -20,7 +21,11 @@ from mmdet.utils import collect_env, get_root_logger
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
-    parser.add_argument('config', help='train config file path')
+    parser.add_argument('--config', help='train config file path')
+    parser.add_argument(
+        '--pipeline_config',
+        help='train config file path',
+        default='/data/premodel/code/ApulisVision/panel.json')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
     parser.add_argument(
         '--resume-from', help='the checkpoint file to resume from')
@@ -83,6 +88,11 @@ def main():
     args = parse_args()
 
     cfg = Config.fromfile(args.config)
+    if args.pipeline_config is not None:
+        input_cfg = mmcv.load(args.pipeline_config)
+        my_cfg = update_configs(input_cfg)
+        cfg = merge_from_mycfg(my_cfg, cfg)
+
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)
     # import modules from string list.
