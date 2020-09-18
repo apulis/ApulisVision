@@ -26,4 +26,6 @@ RUN pip install tensorboard
 RUN pip install -r requirements/build.txt
 RUN pip install -r requirements/optional.txt
 RUN pip install jupyterlab
-RUN pip install --no-cache-dir -e .
+RUN python setup_mmdet.py develop
+RUN python setup_mmseg.py develop
+RUN python setup_mmcls.py develop

@@ -1,4 +1,4 @@
-norm_cfg = dict(type='SyncBN', requires_grad=True)
+norm_cfg = dict(type='BN')
 model = dict(
     type='EncoderDecoder',
     pretrained='open-mmlab://resnet50_v1c',
@@ -9,7 +9,7 @@ model = dict(
         out_indices=(0, 1, 2, 3),
         dilations=(1, 1, 2, 4),
         strides=(1, 2, 1, 1),
-        norm_cfg=dict(type='SyncBN', requires_grad=True),
+        norm_cfg=dict(type='BN'),
         norm_eval=False,
         style='pytorch',
         contract_dilation=True),
@@ -22,7 +22,7 @@ model = dict(
         concat_input=True,
         dropout_ratio=0.1,
         num_classes=19,
-        norm_cfg=dict(type='SyncBN', requires_grad=True),
+        norm_cfg=dict(type='BN'),
         align_corners=False,
         loss_decode=dict(
             type='CrossEntropyLoss', use_sigmoid=False, loss_weight=1.0)),
@@ -35,7 +35,7 @@ model = dict(
         concat_input=False,
         dropout_ratio=0.1,
         num_classes=19,
-        norm_cfg=dict(type='SyncBN', requires_grad=True),
+        norm_cfg=dict(type='BN'),
         align_corners=False,
         loss_decode=dict(
             type='CrossEntropyLoss', use_sigmoid=False, loss_weight=0.4)))
@@ -81,8 +81,8 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=2,
-    workers_per_gpu=2,
+    samples_per_gpu=1,
+    workers_per_gpu=0,
     train=dict(
         type='CityscapesDataset',
         data_root='data/cityscapes/',
@@ -159,11 +159,12 @@ load_from = None
 resume_from = None
 workflow = [('train', 1)]
 cudnn_benchmark = True
-optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0005)
+optimizer = dict(type='SGD', lr=0.001, momentum=0.9, weight_decay=0.0005)
 optimizer_config = dict()
 lr_config = dict(policy='poly', power=0.9, min_lr=0.0001, by_epoch=False)
 total_iters = 40000
 checkpoint_config = dict(by_epoch=False, interval=4000)
 evaluation = dict(interval=4000, metric='mIoU')
-work_dir = './work_dirs/fcn_r50-d8_512x1024_40k_cityscapes'
+total_epochs = 10000
+work_dir = './work_dir/FCN'
 gpu_ids = range(0, 1)

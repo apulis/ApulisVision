@@ -1,19 +1,14 @@
 import argparse
-import os
 
 import mmcv
 from mmcv import Config
 
 BACKBONES_ = dict(
     resnet='ResNet',
-    resnext='ResNeXt',
-    seresnet='SEResNet',
-    serenext='SEResNeXt')
-NECKS_ = dict(
-    globalaveragepooling='GlobalAveragePooling',
-    adaptivecatavgmaxpool2d='AdaptiveCatAvgMaxPool2d',
-    adaptiveavgmaxpool2d='AdaptiveAvgMaxPool2d')
-HEADS_ = dict(linearclshead='LinearClsHead', num_classes=1000, topk=(1, 5))
+    resnetv1c='ResNetV1c',
+    resnetv1d='ResNetV1d',
+    resnext='ResNeXt')
+HEADS_ = dict(fcnhead='FCNHead')
 OPTS_ = dict(sgd='SGD', adam='Adam')
 
 
@@ -31,12 +26,12 @@ def update_configs(input_cfg):
         # input module
         name = mdict['id'].lower()
         if name == 'input':
-            if mdict['name'].lower() == 'mnist':
-                my_cfg['dataset_type'] = 'MNIST'
-            if mdict['name'].lower() == 'cifar10':
-                my_cfg['dataset_type'] = 'CIFAR10'
-            else:
-                my_cfg['dataset_type'] = 'ImageNet'
+            if mdict['name'].lower() == 'ade20k':
+                my_cfg['dataset_type'] = 'ADE20KDataset'
+            if mdict['name'].lower() == 'cityscapes':
+                my_cfg['dataset_type'] = 'CityscapesDataset'
+            if mdict['name'].lower() == 'pascal_voc12':
+                my_cfg['dataset_type'] = 'PascalVOCDataset'
             my_cfg['data'] = {}
             my_cfg['data']['dataset_name'] = mdict['name']
             for mconfig in mdict['config']:
@@ -49,21 +44,21 @@ def update_configs(input_cfg):
                 for mconfig in mdict['config']:
                     my_cfg['backbone'][mconfig['key']] = mconfig['value']
         # neck
-        if name == 'neck':
-            if mdict['name'].lower() in NECKS_:
-                my_cfg['neck'] = {}
-                my_cfg['neck']['type'] = NECKS_[mdict['name'].lower()]
-        # head
-        if name == 'head':
+        # head 1
+        if name == 'decode_head':
             if mdict['name'].lower() in HEADS_:
-                my_cfg['head'] = {}
-                my_cfg['head']['type'] = HEADS_[mdict['name'].lower()]
+                my_cfg['decode_head'] = {}
+                my_cfg['decode_head']['type'] = HEADS_[mdict['name'].lower()]
                 for mconfig in mdict['config']:
-                    my_cfg['head'][mconfig['key']] = mconfig['value']
-                if my_cfg['head']['num_classes'] > 5:
-                    my_cfg['head']['topk'] = (1, 5)
-                else:
-                    my_cfg['head']['topk'] = (1, )
+                    my_cfg['decode_head'][mconfig['key']] = mconfig['value']
+        # head 2
+        if name == 'auxiliary_head':
+            if mdict['name'].lower() in HEADS_:
+                my_cfg['auxiliary_head'] = {}
+                my_cfg['auxiliary_head']['type'] = HEADS_[
+                    mdict['name'].lower()]
+                for mconfig in mdict['config']:
+                    my_cfg['auxiliary_head'][mconfig['key']] = mconfig['value']
         # optimizer
         if name == 'optimizer':
             if mdict['name'].lower() in OPTS_:
@@ -82,21 +77,26 @@ def update_configs(input_cfg):
 def merge_from_mycfg(my_cfg, cfg):
     # update model config
     cfg.model.backbone.update(my_cfg['backbone'])
-    cfg.model.neck.update(my_cfg['neck'])
-    cfg.model.head.update(my_cfg['head'])
+    cfg.model.decode_head.update(my_cfg['decode_head'])
+    cfg.model.auxiliary_head.update(my_cfg['auxiliary_head'])
     # update data config
     data_path = my_cfg['data']['data_path']
-    dataset_name = my_cfg['data']['dataset_name']
-    my_cfg['train_data'] = os.path.join(data_path, dataset_name)
-    my_cfg['test_data'] = os.path.join(data_path, dataset_name)
-    cfg.data.train.data_prefix = my_cfg['train_data']
-    cfg.data.val.data_prefix = my_cfg['test_data']
-    cfg.data.test.data_prefix = my_cfg['test_data']
+    cfg.data.train.data_root = data_path
+    cfg.data.train.img_dir = 'leftImg8bit/train'
+    cfg.data.train.ann_dir = 'gtFine/train'
+    # val
+    cfg.data.val.data_root = data_path
+    cfg.data.val.img_dir = 'leftImg8bit/val'
+    cfg.data.val.ann_dir = 'gtFine/val'
+    # test
+    cfg.data.test.data_root = data_path
+    cfg.data.test.img_dir = 'leftImg8bit/val'
+    cfg.data.test.ann_dir = 'gtFine/val'
     cfg.data.samples_per_gpu = my_cfg['runtime']['batch_size']
     # update optimizer
     cfg.optimizer.update(my_cfg['optimizer'])
     # update runtime
-    cfg.total_epochs = my_cfg['runtime']['total_epochs']
+    cfg.total_epochs = my_cfg['runtime']['total_iters']
     cfg.work_dir = my_cfg['runtime']['work_dir']
     return cfg
 
