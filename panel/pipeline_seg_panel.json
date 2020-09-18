@@ -6,7 +6,7 @@
       {
         "key": "data_path",
         "type": "disabled",
-        "value": "data/cityscapes/"
+        "value": "/data/dataset/storage/cityscapes/"
       }
     ],
     "idx": 0,

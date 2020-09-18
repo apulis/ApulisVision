@@ -6,7 +6,7 @@
       {
         "key": "data_path",
         "type": "disabled",
-        "value": "data/dog-vs-cat/"
+        "value": "/data/dataset/storage/dog-vs-cat/"
       }
     ],
     "idx": 0,

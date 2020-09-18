@@ -6,7 +6,7 @@
       {
         "key": "data_path",
         "type": "disabled",
-        "value": "data/coco/"
+        "value": "/data/dataset/storage/coco/"
       }
     ],
     "idx": 0,
