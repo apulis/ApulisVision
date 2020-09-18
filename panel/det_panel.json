@@ -1,0 +1,116 @@
+[
+    {},
+    {
+      "name": "Backbone",
+      "children": [
+        {
+          "ResNet": [
+            {
+              "key": "depth",
+              "type": "select",
+              "value": 50,
+              "options": [
+                50,
+                101,
+                152
+              ]
+            }
+          ]
+        },
+        {
+          "ResNeXt": [
+            {
+              "key": "depth",
+              "type": "select",
+              "value": 50,
+              "options": [
+                50,
+                101,
+                152
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Neck",
+      "children": [
+        {
+          "FPN": []
+        },
+        {
+            "PAFPN": []
+          }
+      ]
+    },
+    {
+      "name": "rpn_head",
+      "children": [
+        {
+          "RPNHead": []
+        }
+      ]
+    },
+    {
+        "name": "roi_head",
+        "children": [
+          {
+            "StandardRoIHead": [
+              {
+                "key": "num_classes",
+                "type": "number",
+                "value": 80
+              }
+            ]
+          }
+        ]
+      },
+    {
+      "name": "Optimizer",
+      "children": [
+        {
+          "SGD": [
+            {
+              "key": "learning_rate",
+              "type": "number",
+              "value": 0.01
+            }
+          ]
+        },
+        {
+          "ADAM": [
+            {
+              "key": "learning_rate",
+              "type": "number",
+              "value": 0.001
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Output",
+      "children": [
+        {
+          "runtime": [
+            {
+              "key": "work_dir",
+              "type": "string",
+              "value": "/home/admin/work_dir/faster-rcnn"
+            },
+            {
+              "key": "batch_size",
+              "type": "number",
+              "value": 2
+            },
+            {
+              "key": "total_epochs",
+              "type": "number",
+              "value": 6
+            }
+          ]
+        }
+      ]
+    }
+  ]

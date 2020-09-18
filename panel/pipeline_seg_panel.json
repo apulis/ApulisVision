@@ -1,0 +1,193 @@
+[
+  {
+    "id": "Input",
+    "name": "cityscapes",
+    "config": [
+      {
+        "key": "data_path",
+        "type": "disabled",
+        "value": "data/cityscapes/"
+      }
+    ],
+    "idx": 0,
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "move",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 0,
+    "x": 70,
+    "y": 50
+  },
+  {
+    "id": "Backbone",
+    "name": "ResNetV1c",
+    "config": [
+      {
+        "key": "depth",
+        "options": [
+          50,
+          101,
+          152
+        ],
+        "type": "select",
+        "value": 50
+      }
+    ],
+    "idx": 1,
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "move",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 0,
+    "x": 70,
+    "y": 180
+  },
+  {
+    "id": "decode_head",
+    "name": "FCNHead",
+    "config": [
+      {
+        "key": "in_channels",
+        "type": "number",
+        "value": 2048
+      },
+      {
+        "key": "channels",
+        "type": "number",
+        "value": 512
+      },
+      {
+        "key": "num_classes",
+        "type": "number",
+        "value": 19
+      }
+    ],
+    "idx": 2,
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "move",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 0,
+    "x": 70,
+    "y": 310
+  },
+  {
+    "id": "auxiliary_head",
+    "name": "FCNHead",
+    "config": [
+      {
+        "key": "in_channels",
+        "type": "number",
+        "value": 1024
+      },
+      {
+        "key": "channels",
+        "type": "number",
+        "value": 256
+      },
+      {
+        "key": "num_classes",
+        "type": "number",
+        "value": 19
+      }
+    ],
+    "idx": 2,
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "move",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 0,
+    "x": 70,
+    "y": 310
+  },
+  {
+    "id": "Optimizer",
+    "name": "SGD",
+    "config": [
+      {
+        "key": "learning_rate",
+        "type": "number",
+        "value": 0.001
+      }
+    ],
+    "idx": 4,
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "move",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 0,
+    "x": 70,
+    "y": 570
+  },
+  {
+    "id": "Output",
+    "name": "runtime",
+    "config": [
+      {
+        "key": "work_dir",
+        "type": "string",
+        "value": "./work_dir/FCN"
+      },
+      {
+        "key": "batch_size",
+        "type": "number",
+        "value": 2
+      },
+      {
+        "key": "total_iters",
+        "type": "number",
+        "value": 10000
+      }
+    ],
+    "idx": 5,
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "move",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 0,
+    "x": 70,
+    "y": 700
+  }
+]

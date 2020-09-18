@@ -1,0 +1,159 @@
+[
+    {},
+    {
+      "name": "Backbone",
+      "children": [
+        {
+          "ResNet": [
+            {
+              "key": "depth",
+              "type": "select",
+              "value": 50,
+              "options": [
+                50,
+                101,
+                152
+              ]
+            }
+          ]
+        },
+        {
+          "ResNetV1c": [
+            {
+              "key": "depth",
+              "type": "select",
+              "value": 50,
+              "options": [
+                50,
+                101,
+                152
+              ]
+            }
+          ]
+        },
+        {
+          "ResNetV1d": [
+            {
+              "key": "depth",
+              "type": "select",
+              "value": 50,
+              "options": [
+                50,
+                101,
+                152
+              ]
+            }
+          ]
+        },
+        {
+          "ResNeXt": [
+            {
+              "key": "depth",
+              "type": "select",
+              "value": 50,
+              "options": [
+                50,
+                101,
+                152
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "decode_head",
+      "children": [
+        {
+          "FCNHead": [
+            {
+              "key": "in_channels",
+              "type": "number",
+              "value": 2048
+            },
+            {
+              "key": "channels",
+              "type": "number",
+              "value": 512
+            },
+            {
+              "key": "num_classes",
+              "type": "number",
+              "value": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auxiliary_head",
+      "children": [
+        {
+          "FCNHead": [
+            {
+              "key": "in_channels",
+              "type": "number",
+              "value": 1024
+            },
+            {
+              "key": "channels",
+              "type": "number",
+              "value": 256
+            },
+            {
+              "key": "num_classes",
+              "type": "number",
+              "value": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Optimizer",
+      "children": [
+        {
+          "SGD": [
+            {
+              "key": "learning_rate",
+              "type": "number",
+              "value": 0.001
+            }
+          ]
+        },
+        {
+          "ADAM": [
+            {
+              "key": "learning_rate",
+              "type": "number",
+              "value": 0.001
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Output",
+      "children": [
+        {
+          "runtime": [
+            {
+              "key": "work_dir",
+              "type": "string",
+              "value": "/home/admin/work_dir"
+            },
+            {
+              "key": "batch_size",
+              "type": "number",
+              "value": 8
+            },
+            {
+              "key": "total_iters",
+              "type": "number",
+              "value": 160000
+            }
+          ]
+        }
+      ]
+    }
+  ]

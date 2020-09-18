@@ -1,0 +1,125 @@
+[
+    {},
+    {
+      "name": "Backbone",
+      "children": [
+        {
+          "ResNet": [
+            {
+              "key": "depth",
+              "type": "select",
+              "value": 50,
+              "options": [
+                50,
+                101,
+                152
+              ]
+            }
+          ]
+        },
+        {
+          "ResNeXt": [
+            {
+              "key": "depth",
+              "type": "select",
+              "value": 50,
+              "options": [
+                50,
+                101,
+                152
+              ]
+            }
+          ]
+        },
+        {
+          "SEResNet": [
+            {
+              "key": "depth",
+              "type": "select",
+              "value": 50,
+              "options": [
+                50,
+                101,
+                152
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Neck",
+      "children": [
+        {
+          "AdaptiveAvgMaxPool2d": []
+        },
+        {
+          "AdaptiveCatAvgMaxPool2d": []
+        },
+        {
+          "GlobalAveragePooling": []
+        }
+      ]
+    },
+    {
+      "name": "Head",
+      "children": [
+        {
+          "LinearClsHead": [
+            {
+              "key": "num_classes",
+              "type": "number",
+              "value": 100
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Optimizer",
+      "children": [
+        {
+          "SGD": [
+            {
+              "key": "learning_rate",
+              "type": "number",
+              "value": 0.001
+            }
+          ]
+        },
+        {
+          "ADAM": [
+            {
+              "key": "learning_rate",
+              "type": "number",
+              "value": 0.001
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Output",
+      "children": [
+        {
+          "runtime": [
+            {
+              "key": "work_dir",
+              "type": "string",
+              "value": "/home/admin/work_dir"
+            },
+            {
+              "key": "batch_size",
+              "type": "number",
+              "value": 8
+            },
+            {
+              "key": "total_epochs",
+              "type": "number",
+              "value": 6
+            }
+          ]
+        }
+      ]
+    }
+  ]
