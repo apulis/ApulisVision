@@ -21,12 +21,18 @@ from mmdet.utils import collect_env, get_root_logger
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
-    parser.add_argument('--config', help='train config file path')
+    parser.add_argument(
+        '--config',
+        default='/data/premodel/code/ApulisVision/configs_custom/mmdet/ \
+            fast_rcnn_r50_fpn_1x.py',
+        help='train config file path')
     parser.add_argument(
         '--pipeline_config',
         help='train config file path',
-        default='/data/premodel/code/ApulisVision/panel.json')
+        default='/data/premodel/code/ApulisVision/pipeline_det_panel.json')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
+    parser.add_argument('--data_path', help='the dataset dir')
+    parser.add_argument('--output_path', help='the dir to save models')
     parser.add_argument(
         '--resume-from', help='the checkpoint file to resume from')
     parser.add_argument(

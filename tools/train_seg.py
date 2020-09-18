@@ -18,12 +18,18 @@ from update_seg_config import merge_from_mycfg, update_configs
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a segmentor')
-    parser.add_argument('--config', help='train config file path')
+    parser.add_argument(
+        '--config',
+        default='/data/premodel/code/ApulisVision/configs_custom/mmseg/ \
+            fcn_r50-d8_512x1024_40k_cityscapes.py',
+        help='train config file path')
+    parser.add_argument('--work_dir', help='the dir to save logs and models')
     parser.add_argument(
         '--pipeline_config',
         help='train config file path',
-        default='/data/premodel/code/ApulisVision/panel.json')
-    parser.add_argument('--work_dir', help='the dir to save logs and models')
+        default='/data/premodel/code/ApulisVision/pipeline_seg_panel.json')
+    parser.add_argument('--data_path', help='the dataset dir')
+    parser.add_argument('--output_path', help='the dir to save models')
     parser.add_argument(
         '--resume-from', help='the checkpoint file to resume from')
     parser.add_argument(
