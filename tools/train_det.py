@@ -24,7 +24,7 @@ def parse_args():
     parser.add_argument(
         '--config',
         default='/data/premodel/code/ApulisVision/configs_custom/mmdet/ \
-            fast_rcnn_r50_fpn_1x.py',
+            faster_rcnn_r50_fpn_1x_coco.py',
         help='train config file path')
     parser.add_argument(
         '--pipeline_config',
