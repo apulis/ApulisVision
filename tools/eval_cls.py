@@ -10,21 +10,20 @@ from mmcls.datasets import build_dataloader, build_dataset
 from mmcls.models import build_classifier
 from mmcv.parallel import MMDataParallel, MMDistributedDataParallel
 from mmcv.runner import get_dist_info, init_dist, load_checkpoint
-from update_config import merge_from_mycfg, update_configs
+from update_cls_config import merge_from_mycfg, update_configs
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description='mmcls test model')
     parser.add_argument(
         '--config',
-        default='/data/premodel/code/ApulisVision/configs_custom\
-            /mmcls/dog-vs-cat/resnet50_b32x8.py',
+        default='/data/premodel/code/ApulisVision/configs_custom/mmcls/dog-vs-cat/resnet50_b32x8.py',
         help='train config file path')
     parser.add_argument('--checkpoint_path ', help='train config file path')
     parser.add_argument(
         '--pipeline_config',
         help='train config file path',
-        default='/data/premodel/code/ApulisVision/panel.json')
+        default='/data/premodel/code/ApulisVision/panel/pipeline_cls_panel.json')
     parser.add_argument('--data_path', help='the dataset dir')
     parser.add_argument('--output_path', help='the dir to save models')
     parser.add_argument('--checkpoint', help='checkpoint file')
