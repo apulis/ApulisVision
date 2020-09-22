@@ -8,12 +8,12 @@ from mmcv import Config, DictAction
 from mmcv.cnn import fuse_conv_bn
 from mmcv.parallel import MMDataParallel, MMDistributedDataParallel
 from mmcv.runner import get_dist_info, init_dist, load_checkpoint
+from update_det_config import merge_from_mycfg, update_configs
 
 from mmdet.apis import multi_gpu_test, single_gpu_test
 from mmdet.core import wrap_fp16_model
 from mmdet.datasets import build_dataloader, build_dataset
 from mmdet.models import build_detector
-from update_det_config import merge_from_mycfg, update_configs
 
 
 def parse_args():
@@ -21,16 +21,16 @@ def parse_args():
         description='MMDet test (and eval) a model')
     parser.add_argument(
         '--config',
-        default='/data/premodel/code/ApulisVision/configs_custom/mmdet/faster_rcnn_r50_fpn_1x_coco.py',
+        default='/data/premodel/code/ApulisVision/configs_custom/mmdet/ \
+            fast_rcnn_r50_fpn_1x.py',
         help='train config file path')
-    parser.add_argument('--checkpoint_path ', help='train config file path')
     parser.add_argument(
         '--pipeline_config',
         help='train config file path',
-        default='/data/premodel/code/ApulisVision/panel/pipeline_det_panel.json')
+        default='/data/premodel/code/ApulisVision/pipeline_det_panel.json')
+    parser.add_argument('--checkpoint', default=None, help='checkpoint file')
     parser.add_argument('--data_path', help='the dataset dir')
     parser.add_argument('--output_path', help='the dir to save models')
-    parser.add_argument('--checkpoint', help='checkpoint file')
     parser.add_argument('--out', help='output result file in pickle format')
     parser.add_argument(
         '--fuse-conv-bn',
@@ -107,30 +107,32 @@ def parse_args():
 def main():
     args = parse_args()
 
-    cfg = mmcv.Config.fromfile(args.config)
-    input_cfg = mmcv.load(args.pipeline_config)
-    my_cfg = update_configs(input_cfg)
-    cfg = merge_from_mycfg(my_cfg, cfg)
+    assert args.out or args.eval or args.format_only or args.show \
+        or args.show_dir, \
+        ('Please specify at least one operation (save/eval/format/show the '
+         'results / save the results) with the argument "--out", "--eval"'
+         ', "--format-only", "--show" or "--show-dir"')
 
-    # assert args.out or args.eval or args.format_only or args.show \
-    #     or args.show_dir, \
-    #     ('Please specify at least one operation (save/eval/format/show the '
-    #      'results / save the results) with the argument "--out", "--eval"'
-    #      ', "--format-only", "--show" or "--show-dir"')
-    #
-    # if args.eval and args.format_only:
-    #     raise ValueError('--eval and --format_only cannot be both specified')
-    #
-    # if args.out is not None and not args.out.endswith(('.pkl', '.pickle')):
-    #     raise ValueError('The output file must be a pkl file.')
+    if args.eval and args.format_only:
+        raise ValueError('--eval and --format_only cannot be both specified')
 
-    # cfg = Config.fromfile(args.config)
-    # if args.cfg_options is not None:
-    #     cfg.merge_from_dict(args.cfg_options)
+    if args.out is not None and not args.out.endswith(('.pkl', '.pickle')):
+        raise ValueError('The output file must be a pkl file.')
+
+    cfg = Config.fromfile(args.config)
+    if args.pipeline_config is not None:
+        input_cfg = mmcv.load(args.pipeline_config)
+        my_cfg = update_configs(input_cfg)
+        cfg = merge_from_mycfg(my_cfg, cfg)
+
+    args.out = os.path.join(cfg.work_dir, 'eval_result.pkl')
+
+    if args.cfg_options is not None:
+        cfg.merge_from_dict(args.cfg_options)
     # import modules from string list.
-    # if cfg.get('custom_imports', None):
-    #     from mmcv.utils import import_modules_from_strings
-    #     import_modules_from_strings(**cfg['custom_imports'])
+    if cfg.get('custom_imports', None):
+        from mmcv.utils import import_modules_from_strings
+        import_modules_from_strings(**cfg['custom_imports'])
     # set cudnn_benchmark
     if cfg.get('cudnn_benchmark', False):
         torch.backends.cudnn.benchmark = True
@@ -174,7 +176,11 @@ def main():
     fp16_cfg = cfg.get('fp16', None)
     if fp16_cfg is not None:
         wrap_fp16_model(model)
+
+    if args.checkpoint is None:
+        args.checkpoint = os.path.join(cfg.work_dir, 'latest.pth')
     checkpoint = load_checkpoint(model, args.checkpoint, map_location='cpu')
+
     if args.fuse_conv_bn:
         model = fuse_conv_bn(model)
     # old versions did not save class info in checkpoints, this walkaround is
