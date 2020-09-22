@@ -80,23 +80,25 @@ def merge_from_mycfg(my_cfg, cfg):
     cfg.model.roi_head.update(my_cfg['roi_head'])
     # update data config
     cfg.data.samples_per_gpu = my_cfg['runtime']['batch_size']
-    my_cfg['data_root'] = my_cfg['data']['data_path']
-    cfg.data.train.img_prefix = os.path.join(my_cfg['data_root'], 'train2017')
+    cfg.data_root = my_cfg['data']['data_path']
+    cfg.data.train.img_prefix = os.path.join(cfg.data_root, 'train2017')
     cfg.data.train.ann_file = os.path.join(
-        my_cfg['data_root'], 'annotations/instances_train2017.json')
+        cfg.data_root, 'annotations/instances_train2017.json')
     # val data
-    cfg.data.train.img_prefix = os.path.join(my_cfg['data_root'], 'val2017')
-    cfg.data.train.ann_file = os.path.join(
-        my_cfg['data_root'], 'annotations/instances_val2017.json')
+    cfg.data.val.img_prefix = os.path.join(cfg.data_root, 'val2017')
+    cfg.data.val.ann_file = os.path.join(
+        cfg.data_root, 'annotations/instances_val2017.json')
     # test data
-    cfg.data.train.img_prefix = os.path.join(my_cfg['data_root'], 'val2017')
-    cfg.data.train.ann_file = os.path.join(
-        my_cfg['data_root'], 'annotations/instances_val2017.json')
+    cfg.data.test.img_prefix = os.path.join(cfg.data_root, 'val2017')
+    cfg.data.test.ann_file = os.path.join(
+        cfg.data_root, 'annotations/instances_val2017.json')
     # update optimizer
     cfg.optimizer.update(my_cfg['optimizer'])
     # update runtime
     cfg.total_epochs = my_cfg['runtime']['total_epochs']
     cfg.work_dir = my_cfg['runtime']['work_dir']
+    print(cfg)
+    print("-------------------")
     return cfg
 
 

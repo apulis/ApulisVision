@@ -1,0 +1,105 @@
+[
+  {
+    "name": "rpn_head",
+    "config": [
+      {
+        "key": "type",
+        "value": "RPNHead",
+        "type": "string"
+      },
+      {
+        "key": "in_channels",
+        "value": 256,
+        "type": "string"
+      },
+      {
+        "key": "feat_channels",
+        "value": 256,
+        "type": "string"
+      }
+    ],
+    "children": [
+      {
+        "name": "anchor_generator",
+        "config": [
+          {
+            "key": "type",
+            "value": "AnchorGenerator",
+            "type": "string"
+          },
+          {
+            "key": "scales",
+            "value": [
+              8
+            ],
+            "type": "string"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "loss_bbox",
+        "config": [
+          {
+            "key": "type",
+            "value": "L1Loss",
+            "type": "string"
+          },
+          {
+            "key": "loss_weight",
+            "value": 1.0,
+            "type": "string"
+          }
+        ],
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "roi_head",
+    "config": [
+      {
+        "key": "type",
+        "value": "StandardRoIHead",
+        "type": "string"
+      }
+    ],
+    "children": [
+      {
+        "name": "bbox_roi_extractor",
+        "config": [
+          {
+            "key": "type",
+            "value": "SingleRoIExtractor",
+            "type": "string"
+          }
+        ],
+        "children": [
+          {
+            "name": "roi_layer",
+            "config": [
+              {
+                "key": "type",
+                "value": "RoIAlign",
+                "type": "string"
+              },
+              {
+                "key": "output_size",
+                "value": 7,
+                "type": "string"
+              },
+              {
+                "key": "sampling_ratio",
+                "value": 0,
+                "type": "string"
+              }
+            ],
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+]
+
+Process finished with exit code 0

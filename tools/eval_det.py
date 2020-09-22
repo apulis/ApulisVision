@@ -21,14 +21,13 @@ def parse_args():
         description='MMDet test (and eval) a model')
     parser.add_argument(
         '--config',
-        default='/data/premodel/code/ApulisVision/configs_custom/mmdet/ \
-            fast_rcnn_r50_fpn_1x.py',
+        default='/data/premodel/code/ApulisVision/configs_custom/mmdet/faster_rcnn_r50_fpn_1x_coco.py',
         help='train config file path')
     parser.add_argument(
         '--pipeline_config',
         help='train config file path',
-        default='/data/premodel/code/ApulisVision/pipeline_det_panel.json')
-    parser.add_argument('--checkpoint', default=None, help='checkpoint file')
+        default='/data/premodel/code/ApulisVision/panel/pipeline_det_panel.json')
+    parser.add_argument('--checkpoint_path', default=None, help='checkpoint_path file')
     parser.add_argument('--data_path', help='the dataset dir')
     parser.add_argument('--output_path', help='the dir to save models')
     parser.add_argument('--out', help='output result file in pickle format')
@@ -107,18 +106,6 @@ def parse_args():
 def main():
     args = parse_args()
 
-    assert args.out or args.eval or args.format_only or args.show \
-        or args.show_dir, \
-        ('Please specify at least one operation (save/eval/format/show the '
-         'results / save the results) with the argument "--out", "--eval"'
-         ', "--format-only", "--show" or "--show-dir"')
-
-    if args.eval and args.format_only:
-        raise ValueError('--eval and --format_only cannot be both specified')
-
-    if args.out is not None and not args.out.endswith(('.pkl', '.pickle')):
-        raise ValueError('The output file must be a pkl file.')
-
     cfg = Config.fromfile(args.config)
     if args.pipeline_config is not None:
         input_cfg = mmcv.load(args.pipeline_config)
@@ -171,15 +158,16 @@ def main():
         dist=distributed,
         shuffle=False)
 
-    # build the model and load checkpoint
+    # build the model and load checkpoint_path
     model = build_detector(cfg.model, train_cfg=None, test_cfg=cfg.test_cfg)
     fp16_cfg = cfg.get('fp16', None)
     if fp16_cfg is not None:
         wrap_fp16_model(model)
-
-    if args.checkpoint is None:
-        args.checkpoint = os.path.join(cfg.work_dir, 'latest.pth')
-    checkpoint = load_checkpoint(model, args.checkpoint, map_location='cpu')
+    if args.checkpoint_path is None:
+        args.checkpoint_path = os.path.join(cfg.work_dir, 'latest.pth')
+    if not args.checkpoint_path.endswith("pth"):
+        args.checkpoint_path = os.path.join(args.checkpoint_path, 'latest.pth')
+    checkpoint = load_checkpoint(model, args.checkpoint_path, map_location='cpu')
 
     if args.fuse_conv_bn:
         model = fuse_conv_bn(model)

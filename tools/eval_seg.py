@@ -17,14 +17,13 @@ def parse_args():
         description='mmseg test (and eval) a model')
     parser.add_argument(
         '--config',
-        default='/data/premodel/code/ApulisVision/configs_custom/mmseg/ \
-            fcn_r50-d8_512x1024_40k_cityscapes.py',
+        default='/data/premodel/code/ApulisVision/configs_custom/mmseg/fcn_r50-d8_512x1024_40k_cityscapes.py',
         help='train config file path')
     parser.add_argument(
         '--pipeline_config',
         help='train config file path',
-        default='/data/premodel/code/ApulisVision/pipeline_seg_panel.json')
-    parser.add_argument('--checkpoint', help='checkpoint file')
+        default='/data/premodel/code/ApulisVision/panel/pipeline_seg_panel.json')
+    parser.add_argument('--checkpoint_path', help='checkpoint_path file')
     parser.add_argument('--work_dir', help='the dir to save logs and models')
     parser.add_argument('--data_path', help='the dataset dir')
     parser.add_argument('--output_path', help='the dir to save models')
@@ -82,19 +81,6 @@ def main():
         my_cfg = update_configs(input_cfg)
         cfg = merge_from_mycfg(my_cfg, cfg)
 
-    assert args.out or args.eval or args.format_only or args.show \
-        or args.show_dir, \
-        ('Please specify at least one operation (save/eval/format/show the '
-         'results / save the results) with the argument "--out", "--eval"'
-         ', "--format-only", "--show" or "--show-dir"')
-
-    if args.eval and args.format_only:
-        raise ValueError('--eval and --format_only cannot be both specified')
-
-    if args.out is not None and not args.out.endswith(('.pkl', '.pickle')):
-        raise ValueError('The output file must be a pkl file.')
-
-    cfg = mmcv.Config.fromfile(args.config)
     if args.options is not None:
         cfg.merge_from_dict(args.options)
     # set cudnn_benchmark
@@ -128,9 +114,11 @@ def main():
 
     # build the model and load checkpoint
     model = build_segmentor(cfg.model, train_cfg=None, test_cfg=cfg.test_cfg)
-    if args.checkpoint is None:
-        args.checkpoint = os.path.join(cfg.work_dir, 'latest.pth')
-    checkpoint = load_checkpoint(model, args.checkpoint, map_location='cpu')
+    if args.checkpoint_path is None:
+        args.checkpoint_path = os.path.join(cfg.work_dir, 'latest.pth')
+    if not args.checkpoint_path.endswith("pth"):
+        args.checkpoint_path = os.path.join(args.checkpoint_path, 'latest.pth')
+    checkpoint = load_checkpoint(model, args.checkpoint_path, map_location='cpu')
 
     model.CLASSES = checkpoint['meta']['CLASSES']
     model.PALETTE = checkpoint['meta']['PALETTE']

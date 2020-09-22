@@ -96,7 +96,7 @@ def merge_from_mycfg(my_cfg, cfg):
     # update optimizer
     cfg.optimizer.update(my_cfg['optimizer'])
     # update runtime
-    cfg.total_epochs = my_cfg['runtime']['total_iters']
+    cfg.total_iters = my_cfg['runtime']['total_iters']
     cfg.work_dir = my_cfg['runtime']['work_dir']
     return cfg
 

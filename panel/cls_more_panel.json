@@ -1,0 +1,106 @@
+[
+  {},
+  {
+    "name": "Backbone",
+    "children": [
+      {
+        "name": "ResNet",
+        "config": [
+          {
+            "key": "depth",
+            "type": "select",
+            "value": 50,
+            "options": [
+              50,
+              101,
+              152
+            ]
+          }
+        ],
+        "children": [
+          {
+            "name": "MiniResNet",
+            "config": [
+              {
+                "key": "depth",
+                "type": "select",
+                "value": 152,
+                "options": [
+                  50,
+                  152
+                ]
+              }
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "ResNeXt",
+        "config": [
+          {
+            "key": "depth",
+            "type": "select",
+            "value": 50,
+            "options": [
+              50,
+              101,
+              152
+            ]
+          }
+        ],
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "Neck",
+    "children": [
+      {
+        "name": "FPN",
+        "config": [],
+        "children": []
+      },
+      {
+        "name": "PAFPN",
+        "config": [],
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "rpn_head",
+    "children": [
+      {
+        "name": "RPN_HEAD",
+        "config": [],
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "Output",
+    "children": [
+      {
+        "name": "runtime",
+        "config": [
+          {
+            "key": "work_dir",
+            "type": "string",
+            "value": "/home/admin/work_dir/faster-rcnn"
+          },
+          {
+            "key": "batch_size",
+            "type": "number",
+            "value": 2
+          },
+          {
+            "key": "total_epochs",
+            "type": "number",
+            "value": 6
+          }
+        ]
+      }
+    ]
+  }
+]
