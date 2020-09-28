@@ -39,8 +39,9 @@ test_pipeline = [
         std=[58.395, 57.12, 57.375],
         to_rgb=True),
     dict(type='ImageToTensor', keys=['img']),
-    dict(type='ToTensor', keys=['gt_label']),
-    dict(type='Collect', keys=['img', 'gt_label'])
+    # dict(type='ToTensor', keys=['gt_label']),
+    # dict(type='Collect', keys=['img', 'gt_label'])
+    dict(type='Collect', keys=['img'])
 ]
 data = dict(
     samples_per_gpu=32,
@@ -92,8 +93,9 @@ data = dict(
                 std=[58.395, 57.12, 57.375],
                 to_rgb=True),
             dict(type='ImageToTensor', keys=['img']),
-            dict(type='ToTensor', keys=['gt_label']),
-            dict(type='Collect', keys=['img', 'gt_label'])
+            # dict(type='ToTensor', keys=['gt_label']),
+            # dict(type='Collect', keys=['img', 'gt_label'])
+            dict(type='Collect', keys=['img'])
         ]))
 evaluation = dict(interval=1, metric='accuracy')
 optimizer = dict(type='SGD', lr=0.1, momentum=0.9, weight_decay=0.0001)

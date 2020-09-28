@@ -1,105 +1,146 @@
 [
   {
-    "name": "rpn_head",
-    "config": [
-      {
-        "key": "type",
-        "value": "RPNHead",
-        "type": "string"
-      },
-      {
-        "key": "in_channels",
-        "value": 256,
-        "type": "string"
-      },
-      {
-        "key": "feat_channels",
-        "value": 256,
-        "type": "string"
-      }
-    ],
     "children": [
       {
-        "name": "anchor_generator",
         "config": [
           {
-            "key": "type",
-            "value": "AnchorGenerator",
-            "type": "string"
-          },
-          {
-            "key": "scales",
-            "value": [
-              8
-            ],
-            "type": "string"
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/mnist/"
           }
         ],
-        "children": []
+        "name": "mnist"
       },
       {
-        "name": "loss_bbox",
         "config": [
           {
-            "key": "type",
-            "value": "L1Loss",
-            "type": "string"
-          },
-          {
-            "key": "loss_weight",
-            "value": 1.0,
-            "type": "string"
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/cifar10/"
           }
         ],
-        "children": []
+        "name": "cifar10"
+      },
+      {
+        "config": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/dog-vs-cat/"
+          }
+        ],
+        "name": "dog-vs-cat"
       }
-    ]
+    ],
+    "name": "Input"
   },
   {
-    "name": "roi_head",
-    "config": [
-      {
-        "key": "type",
-        "value": "StandardRoIHead",
-        "type": "string"
-      }
-    ],
     "children": [
       {
-        "name": "bbox_roi_extractor",
-        "config": [
-          {
-            "key": "type",
-            "value": "SingleRoIExtractor",
-            "type": "string"
-          }
-        ],
         "children": [
           {
-            "name": "roi_layer",
+            "children": [],
             "config": [
               {
-                "key": "type",
-                "value": "RoIAlign",
-                "type": "string"
-              },
-              {
-                "key": "output_size",
-                "value": 7,
-                "type": "string"
-              },
-              {
-                "key": "sampling_ratio",
-                "value": 0,
-                "type": "string"
+                "key": "depth",
+                "options": [
+                  50,
+                  152
+                ],
+                "type": "select",
+                "value": 152
               }
             ],
-            "children": []
+            "name": "ResNeXt"
           }
-        ]
+        ],
+        "config": [
+          {
+            "key": "depth",
+            "options": [
+              50,
+              101,
+              152
+            ],
+            "type": "select",
+            "value": 50
+          }
+        ],
+        "name": "ResNet"
+      },
+      {
+        "children": [],
+        "config": [
+          {
+            "key": "depth",
+            "options": [
+              50,
+              101,
+              152
+            ],
+            "type": "select",
+            "value": 50
+          }
+        ],
+        "name": "SEResNet"
       }
-    ]
+    ],
+    "name": "Backbone"
+  },
+  {
+    "children": [
+      {
+        "children": [],
+        "config": [],
+        "name": "AdaptiveAvgMaxPool2d"
+      },
+      {
+        "children": [],
+        "config": [],
+        "name": "AdaptiveCatAvgMaxPool2d"
+      }
+    ],
+    "name": "Neck"
+  },
+  {
+    "children": [
+      {
+        "children": [],
+        "config": [
+          {
+            "key": "num_classes",
+            "type": "number",
+            "value": 100
+          }
+        ],
+        "name": "LinearClsHead"
+      }
+    ],
+    "name": "Head"
+  },
+  {
+    "children": [
+      {
+        "config": [
+          {
+            "key": "work_dir",
+            "type": "string",
+            "value": "/home/admin/work_dir/faster-rcnn"
+          },
+          {
+            "key": "batch_size",
+            "type": "number",
+            "value": 2
+          },
+          {
+            "key": "total_epochs",
+            "type": "number",
+            "value": 6
+          }
+        ],
+        "name": "runtime"
+      }
+    ],
+    "name": "Output"
   }
-]
-
-Process finished with exit code 0
+],

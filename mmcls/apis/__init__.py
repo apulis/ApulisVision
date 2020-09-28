@@ -1,8 +1,8 @@
-from .inference import inference_model, init_model
+from .inference import inference_classfication, init_classfication
 from .test import multi_gpu_test, single_gpu_test
 from .train import set_random_seed, train_model
 
 __all__ = [
-    'set_random_seed', 'train_model', 'init_model', 'inference_model',
+    'set_random_seed', 'train_model', 'init_classfication', 'inference_classfication',
     'multi_gpu_test', 'single_gpu_test'
 ]

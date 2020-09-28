@@ -151,7 +151,7 @@ def recureConfig(config):
 
 
 if __name__ == '__main__':
-    modelName = "fuck"
+    modelName = "More_Classfication"
     fileName = "cls"
     modelUse = "Model_Classfication"
     cfg = Config._file2dict("t.py")

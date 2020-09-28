@@ -1,0 +1,334 @@
+[
+  {
+    "children": [
+      {
+        "mnist": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/mnist/"
+          }
+        ]
+      },
+      {
+        "passcal_voc": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/voc/"
+          }
+        ]
+      },
+      {
+        "cityscapes": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/cityscapes/"
+          }
+        ]
+      },
+      {
+        "ant-vs-bee": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/ant-vs-bee"
+          }
+        ]
+      },
+      {
+        "mnist": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/mnist/"
+          }
+        ]
+      },
+      {
+        "kites": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/kites/"
+          }
+        ]
+      },
+      {
+        "coco": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/coco/"
+          }
+        ]
+      },
+      {
+        "cifar10": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/cifar10/"
+          }
+        ]
+      },
+      {
+        "dog-vs-cat": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/dataset/storage/dog-vs-cat/"
+          }
+        ]
+      },
+      {
+        "ant": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/home/admin/data_platform/FE177688-7F01-4D3B-A9BD-66F7FE9F6DEB/ADFDA8C6-823A-4353-9C0B-3368211D27C8"
+          }
+        ]
+      },
+      {
+        "test_up": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/data/data_platform/AA6ADA74-8A62-4BA4-96D6-53560AAAFA95/FAB5E6D3-4E8B-469D-8832-CC522622B188"
+          }
+        ]
+      },
+      {
+        "KITES": [
+          {
+            "key": "data_path",
+            "type": "disabled",
+            "value": "/home/admin/data_platform/A930FE77-FC4B-49DF-81BE-8237C74D3C23/0DA19E5D-6E7B-4824-ADB1-5E10CBEDDCAE"
+          }
+        ]
+      }
+    ],
+    "name": "Input"
+  },
+  {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [],
+            "config": [
+              {
+                "key": "depth",
+                "options": [
+                  50,
+                  152
+                ],
+                "type": "select",
+                "value": 152
+              }
+            ],
+            "name": "ResNeXt"
+          }
+        ],
+        "config": [
+          {
+            "key": "depth",
+            "options": [
+              50,
+              101,
+              152
+            ],
+            "type": "select",
+            "value": 50
+          }
+        ],
+        "name": "ResNet"
+      },
+      {
+        "children": [
+      {
+        "name": "ReetinaFixMixPowNet",
+        "config": [
+          {
+            "key": "depth",
+            "type": "select",
+            "value": 50,
+            "options": [
+              50,
+              152
+            ]
+          }
+        ],
+        "children": []
+      },
+          {
+            "children": [
+              {
+                "children": [],
+                "config": [
+                  {
+                    "key": "depth",
+                    "options": [
+                      50,
+                      101,
+                      152
+                    ],
+                    "type": "select",
+                    "value": 50
+                  }
+                ],
+                "name": "DevResNet"
+              },
+              {
+                "name": "MaxNet",
+                "config": [
+                  {
+                    "key": "depth",
+                    "type": "select",
+                    "value": 50,
+                    "options": [
+                      50,
+                      152
+                    ]
+                  }
+                ],
+                "children": []
+              },
+              {
+                "name": "MiNet",
+                "config": [
+                  {
+                    "key": "depth",
+                    "type": "select",
+                    "value": 50,
+                    "options": [
+                      50,
+                      152
+                    ]
+                  }
+                ],
+                "children": []
+              }
+            ],
+            "config": [
+              {
+                "key": "depth",
+                "options": [
+                  50,
+                  101,
+                  152
+                ],
+                "type": "select",
+                "value": 101
+              }
+            ],
+            "name": "MiniResNet"
+          },
+          {
+            "name": "MainNet",
+            "config": [
+              {
+                "key": "depth",
+                "type": "select",
+                "value": 50,
+                "options": [
+                  50,
+                  152
+                ]
+              }
+            ],
+            "children": [
+              {
+                "name": "MineNet",
+                "config": [
+                  {
+                    "key": "depth",
+                    "type": "select",
+                    "value": 50,
+                    "options": [
+                      50,
+                      152
+                    ]
+                  }
+                ],
+                "children": []
+              }
+            ]
+          }
+        ],
+        "config": [
+          {
+            "key": "depth",
+            "options": [
+              50,
+              101,
+              152
+            ],
+            "type": "select",
+            "value": 50
+          }
+        ],
+        "name": "SEResNet"
+      }
+    ],
+    "name": "Backbone"
+  },
+  {
+    "children": [
+      {
+        "children": [],
+        "config": [],
+        "name": "AdaptiveAvgMaxPool2d"
+      },
+      {
+        "children": [],
+        "config": [],
+        "name": "AdaptiveCatAvgMaxPool2d"
+      }
+    ],
+    "name": "Neck"
+  },
+  {
+    "children": [
+      {
+        "children": [],
+        "config": [
+          {
+            "key": "num_classes",
+            "type": "number",
+            "value": 100
+          }
+        ],
+        "name": "LinearClsHead"
+      }
+    ],
+    "name": "Head"
+  },
+  {
+    "children": [
+      {
+        "config": [
+          {
+            "key": "work_dir",
+            "type": "string",
+            "value": "/home/admin/work_dir/faster-rcnn"
+          },
+          {
+            "key": "batch_size",
+            "type": "number",
+            "value": 2
+          },
+          {
+            "key": "total_epochs",
+            "type": "number",
+            "value": 6
+          }
+        ],
+        "name": "runtime"
+      }
+    ],
+    "name": "Output"
+  }
+]
