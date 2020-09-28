@@ -17,6 +17,7 @@ from mmdet.apis import set_random_seed, train_detector
 from mmdet.datasets import build_dataset
 from mmdet.models import build_detector
 from mmdet.utils import collect_env, get_root_logger
+from model2pickle import dump_infer_model
 
 
 def parse_args():
@@ -132,8 +133,6 @@ def main():
 
     # create work_dir
     mmcv.mkdir_or_exist(osp.abspath(cfg.work_dir))
-    # dump config
-    cfg.dump(osp.join(cfg.work_dir, osp.basename(args.config)))
     # init the logger before other steps
     timestamp = time.strftime('%Y%m%d_%H%M%S', time.localtime())
     log_file = osp.join(cfg.work_dir, f'{timestamp}.log')
@@ -178,14 +177,22 @@ def main():
             CLASSES=datasets[0].CLASSES)
     # add an attribute for visualization convenience
     model.CLASSES = datasets[0].CLASSES
-    train_detector(
-        model,
-        datasets,
-        cfg,
-        distributed=distributed,
-        validate=(not args.no_validate),
-        timestamp=timestamp,
-        meta=meta)
+    # train_detector(
+    #     model,
+    #     datasets,
+    #     cfg,
+    #     distributed=distributed,
+    #     validate=(not args.no_validate),
+    #     timestamp=timestamp,
+    #     meta=meta)
+
+    # dump config
+    config_file = osp.join(cfg.work_dir, osp.basename(args.config))
+    cfg.dump(config_file)
+    checkpoint_file = osp.join(cfg.work_dir, "latest.pth")
+    output_file=osp.join(cfg.work_dir, "export_model.pkl")
+    # 转换为pkl推理模型
+    dump_infer_model(checkpoint_file,config_file,output_file, target='cls', device='cuda:0')
 
 
 if __name__ == '__main__':
