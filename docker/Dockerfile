@@ -21,14 +21,14 @@ RUN pip install cython -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install scipy -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install scikit-image -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install tensorboard -i  https://pypi.tuna.tsinghua.edu.cn/simple
-RUN pip install -r requirements/build.txt -i  https://pypi.tuna.tsinghua.edu.cn/simple
-RUN pip install -r requirements/optional.txt -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install jupyterlab -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install mmcv-full==1.1.1 -i  https://pypi.tuna.tsinghua.edu.cn/simple
 
 # 安装dev分支
 RUN git clone -b dev https://github.com/apulis/ApulisVision.git /ApulisVision
 WORKDIR /ApulisVision
+RUN pip install -r requirements/build.txt -i  https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip install -r requirements/optional.txt -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN python setup_mmdet.py develop
 RUN python setup_mmseg.py develop
 RUN python setup_mmcls.py develop
