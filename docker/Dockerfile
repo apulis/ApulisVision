@@ -16,8 +16,6 @@ RUN apt-get update && apt-get install -y git ninja-build libglib2.0-0 libsm6 lib
 RUN pip install mmcv-full==latest+torch1.5.0+cu101 -f https://openmmlab.oss-accelerate.aliyuncs.com/mmcv/dist/index.html -i  https://pypi.tuna.tsinghua.edu.cn/simple
 # Install ApulisVision
 RUN conda clean --all
-RUN git clone https://github.com/apulis/ApulisVision.git /ApulisVision
-WORKDIR /ApulisVision
 ENV FORCE_CUDA="1"
 RUN pip install cython -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install scipy -i  https://pypi.tuna.tsinghua.edu.cn/simple
@@ -28,6 +26,9 @@ RUN pip install -r requirements/optional.txt -i  https://pypi.tuna.tsinghua.edu.
 RUN pip install jupyterlab -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install mmcv-full==1.1.1 -i  https://pypi.tuna.tsinghua.edu.cn/simple
 
+# 安装dev分支
+RUN git clone -b dev https://github.com/apulis/ApulisVision.git /ApulisVision
+WORKDIR /ApulisVision
 RUN python setup_mmdet.py develop
 RUN python setup_mmseg.py develop
 RUN python setup_mmcls.py develop
