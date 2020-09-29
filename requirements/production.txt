@@ -1,0 +1,7 @@
+cython
+scipy
+scikit-image
+tensorboard
+jupyterlab
+mmcv==1.1.1
+cloudpickle
