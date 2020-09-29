@@ -148,7 +148,7 @@ data = dict(
     train=dict(
         type='CocoDataset',
         ann_file='/data/coco2017/annotations/instances_train2017.json',
-        img_prefix='/data/coco2017/images/train2017/',
+        img_prefix='/data/coco2017/train2017/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(type='LoadAnnotations', with_bbox=True),
@@ -166,7 +166,7 @@ data = dict(
     val=dict(
         type='CocoDataset',
         ann_file='/data/coco2017/annotations/instances_val2017.json',
-        img_prefix='/data/coco2017/images/val2017/',
+        img_prefix='/data/coco2017/val2017/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
@@ -189,7 +189,7 @@ data = dict(
     test=dict(
         type='CocoDataset',
         ann_file='/data/coco2017/annotations/instances_val2017.json',
-        img_prefix='/data/coco2017/images/val2017/',
+        img_prefix='/data/coco2017/val2017/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(

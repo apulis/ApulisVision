@@ -36,52 +36,28 @@ def save_image(data):
     return imgname
 
 
-def dump_infer_model(checkpoint_file,config_file,output_file, target='det', device='cuda:0'):
+def dump_infer_model(checkpoint_file, config_file, output_file, target='det', device='cuda:0'):
     print("------------------------------")
     print("START EXPORT MODEL")
     print("------------------------------")
     if target == 'det':
         model = init_detector(config=config_file, checkpoint=checkpoint_file, device=device)
+        infer_model = InferenceModel(model, inference_detector)
     elif target == 'cls':
         model = init_classfication(config=config_file, checkpoint=checkpoint_file, device=device)
+        infer_model = InferenceModel(model, inference_classfication)
     elif target == 'seg':
         model = init_segmentor(config=config_file, checkpoint=checkpoint_file, device=device)
-    infer_model = InferenceModel(model, inference_detector)
+        infer_model = InferenceModel(model, inference_segmentor)
     pickle_dump(infer_model, output_file)
+    model_infer(output_file)
+    print("------------------------------")
+    print("SUCCESS EXPORT MODEL")
+    print("------------------------------")
 
 
-def det_infer():
-    config_file = '/home/kaiyuan.xu/ApulisVision/configs_custom/mmdet/faster_rcnn_r50_fpn_1x_coco.py'
-    checkpoint_file = '/home/kaiyuan.xu/ApulisVision/work_dir/epoch_1.pth'
+def model_infer(output_file):
     img = '../demo/demo.jpg'
-    model = init_detector(config=config_file, checkpoint=checkpoint_file, device='cuda:0')
-    infer_model = InferenceModel(model, inference_detector)
-    pickle_dump(infer_model, osp.join(osp.dirname(osp.abspath(__file__)), "model.pkl"))
-    infer_model = pickle_load(osp.join(osp.dirname(osp.abspath(__file__)), "model.pkl"))
+    infer_model = pickle_load(output_file)
     result = infer_model.predict(infer_model.model, img)
-    print(result[0][0])
-
-
-def seg_infer():
-    config_file = '/home/kaiyuan.xu/ApulisVision/configs_custom/mmdet/faster_rcnn_r50_fpn_1x_coco.py'
-    checkpoint_file = '/home/kaiyuan.xu/ApulisVision/work_dir/epoch_1.pth'
-    img = '../demo/demo.jpg'
-    model = init_segmentor(config=config_file, checkpoint=checkpoint_file, device='cuda:0')
-    infer_model = InferenceModel(model, inference_segmentor)
-    pickle_dump(infer_model, osp.join(osp.dirname(osp.abspath(__file__)), "model.pkl"))
-    infer_model = pickle_load(osp.join(osp.dirname(osp.abspath(__file__)), "model.pkl"))
-    result = infer_model.predict(infer_model.model, img)
-    print(result[0][0])
-
-
-def cls_infer():
-    config_file = '/home/kaiyuan.xu/ApulisVision/configs_custom/mmdet/faster_rcnn_r50_fpn_1x_coco.py'
-    checkpoint_file = '/home/kaiyuan.xu/ApulisVision/work_dir/epoch_1.pth'
-    img = '../demo/demo.jpg'
-    model = init_classfication(config=config_file, checkpoint=checkpoint_file, device='cuda:0')
-    infer_model = InferenceModel(model, inference_classfication())
-    pickle_dump(infer_model, osp.join(osp.dirname(osp.abspath(__file__)), "model.pkl"))
-    infer_model = pickle_load(osp.join(osp.dirname(osp.abspath(__file__)), "model.pkl"))
-    result = infer_model.predict(infer_model.model, img)
-    print(result[0][0])
-
+    print(result)

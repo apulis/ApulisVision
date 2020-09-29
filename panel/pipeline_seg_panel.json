@@ -166,7 +166,7 @@
       {
         "key": "batch_size",
         "type": "number",
-        "value": 6
+        "value": 1
       },
       {
         "key": "total_iters",

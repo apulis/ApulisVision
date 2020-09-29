@@ -107,6 +107,9 @@ def main():
 
     # create work_dir
     mmcv.mkdir_or_exist(osp.abspath(cfg.work_dir))
+    # dump config
+    config_file = osp.join(cfg.work_dir, osp.basename(args.config))
+    cfg.dump(config_file)
 
     # init the logger before other steps
     timestamp = time.strftime('%Y%m%d_%H%M%S', time.localtime())
@@ -157,22 +160,19 @@ def main():
             PALETTE=datasets[0].PALETTE)
     # add an attribute for visualization convenience
     model.CLASSES = datasets[0].CLASSES
-    # train_segmentor(
-    #     model,
-    #     datasets,
-    #     cfg,
-    #     distributed=distributed,
-    #     validate=(not args.no_validate),
-    #     timestamp=timestamp,
-    #     meta=meta)
+    train_segmentor(
+        model,
+        datasets,
+        cfg,
+        distributed=distributed,
+        validate=(not args.no_validate),
+        timestamp=timestamp,
+        meta=meta)
 
-    # dump config
-    config_file = osp.join(cfg.work_dir, osp.basename(args.config))
-    cfg.dump(config_file)
-    checkpoint_file = osp.join(cfg.work_dir, "latest.pth")
-    output_file=osp.join(cfg.work_dir, "export_model.pkl")
     # 转换为pkl推理模型
-    dump_infer_model(checkpoint_file,config_file,output_file, target='cls', device='cuda:0')
+    checkpoint_file = osp.join(cfg.work_dir, "latest.pth")
+    output_file = osp.join(cfg.work_dir, "export_model.pkl")
+    dump_infer_model(checkpoint_file, config_file, output_file, target='seg', device='cuda:0')
 
 
 if __name__ == '__main__':
