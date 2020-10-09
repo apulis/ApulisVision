@@ -2,9 +2,11 @@
   {},
   {
     "name": "Backbone",
+    "rname": "Backbone",
     "children": [
       {
         "name": "ResNet",
+        "rname": "ResNet",
         "config": [
           {
             "key": "depth",
@@ -139,7 +141,8 @@
     "name": "Neck",
     "children": [
       {
-        "name": "AdaptiveAvgMaxPool2d"
+        "name": "AdaptiveAvgMaxPool2d",
+        "rname": "AdaptiveAvgMaxPool2d"
       },
       {
         "name": "GlobalAveragePooling",
@@ -153,6 +156,7 @@
     "children": [
       {
         "name": "LinearClsHead",
+        "rname": "LinearClsHead",
         "config": [
           {
             "key": "num_classes",
@@ -168,6 +172,7 @@
         "children": [
           {
             "name": "loss",
+            "rname": "loss",
             "config": [
               {
                 "key": "type",
@@ -180,7 +185,23 @@
                 "type": "string"
               }
             ],
-            "children": []
+            "children": [{
+              "name": "temp_loss",
+              "rname": "temp_loss",
+              "config": [
+                {
+                  "key": "type",
+                  "value": "CrossEntropytemp_loss",
+                  "type": "disabled"
+                },
+                {
+                  "key": "temp_loss_weight",
+                  "value": 1.0,
+                  "type": "string"
+                }
+              ],
+              "children": []
+            }]
           }
         ]
       }
@@ -188,9 +209,12 @@
   },
   {
     "name": "Optimizer",
+    "rname": "Optimizer",
+
     "children": [
       {
         "name": "SGD",
+        "rname": "SGD",
         "config": [
           {
             "key": "learning_rate",

@@ -5,7 +5,7 @@ ARG CUDNN="7"
 FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-devel
 
 ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
-ENV TORCH_NVCC_FLAGS="-Xfatbin -compress-all"
+ENV TORCH_NVCC_FLAGS="-Xfatbin -compressgithub.com/open-mmlab/cocoap-all"
 ENV CMAKE_PREFIX_PATH="$(dirname $(which conda))/../"
 RUN sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list
 RUN apt-get update && apt-get install -y git ninja-build libglib2.0-0 libsm6 libxrender-dev libxext6 libgl1-mesa-glx sudo vim  \
@@ -23,6 +23,7 @@ WORKDIR /ApulisVision
 RUN pip install -r requirements/production.txt -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install -r requirements/build.txt -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install -r requirements/optional.txt -i  https://pypi.tuna.tsinghua.edu.cn/simple
+RUN pip install "git+https://github.com/open-mmlab/cocoapi.git#subdirectory=pycocotools"
 RUN python setup_mmdet.py develop
 RUN python setup_mmseg.py develop
 RUN python setup_mmcls.py develop

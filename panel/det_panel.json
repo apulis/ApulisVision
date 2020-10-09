@@ -1,119 +1,588 @@
 [
-    {},
-    {
-      "name": "Backbone",
-      "children": [
-        {
-          "ResNet": [
-            {
-              "key": "depth",
-              "type": "select",
-              "value": 50,
-              "options": [
-                50,
-                101,
-                152
-              ]
-            }
-          ]
-        },
-        {
-          "ResNeXt": [
-            {
-              "key": "depth",
-              "type": "select",
-              "value": 50,
-              "options": [
-                50,
-                101,
-                152
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Neck",
-      "children": [
-        {
-          "FPN": []
-        },
-        {
-            "PAFPN": []
-          }
-      ]
-    },
-    {
-      "name": "rpn_head",
-      "children": [
-        {
-          "RPNHead": []
-        },{
-          "name": "resNET",
+  {},
 
-        }
-      ]
-    },
-    {
-        "name": "roi_head",
+  {
+    "name": "Backbone",
+    "rname": "Backbone",
+    "children": [
+      {
+        "name": "ResNet",
+        "rname": "ResNet",
+        "config": [
+          {
+            "key": "depth",
+            "type": "select",
+            "value": 50,
+            "options": [
+              50,
+              101,
+              152
+            ]
+          },
+          {
+            "key": "num_stages",
+            "value": 4,
+            "type": "number"
+          },
+          {
+            "key": "out_indices",
+            "value": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "string"
+          },
+          {
+            "key": "frozen_stages",
+            "value": 1,
+            "type": "number"
+          },
+          {
+            "key": "norm_eval",
+            "value": true,
+            "type": "string"
+          },
+          {
+            "key": "style",
+            "value": "pytorch",
+            "type": "string"
+          }
+        ],
         "children": [
           {
-            "StandardRoIHead": [
+            "name": "norm_cfg",
+            "rname": "norm_cfg",
+            "config": [
+              {
+                "key": "type",
+                "value": "BN",
+                "type": "string"
+              },
+              {
+                "key": "requires_grad",
+                "value": true,
+                "type": "string"
+              }
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "name": "ResNext",
+        "config": [
+          {
+            "key": "depth",
+            "type": "select",
+            "value": 50,
+            "options": [
+              50,
+              101,
+              152
+            ]
+          },
+          {
+            "key": "num_stages",
+            "value": 4,
+            "type": "number"
+          },
+          {
+            "key": "out_indices",
+            "value": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "type": "string"
+          },
+          {
+            "key": "frozen_stages",
+            "value": 1,
+            "type": "number"
+          },
+          {
+            "key": "norm_eval",
+            "value": true,
+            "type": "string"
+          },
+          {
+            "key": "style",
+            "value": "pytorch",
+            "type": "string"
+          }
+        ],
+        "children": [
+          {
+            "name": "norm_cfg",
+            "config": [
+              {
+                "key": "type",
+                "value": "BN",
+                "type": "string"
+              },
+              {
+                "key": "requires_grad",
+                "value": true,
+                "type": "string"
+              }
+            ],
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Neck",
+    "rname": "Neck",
+
+    "children": [
+      {
+        "name": "FPN",
+        "rname": "FPN",
+        "config": [
+          {
+            "key": "type",
+            "value": "FPN",
+            "type": "string"
+          },
+          {
+            "key": "in_channels",
+            "value": [
+              256,
+              512,
+              1024,
+              2048
+            ],
+            "type": "string"
+          },
+          {
+            "key": "out_channels",
+            "value": 256,
+            "type": "number"
+          },
+          {
+            "key": "num_outs",
+            "value": 5,
+            "type": "number"
+          }
+        ],
+        "children": []
+      },
+      {
+        "name": "PAFPN",
+        "config": [
+          {
+            "key": "type",
+            "value": "FPN",
+            "type": "string"
+          },
+          {
+            "key": "in_channels",
+            "value": [
+              256,
+              512,
+              1024,
+              2048
+            ],
+            "type": "string"
+          },
+          {
+            "key": "out_channels",
+            "value": 256,
+            "type": "number"
+          },
+          {
+            "key": "num_outs",
+            "value": 5,
+            "type": "number"
+          }
+        ],
+        "children": []
+      }
+    ]
+  },
+  {
+    "name": "rpn_head",
+    "rname": "rpn_head",
+    "children": [
+      {
+        "name": "RPNHead",
+        "rname": "RPNHead",
+        "config": [
+          {
+            "key": "in_channels",
+            "value": 256,
+            "type": "number"
+          },
+          {
+            "key": "feat_channels",
+            "value": 256,
+            "type": "number"
+          }
+        ],
+        "children": [
+          {
+            "name": "anchor_generator",
+            "rname": "anchor_generator",
+            "config": [
+              {
+                "key": "type",
+                "value": "AnchorGenerator",
+                "type": "string"
+              },
+              {
+                "key": "scales",
+                "value": [
+                  8
+                ],
+                "type": "string"
+              },
+              {
+                "key": "ratios",
+                "value": [
+                  0.5,
+                  1.0,
+                  2.0
+                ],
+                "type": "string"
+              },
+              {
+                "key": "strides",
+                "value": [
+                  4,
+                  8,
+                  16,
+                  32,
+                  64
+                ],
+                "type": "string"
+              }
+            ],
+            "children": [ {
+              "name": "anchor_generator1",
+              "rname": "anchor_generator1",
+              "config": [
+
+                {
+                  "key": "scales",
+                  "value": [
+                    8
+                  ],
+                  "type": "string"
+                }
+
+              ],
+              "children": []
+            }
+            ]
+          },
+          {
+            "name": "rpn_bbox_coder",
+            "rname": "bbox_coder",
+            "config": [
+              {
+                "key": "type",
+                "value": "DeltaXYWHBBoxCoder",
+                "type": "string"
+              },
+              {
+                "key": "target_means",
+                "value": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "type": "string"
+              },
+              {
+                "key": "target_stds",
+                "value": [
+                  1.0,
+                  1.0,
+                  1.0,
+                  1.0
+                ],
+                "type": "string"
+              }
+              ‘；
+            ],
+            "children": []
+          },
+          {
+            "name": "rpn_loss_cls",
+            "rname": "loss_cls",
+            "config": [
+              {
+                "key": "type",
+                "value": "CrossEntropyLoss",
+                "type": "string"
+              },
+              {
+                "key": "use_sigmoid",
+                "value": true,
+                "type": "string"
+              },
+              {
+                "key": "loss_weight",
+                "value": 1.0,
+                "type": "number"
+              }
+            ],
+            "children": []
+          },
+          {
+            "name": "rpn_loss_bbox",
+            "rname": "loss_bbox",
+            "config": [
+              {
+                "key": "type",
+                "value": "L1Loss",
+                "type": "string"
+              },
+              {
+                "key": "loss_weight",
+                "value": 1.0,
+                "type": "number"
+              }
+            ],
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "roi_head",
+    "rname": "roi_head",
+    "children": [
+      {
+        "name": "StandardRoIHead",
+        "rname": "StandardRoIHead",
+        "config": [
+        ],
+        "children": [
+          {
+            "name": "bbox_roi_extractor",
+            "rname": "bbox_roi_extractor",
+            "config": [
+              {
+                "key": "type",
+                "value": "SingleRoIExtractor",
+                "type": "string"
+              },
+              {
+                "key": "out_channels",
+                "value": 256,
+                "type": "number"
+              },
+              {
+                "key": "featmap_strides",
+                "value": [
+                  4,
+                  8,
+                  16,
+                  32
+                ],
+                "type": "string"
+              }
+            ],
+            "children": [
+              {
+                "name": "roi_layer",
+                "rname": "roi_layer",
+                "config": [
+                  {
+                    "key": "type",
+                    "value": "RoIAlign",
+                    "type": "string"
+                  },
+                  {
+                    "key": "output_size",
+                    "value": 7,
+                    "type": "string"
+                  },
+                  {
+                    "key": "sampling_ratio",
+                    "value": 0,
+                    "type": "string"
+                  }
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "name": "bbox_head",
+            "rname": "bbox_head",
+
+            "config": [
+              {
+                "key": "type",
+                "value": "Shared2FCBBoxHead",
+                "type": "string"
+              },
+              {
+                "key": "in_channels",
+                "value": 256,
+                "type": "number"
+              },
+              {
+                "key": "fc_out_channels",
+                "value": 1024,
+                "type": "number"
+              },
+              {
+                "key": "roi_feat_size",
+                "value": 7,
+                "type": "number"
+              },
               {
                 "key": "num_classes",
-                "type": "number",
-                "value": 80
+                "value": 80,
+                "type": "number"
+              },
+              {
+                "key": "reg_class_agnostic",
+                "value": false,
+                "type": "string"
+              }
+            ],
+            "children": [
+              {
+                "name": "rcn_bbox_coder",
+                "rname": "bbox_coder",
+                "config": [
+                  {
+                    "key": "type",
+                    "value": "DeltaXYWHBBoxCoder",
+                    "type": "string"
+                  },
+                  {
+                    "key": "target_means",
+                    "value": [
+                      0.0,
+                      0.0,
+                      0.0,
+                      0.0
+                    ],
+                    "type": "string"
+                  },
+                  {
+                    "key": "target_stds",
+                    "value": [
+                      0.1,
+                      0.1,
+                      0.2,
+                      0.2
+                    ],
+                    "type": "string"
+                  }
+                ],
+                "children": []
+              },
+              {
+                "name": "rcn_loss_cls",
+                "rname": "loss_cls",
+                "config": [
+                  {
+                    "key": "type",
+                    "value": "CrossEntropyLoss",
+                    "type": "string"
+                  },
+                  {
+                    "key": "use_sigmoid",
+                    "value": false,
+                    "type": "string"
+                  },
+                  {
+                    "key": "loss_weight",
+                    "value": 1.0,
+                    "type": "string"
+                  }
+                ],
+                "children": []
+              },
+              {
+                "name": "rcn_loss_bbox",
+                "rname": "loss_bbox",
+                "config": [
+                  {
+                    "key": "type",
+                    "value": "L1Loss",
+                    "type": "string"
+                  },
+                  {
+                    "key": "loss_weight",
+                    "value": 1.0,
+                    "type": "string"
+                  }
+                ],
+                "children": []
               }
             ]
           }
         ]
+
+      }
+    ]
+  },
+  {
+    "name": "Optimizer",
+    "rname": "Optimizer",
+    "children": [
+      {
+        "name": "SGD",
+        "rname": "SGD",
+        "config": [
+          {
+            "key": "learning_rate",
+            "type": "number",
+            "value": 0.01
+          }
+        ]
       },
-    {
-      "name": "Optimizer",
-      "children": [
-        {
-          "SGD": [
-            {
-              "key": "learning_rate",
-              "type": "number",
-              "value": 0.01
-            }
-          ]
-        },
-        {
-          "ADAM": [
-            {
-              "key": "learning_rate",
-              "type": "number",
-              "value": 0.001
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "Output",
-      "children": [
-        {
-          "runtime": [
-            {
-              "key": "work_dir",
-              "type": "string",
-              "value": "/home/admin/work_dir/faster-rcnn"
-            },
-            {
-              "key": "batch_size",
-              "type": "number",
-              "value": 2
-            },
-            {
-              "key": "total_epochs",
-              "type": "number",
-              "value": 6
-            }
-          ]
-        }
-      ]
-    }
-  ]
+      {
+        "name": "ADAM",
+        "rname": "ADAM",
+        "config": [
+          {
+            "key": "learning_rate",
+            "type": "number",
+            "value": 0.001
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Output",
+    "children": [
+      {
+        "name": "Runtime",
+        "rname": "Runtime",
+        "config": [
+          {
+            "key": "work_dir",
+            "type": "string",
+            "value": "/home/admin/work_dir/faster-rcnn"
+          },
+          {
+            "key": "batch_size",
+            "type": "number",
+            "value": 2
+          },
+          {
+            "key": "total_epochs",
+            "type": "number",
+            "value": 6
+          }
+        ]
+      }
+    ]
+  }
+]

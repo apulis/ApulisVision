@@ -1,15 +1,25 @@
 [
   {
-    "id": "Input",
-    "name": "coco",
+    "id": "mnist",
+    "name": "mnist",
     "config": [
       {
         "key": "data_path",
         "type": "disabled",
-        "value": "/data/coco2017/"
+        "value": "/data/dataset/storage/mnist/"
       }
     ],
-    "idx": 0,
+    "treeIdx": 0,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
     "type": "flowChart",
     "style": {
       "selected": {
@@ -17,30 +27,40 @@
         "fill": "#5394ef"
       },
       "hover": {
-        "cursor": "move",
+        "cursor": "pointer",
         "fill": "lightsteelblue"
       }
     },
-    "depth": 0,
-    "x": 70,
-    "y": 50
+    "x": 0,
+    "y": 0
   },
   {
-    "id": "Backbone",
-    "name": "ResNet",
+    "id": "norm_cfg",
     "config": [
       {
-        "key": "depth",
-        "options": [
-          50,
-          101,
-          152
-        ],
-        "type": "select",
-        "value": 50
+        "key": "type",
+        "type": "string",
+        "value": "BN"
+      },
+      {
+        "key": "requires_grad",
+        "type": "string",
+        "value": true
       }
     ],
-    "idx": 1,
+    "name": "norm_cfg",
+    "comboId": "ResNet",
+    "treeIdx": 1,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
     "type": "flowChart",
     "style": {
       "selected": {
@@ -48,65 +68,55 @@
         "fill": "#5394ef"
       },
       "hover": {
-        "cursor": "move",
+        "cursor": "pointer",
         "fill": "lightsteelblue"
       }
     },
-    "depth": 0,
-    "x": 70,
-    "y": 180
+    "depth": 1,
+    "x": 0,
+    "y": 220
   },
   {
-    "id": "Neck",
+    "id": "FPN",
     "name": "FPN",
-    "config": [],
-    "idx": 2,
-    "type": "flowChart",
-    "style": {
-      "selected": {
-        "stroke": "#d9d9d9",
-        "fill": "#5394ef"
-      },
-      "hover": {
-        "cursor": "move",
-        "fill": "lightsteelblue"
-      }
-    },
-    "depth": 0,
-    "x": 70,
-    "y": 310
-  },
-  {
-    "id": "rpn_head",
-    "name": "RPNHead",
-    "config": [],
-    "idx": 3,
-    "type": "flowChart",
-    "style": {
-      "selected": {
-        "stroke": "#d9d9d9",
-        "fill": "#5394ef"
-      },
-      "hover": {
-        "cursor": "move",
-        "fill": "lightsteelblue"
-      }
-    },
-    "depth": 0,
-    "x": 70,
-    "y": 440
-  },
-  {
-    "id": "roi_head",
-    "name": "StandardRoIHead",
     "config": [
       {
-        "key": "num_classes",
+        "key": "type",
+        "type": "string",
+        "value": "FPN"
+      },
+      {
+        "key": "in_channels",
+        "type": "string",
+        "value": [
+          256,
+          512,
+          1024,
+          2048
+        ]
+      },
+      {
+        "key": "out_channels",
         "type": "number",
-        "value": 80
+        "value": 256
+      },
+      {
+        "key": "num_outs",
+        "type": "number",
+        "value": 5
       }
     ],
-    "idx": 3,
+    "treeIdx": 2,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
     "type": "flowChart",
     "style": {
       "selected": {
@@ -114,25 +124,412 @@
         "fill": "#5394ef"
       },
       "hover": {
-        "cursor": "move",
+        "cursor": "pointer",
         "fill": "lightsteelblue"
       }
     },
-    "depth": 0,
-    "x": 70,
+    "x": 0,
     "y": 440
   },
   {
-    "id": "Optimizer",
+    "id": "anchor_generator1",
+    "config": [
+      {
+        "key": "scales",
+        "type": "string",
+        "value": [
+          8
+        ]
+      }
+    ],
+    "name": "anchor_generator1",
+    "comboId": "anchor_generator",
+    "treeIdx": 3,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "pointer",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 3,
+    "x": 0,
+    "y": 660
+  },
+  {
+    "id": "rpn_bbox_coder",
+    "config": [
+      {
+        "key": "type",
+        "type": "string",
+        "value": "DeltaXYWHBBoxCoder"
+      },
+      {
+        "key": "target_means",
+        "type": "string",
+        "value": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "key": "target_stds",
+        "type": "string",
+        "value": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    ],
+    "name": "rpn_bbox_coder",
+    "comboId": "RPNHead",
+    "treeIdx": 3,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "pointer",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 1,
+    "x": 220,
+    "y": 660
+  },
+  {
+    "id": "rpn_loss_cls",
+    "config": [
+      {
+        "key": "type",
+        "type": "string",
+        "value": "CrossEntropyLoss"
+      },
+      {
+        "key": "use_sigmoid",
+        "type": "string",
+        "value": true
+      },
+      {
+        "key": "loss_weight",
+        "type": "number",
+        "value": 1
+      }
+    ],
+    "name": "rpn_loss_cls",
+    "comboId": "RPNHead",
+    "treeIdx": 3,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "pointer",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 1,
+    "x": 220,
+    "y": 710
+  },
+  {
+    "id": "rpn_loss_bbox",
+    "config": [
+      {
+        "key": "type",
+        "type": "string",
+        "value": "L1Loss"
+      },
+      {
+        "key": "loss_weight",
+        "type": "number",
+        "value": 1
+      }
+    ],
+    "name": "rpn_loss_bbox",
+    "comboId": "RPNHead",
+    "treeIdx": 3,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "pointer",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 1,
+    "x": 220,
+    "y": 760
+  },
+  {
+    "id": "roi_layer",
+    "config": [
+      {
+        "key": "type",
+        "type": "string",
+        "value": "RoIAlign"
+      },
+      {
+        "key": "output_size",
+        "type": "string",
+        "value": 7
+      },
+      {
+        "key": "sampling_ratio",
+        "type": "string",
+        "value": 0
+      }
+    ],
+    "name": "roi_layer",
+    "comboId": "bbox_roi_extractor",
+    "treeIdx": 4,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "pointer",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 3,
+    "x": 0,
+    "y": 880
+  },
+  {
+    "id": "rcn_bbox_coder",
+    "config": [
+      {
+        "key": "type",
+        "type": "string",
+        "value": "DeltaXYWHBBoxCoder"
+      },
+      {
+        "key": "target_means",
+        "type": "string",
+        "value": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "key": "target_stds",
+        "type": "string",
+        "value": [
+          0.1,
+          0.1,
+          0.2,
+          0.2
+        ]
+      }
+    ],
+    "name": "rcn_bbox_coder",
+    "comboId": "bbox_head",
+    "treeIdx": 4,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "pointer",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 3,
+    "x": 220,
+    "y": 880
+  },
+  {
+    "id": "rcn_loss_cls",
+    "config": [
+      {
+        "key": "type",
+        "type": "string",
+        "value": "CrossEntropyLoss"
+      },
+      {
+        "key": "use_sigmoid",
+        "type": "string",
+        "value": false
+      },
+      {
+        "key": "loss_weight",
+        "type": "string",
+        "value": 1
+      }
+    ],
+    "name": "rcn_loss_cls",
+    "comboId": "bbox_head",
+    "treeIdx": 4,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "pointer",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 3,
+    "x": 220,
+    "y": 930
+  },
+  {
+    "id": "rcn_loss_bbox",
+    "config": [
+      {
+        "key": "type",
+        "type": "string",
+        "value": "L1Loss"
+      },
+      {
+        "key": "loss_weight",
+        "type": "string",
+        "value": 1
+      }
+    ],
+    "name": "rcn_loss_bbox",
+    "comboId": "bbox_head",
+    "treeIdx": 4,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
+    "type": "flowChart",
+    "style": {
+      "selected": {
+        "stroke": "#d9d9d9",
+        "fill": "#5394ef"
+      },
+      "hover": {
+        "cursor": "pointer",
+        "fill": "lightsteelblue"
+      }
+    },
+    "depth": 3,
+    "x": 220,
+    "y": 980
+  },
+  {
+    "id": "SGD",
     "name": "SGD",
     "config": [
       {
         "key": "learning_rate",
         "type": "number",
-        "value": 0.001
+        "value": 0.01
       }
     ],
-    "idx": 4,
+    "treeIdx": 5,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
     "type": "flowChart",
     "style": {
       "selected": {
@@ -140,35 +537,44 @@
         "fill": "#5394ef"
       },
       "hover": {
-        "cursor": "move",
+        "cursor": "pointer",
         "fill": "lightsteelblue"
       }
     },
-    "depth": 0,
-    "x": 70,
-    "y": 570
+    "x": 0,
+    "y": 1100
   },
   {
-    "id": "Output",
-    "name": "runtime",
+    "id": "Runtime",
+    "name": "Runtime",
     "config": [
       {
         "key": "work_dir",
         "type": "string",
-        "value": "./work_dir/det"
+        "value": "/home/admin/work_dir/faster-rcnn"
       },
       {
         "key": "batch_size",
         "type": "number",
-        "value": 16
+        "value": 2
       },
       {
         "key": "total_epochs",
         "type": "number",
-        "value": 1
+        "value": 6
       }
     ],
-    "idx": 5,
+    "treeIdx": 6,
+    "anchorPoints": [
+      [
+        0.5,
+        0
+      ],
+      [
+        0.5,
+        1
+      ]
+    ],
     "type": "flowChart",
     "style": {
       "selected": {
@@ -176,12 +582,11 @@
         "fill": "#5394ef"
       },
       "hover": {
-        "cursor": "move",
+        "cursor": "pointer",
         "fill": "lightsteelblue"
       }
     },
-    "depth": 0,
-    "x": 70,
-    "y": 700
+    "x": 0,
+    "y": 1320
   }
 ]
