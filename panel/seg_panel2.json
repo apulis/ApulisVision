@@ -1,0 +1,309 @@
+[
+    {},
+    {
+      "name": "Backbone",
+      "children": [
+        {
+          "name": "ResNet",
+          "config": [
+            {
+                "key": "depth",
+                "value": 50,
+                "type": "number"
+            },
+            {
+                "key": "num_stages",
+                "value": 4,
+                "type": "number"
+            },
+            {
+                "key": "out_indices",
+                "value": [
+                    0,
+                    1,
+                    2,
+                    3
+                ],
+                "type": "string"
+            },
+            {
+                "key": "dilations",
+                "value": [
+                    1,
+                    1,
+                    2,
+                    4
+                ],
+                "type": "string"
+            },
+            {
+                "key": "strides",
+                "value": [
+                    1,
+                    2,
+                    1,
+                    1
+                ],
+                "type": "string"
+            },
+            {
+                "key": "norm_eval",
+                "value": false,
+                "type": "string"
+            },
+            {
+                "key": "style",
+                "value": "pytorch",
+                "type": "string"
+            },
+            {
+                "key": "contract_dilation",
+                "value": true,
+                "type": "string"
+            }
+        ],
+        "children": [
+            {
+                "name": "norm_cfg",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "BN",
+                        "type": "string"
+                    }
+                ],
+                "children": []
+            }
+          ]
+        },
+        {
+          "name": "ResNeXt",
+          "config": [
+            {
+                "key": "depth",
+                "value": 50,
+                "type": "number"
+            },
+            {
+                "key": "num_stages",
+                "value": 4,
+                "type": "number"
+            },
+            {
+                "key": "out_indices",
+                "value": [
+                    0,
+                    1,
+                    2,
+                    3
+                ],
+                "type": "string"
+            },
+            {
+                "key": "dilations",
+                "value": [
+                    1,
+                    1,
+                    2,
+                    4
+                ],
+                "type": "string"
+            },
+            {
+                "key": "strides",
+                "value": [
+                    1,
+                    2,
+                    1,
+                    1
+                ],
+                "type": "string"
+            },
+            {
+                "key": "norm_eval",
+                "value": false,
+                "type": "string"
+            },
+            {
+                "key": "style",
+                "value": "pytorch",
+                "type": "string"
+            },
+            {
+                "key": "contract_dilation",
+                "value": true,
+                "type": "string"
+            }
+        ],
+        "children": [
+            {
+                "name": "norm_cfg",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "BN",
+                        "type": "string"
+                    }
+                ],
+                "children": []
+            }
+          ]
+        },
+        {
+          "name": "ResNetV1s",
+          "config": [
+            {
+                "key": "depth",
+                "value": 50,
+                "type": "number"
+            },
+            {
+                "key": "num_stages",
+                "value": 4,
+                "type": "number"
+            },
+            {
+                "key": "out_indices",
+                "value": [
+                    0,
+                    1,
+                    2,
+                    3
+                ],
+                "type": "string"
+            },
+            {
+                "key": "dilations",
+                "value": [
+                    1,
+                    1,
+                    2,
+                    4
+                ],
+                "type": "string"
+            },
+            {
+                "key": "strides",
+                "value": [
+                    1,
+                    2,
+                    1,
+                    1
+                ],
+                "type": "string"
+            },
+            {
+                "key": "norm_eval",
+                "value": false,
+                "type": "string"
+            },
+            {
+                "key": "style",
+                "value": "pytorch",
+                "type": "string"
+            },
+            {
+                "key": "contract_dilation",
+                "value": true,
+                "type": "string"
+            }
+        ],
+        "children": [
+            {
+                "name": "norm_cfg",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "BN",
+                        "type": "string"
+                    }
+                ],
+                "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "decode_head",
+      "children": [
+        {
+          "name": "FCNHead",
+          "config":[
+
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auxiliary_head",
+      "children": [
+        {
+          "FCNHead": [
+            {
+              "key": "in_channels",
+              "type": "number",
+              "value": 1024
+            },
+            {
+              "key": "channels",
+              "type": "number",
+              "value": 256
+            },
+            {
+              "key": "num_classes",
+              "type": "number",
+              "value": 19
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Optimizer",
+      "children": [
+        {
+          "SGD": [
+            {
+              "key": "learning_rate",
+              "type": "number",
+              "value": 0.001
+            }
+          ]
+        },
+        {
+          "ADAM": [
+            {
+              "key": "learning_rate",
+              "type": "number",
+              "value": 0.001
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Output",
+      "children": [
+        {
+          "runtime": [
+            {
+              "key": "work_dir",
+              "type": "string",
+              "value": "/home/admin/work_dir"
+            },
+            {
+              "key": "batch_size",
+              "type": "number",
+              "value": 8
+            },
+            {
+              "key": "total_iters",
+              "type": "number",
+              "value": 160000
+            }
+          ]
+        }
+      ]
+    }
+  ]

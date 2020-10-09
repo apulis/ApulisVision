@@ -87,8 +87,9 @@ if __name__ == '__main__':
     cfg_file = '../configs_mmcls/_base_/models/mobilenet_v2_1x.py'
     cfg_file = '../configs_mmcls/_base_/models/resnet50_cifar.py'
     cfg_file = '../configs_custom/mmdet/faster_rcnn_r50_fpn_1x_coco.py'
+    cfg_file = '../configs_mmseg/_base_/models/fcn_r50-d8.py'
     cfg = Config._file2dict(cfg_file)
     nodes = recureConfig(cfg[0])
-    with open("det1.json", "w") as out_file:
+    with open("seg.json", "w") as out_file:
         json.dump(nodes, out_file, indent=4)
     out_file.close()

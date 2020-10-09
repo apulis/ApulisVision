@@ -1,0 +1,248 @@
+[
+    {
+        "name": "backbone",
+        "config": [
+            {
+                "key": "type",
+                "value": "ResNetV1c",
+                "type": "string"
+            },
+            {
+                "key": "depth",
+                "value": 50,
+                "type": "number"
+            },
+            {
+                "key": "num_stages",
+                "value": 4,
+                "type": "number"
+            },
+            {
+                "key": "out_indices",
+                "value": [
+                    0,
+                    1,
+                    2,
+                    3
+                ],
+                "type": "string"
+            },
+            {
+                "key": "dilations",
+                "value": [
+                    1,
+                    1,
+                    2,
+                    4
+                ],
+                "type": "string"
+            },
+            {
+                "key": "strides",
+                "value": [
+                    1,
+                    2,
+                    1,
+                    1
+                ],
+                "type": "string"
+            },
+            {
+                "key": "norm_eval",
+                "value": false,
+                "type": "string"
+            },
+            {
+                "key": "style",
+                "value": "pytorch",
+                "type": "string"
+            },
+            {
+                "key": "contract_dilation",
+                "value": true,
+                "type": "string"
+            }
+        ],
+        "children": [
+            {
+                "name": "norm_cfg",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "BN",
+                        "type": "string"
+                    }
+                ],
+                "children": []
+            }
+        ]
+    },
+    {
+        "name": "decode_head",
+        "config": [
+            {
+                "key": "type",
+                "value": "FCNHead",
+                "type": "string"
+            },
+            {
+                "key": "in_channels",
+                "value": 2048,
+                "type": "number"
+            },
+            {
+                "key": "in_index",
+                "value": 3,
+                "type": "number"
+            },
+            {
+                "key": "channels",
+                "value": 512,
+                "type": "number"
+            },
+            {
+                "key": "num_convs",
+                "value": 2,
+                "type": "number"
+            },
+            {
+                "key": "concat_input",
+                "value": true,
+                "type": "string"
+            },
+            {
+                "key": "dropout_ratio",
+                "value": 0.1,
+                "type": "number"
+            },
+            {
+                "key": "num_classes",
+                "value": 19,
+                "type": "number"
+            },
+            {
+                "key": "align_corners",
+                "value": false,
+                "type": "string"
+            }
+        ],
+        "children": [
+            {
+                "name": "norm_cfg",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "BN",
+                        "type": "string"
+                    }
+                ],
+                "children": []
+            },
+            {
+                "name": "loss_decode",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "CrossEntropyLoss",
+                        "type": "string"
+                    },
+                    {
+                        "key": "use_sigmoid",
+                        "value": false,
+                        "type": "string"
+                    },
+                    {
+                        "key": "loss_weight",
+                        "value": 1.0,
+                        "type": "number"
+                    }
+                ],
+                "children": []
+            }
+        ]
+    },
+    {
+        "name": "auxiliary_head",
+        "config": [
+            {
+                "key": "type",
+                "value": "FCNHead",
+                "type": "string"
+            },
+            {
+                "key": "in_channels",
+                "value": 1024,
+                "type": "number"
+            },
+            {
+                "key": "in_index",
+                "value": 2,
+                "type": "number"
+            },
+            {
+                "key": "channels",
+                "value": 256,
+                "type": "number"
+            },
+            {
+                "key": "num_convs",
+                "value": 1,
+                "type": "number"
+            },
+            {
+                "key": "concat_input",
+                "value": false,
+                "type": "string"
+            },
+            {
+                "key": "dropout_ratio",
+                "value": 0.1,
+                "type": "number"
+            },
+            {
+                "key": "num_classes",
+                "value": 19,
+                "type": "number"
+            },
+            {
+                "key": "align_corners",
+                "value": false,
+                "type": "string"
+            }
+        ],
+        "children": [
+            {
+                "name": "norm_cfg",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "BN",
+                        "type": "string"
+                    }
+                ],
+                "children": []
+            },
+            {
+                "name": "loss_decode",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "CrossEntropyLoss",
+                        "type": "string"
+                    },
+                    {
+                        "key": "use_sigmoid",
+                        "value": false,
+                        "type": "string"
+                    },
+                    {
+                        "key": "loss_weight",
+                        "value": 0.4,
+                        "type": "number"
+                    }
+                ],
+                "children": []
+            }
+        ]
+    }
+]
