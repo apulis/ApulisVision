@@ -23,12 +23,14 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
     parser.add_argument(
         '--config',
-        default='/data/premodel/code/ApulisVision/configs_custom/mmdet/faster_rcnn_r50_fpn_1x_coco.py',
+        default=
+        '/data/premodel/code/ApulisVision/configs_custom/mmdet/faster_rcnn_r50_fpn_1x_coco.py',
         help='train config file path')
     parser.add_argument(
         '--pipeline_config',
         help='train config file path',
-        default='/data/premodel/code/ApulisVision/panel/pipeline_det_panel.json')
+        default='/data/premodel/code/ApulisVision/panel/pipeline_det_panel.json'
+    )
     parser.add_argument('--work-dir', help='the dir to save logs and models')
     parser.add_argument('--data_path', help='the dataset dir')
     parser.add_argument('--output_path', help='the dir to save models')

@@ -104,6 +104,7 @@ def merge_from_mycfg(my_cfg, cfg):
 def main():
     args = parse_args()
     cfg = Config.fromfile(args.config)
+    print(type(cfg))
     input_cfg = mmcv.load(args.pipeline_config)
     my_cfg = update_configs(input_cfg)
     print(my_cfg)

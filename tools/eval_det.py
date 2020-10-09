@@ -21,13 +21,16 @@ def parse_args():
         description='MMDet test (and eval) a model')
     parser.add_argument(
         '--config',
-        default='/data/premodel/code/ApulisVision/configs_custom/mmdet/faster_rcnn_r50_fpn_1x_coco.py',
+        default=
+        '/data/premodel/code/ApulisVision/configs_custom/mmdet/faster_rcnn_r50_fpn_1x_coco.py',
         help='train config file path')
     parser.add_argument(
         '--pipeline_config',
         help='train config file path',
-        default='/data/premodel/code/ApulisVision/panel/pipeline_det_panel.json')
-    parser.add_argument('--checkpoint_path', default=None, help='checkpoint_path file')
+        default='/data/premodel/code/ApulisVision/panel/pipeline_det_panel.json'
+    )
+    parser.add_argument(
+        '--checkpoint_path', default=None, help='checkpoint_path file')
     parser.add_argument('--data_path', help='the dataset dir')
     parser.add_argument('--output_path', help='the dir to save models')
     parser.add_argument('--out', help='output result file in pickle format')
@@ -165,9 +168,10 @@ def main():
         wrap_fp16_model(model)
     if args.checkpoint_path is None:
         args.checkpoint_path = os.path.join(cfg.work_dir, 'latest.pth')
-    if not args.checkpoint_path.endswith("pth"):
+    if not args.checkpoint_path.endswith('pth'):
         args.checkpoint_path = os.path.join(args.checkpoint_path, 'latest.pth')
-    checkpoint = load_checkpoint(model, args.checkpoint_path, map_location='cpu')
+    checkpoint = load_checkpoint(
+        model, args.checkpoint_path, map_location='cpu')
 
     if args.fuse_conv_bn:
         model = fuse_conv_bn(model)

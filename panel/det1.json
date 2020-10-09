@@ -1,0 +1,389 @@
+[
+    {
+        "name": "backbone",
+        "config": [
+            {
+                "key": "type",
+                "value": "ResNet",
+                "type": "string"
+            },
+            {
+                "key": "depth",
+                "value": 50,
+                "type": "number"
+            },
+            {
+                "key": "num_stages",
+                "value": 4,
+                "type": "number"
+            },
+            {
+                "key": "out_indices",
+                "value": [
+                    0,
+                    1,
+                    2,
+                    3
+                ],
+                "type": "string"
+            },
+            {
+                "key": "frozen_stages",
+                "value": 1,
+                "type": "number"
+            },
+            {
+                "key": "norm_eval",
+                "value": true,
+                "type": "string"
+            },
+            {
+                "key": "style",
+                "value": "pytorch",
+                "type": "string"
+            }
+        ],
+        "children": [
+            {
+                "name": "norm_cfg",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "BN",
+                        "type": "string"
+                    },
+                    {
+                        "key": "requires_grad",
+                        "value": true,
+                        "type": "string"
+                    }
+                ],
+                "children": []
+            }
+        ]
+    },
+    {
+        "name": "neck",
+        "config": [
+            {
+                "key": "type",
+                "value": "FPN",
+                "type": "string"
+            },
+            {
+                "key": "in_channels",
+                "value": [
+                    256,
+                    512,
+                    1024,
+                    2048
+                ],
+                "type": "string"
+            },
+            {
+                "key": "out_channels",
+                "value": 256,
+                "type": "number"
+            },
+            {
+                "key": "num_outs",
+                "value": 5,
+                "type": "number"
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "rpn_head",
+        "config": [
+            {
+                "key": "type",
+                "value": "RPNHead",
+                "type": "string"
+            },
+            {
+                "key": "in_channels",
+                "value": 256,
+                "type": "number"
+            },
+            {
+                "key": "feat_channels",
+                "value": 256,
+                "type": "number"
+            }
+        ],
+        "children": [
+            {
+                "name": "anchor_generator",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "AnchorGenerator",
+                        "type": "string"
+                    },
+                    {
+                        "key": "scales",
+                        "value": [
+                            8
+                        ],
+                        "type": "string"
+                    },
+                    {
+                        "key": "ratios",
+                        "value": [
+                            0.5,
+                            1.0,
+                            2.0
+                        ],
+                        "type": "string"
+                    },
+                    {
+                        "key": "strides",
+                        "value": [
+                            4,
+                            8,
+                            16,
+                            32,
+                            64
+                        ],
+                        "type": "string"
+                    }
+                ],
+                "children": []
+            },
+            {
+                "name": "bbox_coder",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "DeltaXYWHBBoxCoder",
+                        "type": "string"
+                    },
+                    {
+                        "key": "target_means",
+                        "value": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "type": "string"
+                    },
+                    {
+                        "key": "target_stds",
+                        "value": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "type": "string"
+                    }
+                ],
+                "children": []
+            },
+            {
+                "name": "loss_cls",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "CrossEntropyLoss",
+                        "type": "string"
+                    },
+                    {
+                        "key": "use_sigmoid",
+                        "value": true,
+                        "type": "string"
+                    },
+                    {
+                        "key": "loss_weight",
+                        "value": 1.0,
+                        "type": "number"
+                    }
+                ],
+                "children": []
+            },
+            {
+                "name": "loss_bbox",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "L1Loss",
+                        "type": "string"
+                    },
+                    {
+                        "key": "loss_weight",
+                        "value": 1.0,
+                        "type": "number"
+                    }
+                ],
+                "children": []
+            }
+        ]
+    },
+    {
+        "name": "roi_head",
+        "config": [
+            {
+                "key": "type",
+                "value": "StandardRoIHead",
+                "type": "string"
+            }
+        ],
+        "children": [
+            {
+                "name": "bbox_roi_extractor",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "SingleRoIExtractor",
+                        "type": "string"
+                    },
+                    {
+                        "key": "out_channels",
+                        "value": 256,
+                        "type": "number"
+                    },
+                    {
+                        "key": "featmap_strides",
+                        "value": [
+                            4,
+                            8,
+                            16,
+                            32
+                        ],
+                        "type": "string"
+                    }
+                ],
+                "children": [
+                    {
+                        "name": "roi_layer",
+                        "config": [
+                            {
+                                "key": "type",
+                                "value": "RoIAlign",
+                                "type": "string"
+                            },
+                            {
+                                "key": "output_size",
+                                "value": 7,
+                                "type": "string"
+                            },
+                            {
+                                "key": "sampling_ratio",
+                                "value": 0,
+                                "type": "string"
+                            }
+                        ],
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "name": "bbox_head",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "Shared2FCBBoxHead",
+                        "type": "string"
+                    },
+                    {
+                        "key": "in_channels",
+                        "value": 256,
+                        "type": "number"
+                    },
+                    {
+                        "key": "fc_out_channels",
+                        "value": 1024,
+                        "type": "number"
+                    },
+                    {
+                        "key": "roi_feat_size",
+                        "value": 7,
+                        "type": "number"
+                    },
+                    {
+                        "key": "num_classes",
+                        "value": 80,
+                        "type": "number"
+                    },
+                    {
+                        "key": "reg_class_agnostic",
+                        "value": false,
+                        "type": "string"
+                    }
+                ],
+                "children": [
+                    {
+                        "name": "bbox_coder",
+                        "config": [
+                            {
+                                "key": "type",
+                                "value": "DeltaXYWHBBoxCoder",
+                                "type": "string"
+                            },
+                            {
+                                "key": "target_means",
+                                "value": [
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0
+                                ],
+                                "type": "string"
+                            },
+                            {
+                                "key": "target_stds",
+                                "value": [
+                                    0.1,
+                                    0.1,
+                                    0.2,
+                                    0.2
+                                ],
+                                "type": "string"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "name": "loss_cls",
+                        "config": [
+                            {
+                                "key": "type",
+                                "value": "CrossEntropyLoss",
+                                "type": "string"
+                            },
+                            {
+                                "key": "use_sigmoid",
+                                "value": false,
+                                "type": "string"
+                            },
+                            {
+                                "key": "loss_weight",
+                                "value": 1.0,
+                                "type": "string"
+                            }
+                        ],
+                        "children": []
+                    },
+                    {
+                        "name": "loss_bbox",
+                        "config": [
+                            {
+                                "key": "type",
+                                "value": "L1Loss",
+                                "type": "string"
+                            },
+                            {
+                                "key": "loss_weight",
+                                "value": 1.0,
+                                "type": "string"
+                            }
+                        ],
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    }
+]

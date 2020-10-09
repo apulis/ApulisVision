@@ -86,8 +86,8 @@ def merge_from_mycfg(my_cfg, cfg):
         cfg.data_root, 'annotations/instances_train2017.json')
     # val data
     cfg.data.val.img_prefix = os.path.join(cfg.data_root, 'val2017')
-    cfg.data.val.ann_file = os.path.join(
-        cfg.data_root, 'annotations/instances_val2017.json')
+    cfg.data.val.ann_file = os.path.join(cfg.data_root,
+                                         'annotations/instances_val2017.json')
     # test data
     cfg.data.test.img_prefix = os.path.join(cfg.data_root, 'val2017')
     cfg.data.test.ann_file = os.path.join(
@@ -98,7 +98,7 @@ def merge_from_mycfg(my_cfg, cfg):
     cfg.total_epochs = my_cfg['runtime']['total_epochs']
     cfg.work_dir = my_cfg['runtime']['work_dir']
     print(cfg)
-    print("-------------------")
+    print('-------------------')
     return cfg
 
 

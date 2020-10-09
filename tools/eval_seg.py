@@ -17,12 +17,14 @@ def parse_args():
         description='mmseg test (and eval) a model')
     parser.add_argument(
         '--config',
-        default='/data/premodel/code/ApulisVision/configs_custom/mmseg/fcn_r50-d8_512x1024_40k_cityscapes.py',
+        default=
+        '/data/premodel/code/ApulisVision/configs_custom/mmseg/fcn_r50-d8_512x1024_40k_cityscapes.py',
         help='train config file path')
     parser.add_argument(
         '--pipeline_config',
         help='train config file path',
-        default='/data/premodel/code/ApulisVision/panel/pipeline_seg_panel.json')
+        default='/data/premodel/code/ApulisVision/panel/pipeline_seg_panel.json'
+    )
     parser.add_argument('--checkpoint_path', help='checkpoint_path file')
     parser.add_argument('--work_dir', help='the dir to save logs and models')
     parser.add_argument('--data_path', help='the dataset dir')
@@ -116,9 +118,10 @@ def main():
     model = build_segmentor(cfg.model, train_cfg=None, test_cfg=cfg.test_cfg)
     if args.checkpoint_path is None:
         args.checkpoint_path = os.path.join(cfg.work_dir, 'latest.pth')
-    if not args.checkpoint_path.endswith("pth"):
+    if not args.checkpoint_path.endswith('pth'):
         args.checkpoint_path = os.path.join(args.checkpoint_path, 'latest.pth')
-    checkpoint = load_checkpoint(model, args.checkpoint_path, map_location='cpu')
+    checkpoint = load_checkpoint(
+        model, args.checkpoint_path, map_location='cpu')
 
     model.CLASSES = checkpoint['meta']['CLASSES']
     model.PALETTE = checkpoint['meta']['PALETTE']

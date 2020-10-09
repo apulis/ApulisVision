@@ -17,13 +17,15 @@ def parse_args():
     parser = argparse.ArgumentParser(description='mmcls test model')
     parser.add_argument(
         '--config',
-        default='/data/premodel/code/ApulisVision/configs_custom/mmcls/dog-vs-cat/resnet50_b32x8.py',
+        default=
+        '/data/premodel/code/ApulisVision/configs_custom/mmcls/dog-vs-cat/resnet50_b32x8.py',
         help='train config file path')
     parser.add_argument('--checkpoint_path', help='train config file path')
     parser.add_argument(
         '--pipeline_config',
         help='train config file path',
-        default='/data/premodel/code/ApulisVision/panel/pipeline_cls_panel.json')
+        default='/data/premodel/code/ApulisVision/panel/pipeline_cls_panel.json'
+    )
     parser.add_argument('--data_path', help='the dataset dir')
     parser.add_argument('--output_path', help='the dir to save models')
     parser.add_argument('--out', help='output result file')
@@ -88,7 +90,7 @@ def main():
         wrap_fp16_model(model)
     if args.checkpoint_path is None:
         args.checkpoint_path = os.path.join(cfg.work_dir, 'latest.pth')
-    if not args.checkpoint_path.endswith("pth"):
+    if not args.checkpoint_path.endswith('pth'):
         args.checkpoint_path = os.path.join(args.checkpoint_path, 'latest.pth')
     _ = load_checkpoint(model, args.checkpoint_path, map_location='cpu')
 

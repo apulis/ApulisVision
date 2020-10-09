@@ -3,16 +3,16 @@ import warnings
 import mmcv
 import numpy as np
 import torch
-from mmcv.parallel import collate, scatter
-from mmcv.runner import load_checkpoint
-
 from mmcls.core import get_classes
 from mmcls.datasets.pipelines import Compose
 from mmcls.models import build_classifier
+from mmcv.parallel import collate, scatter
+from mmcv.runner import load_checkpoint
 
 
 def init_classfication(config, checkpoint=None, device='cuda:0'):
     """Initialize a classifier from config file.
+
     Args:
         config (str or :obj:`mmcv.Config`): Config file path or the config
             object.
@@ -38,7 +38,7 @@ def init_classfication(config, checkpoint=None, device='cuda:0'):
             warnings.warn('Class names are not saved in the checkpoint\'s '
                           'meta data, use imagenet by default.')
             model.CLASSES = get_classes('imagenet')
-        print("00-------------------")
+        print('00-------------------')
 
         print(model.CLASSES)
 
@@ -53,6 +53,7 @@ class LoadImage(object):
 
     def __call__(self, results):
         """Call function to load images into results.
+
         Args:
             results (dict): A result dict contains the file name
                 of the image to be read.
@@ -73,6 +74,7 @@ class LoadImage(object):
 
 def inference_classfication(model, img):
     """Inference image(s) with the classifier.
+
     Args:
         model (nn.Module): The loaded classifier.
         img (str/ndarray): The image filename.

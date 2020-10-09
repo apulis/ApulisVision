@@ -1,0 +1,238 @@
+[
+    {},
+    {
+      "name": "Backbone",
+      "children": [
+        {
+          "name": "ResNet",
+          "config": [
+              {
+                "key": "depth",
+                "type": "select",
+                "value": 50,
+                "options": [
+                  50,
+                  101,
+                  152
+                ]
+              },
+              {
+                  "key": "num_stages",
+                  "value": 4,
+                  "type": "number"
+              },
+              {
+                  "key": "out_indices",
+                  "value": [
+                      3
+                  ],
+                  "type": "string"
+              },
+              {
+                  "key": "style",
+                  "value": "pytorch",
+                  "type": "string"
+              }
+          ],
+          "children": []
+        },
+        {
+          "name": "ResNext",
+          "config": [
+              {
+                "key": "depth",
+                "type": "select",
+                "value": 50,
+                "options": [
+                  50,
+                  101,
+                  152
+                ]
+              },
+              {
+                  "key": "num_stages",
+                  "value": 4,
+                  "type": "number"
+              },
+              {
+                  "key": "out_indices",
+                  "value": [
+                      3
+                  ],
+                  "type": "string"
+              },
+              {
+                  "key": "style",
+                  "value": "pytorch",
+                  "type": "string"
+              }
+          ],
+          "children": []
+        },
+        {
+          "name": "SEResNet",
+          "config": [
+              {
+                "key": "depth",
+                "type": "select",
+                "value": 50,
+                "options": [
+                  50,
+                  101,
+                  152
+                ]
+              },
+              {
+                  "key": "num_stages",
+                  "value": 4,
+                  "type": "number"
+              },
+              {
+                  "key": "out_indices",
+                  "value": [
+                      3
+                  ],
+                  "type": "string"
+              },
+              {
+                  "key": "style",
+                  "value": "pytorch",
+                  "type": "string"
+              }
+          ],
+          "children": []
+        },
+        {
+        "name": "ResNet_CIFAR",
+        "config": [
+            {
+              "key": "depth",
+              "type": "select",
+              "value": 50,
+              "options": [
+                50,
+                101,
+                152
+              ]
+            },
+            {
+                "key": "num_stages",
+                "value": 4,
+                "type": "number"
+            },
+            {
+                "key": "out_indices",
+                "value": [
+                    3
+                ],
+                "type": "string"
+            },
+            {
+                "key": "style",
+                "value": "pytorch",
+                "type": "string"
+            }
+        ],
+        "children": []
+        }
+      ]
+    },
+    {
+      "name": "Neck",
+      "children": [
+        {
+          "name": "AdaptiveAvgMaxPool2d",
+          "config": []
+        },
+        {
+          "name": "GlobalAveragePooling",
+          "config": []
+        }
+      ]
+    },
+    {
+      "name": "Head",
+      "children": [
+        {
+        "name": "LinearClsHead",
+        "config": [
+            {
+                "key": "num_classes",
+                "value": 10,
+                "type": "number"
+            },
+            {
+                "key": "in_channels",
+                "value": 2048,
+                "type": "number"
+            }
+        ],
+        "children": [
+            {
+                "name": "loss",
+                "config": [
+                    {
+                        "key": "type",
+                        "value": "CrossEntropyLoss",
+                        "type": "string"
+                    },
+                    {
+                        "key": "loss_weight",
+                        "value": 1.0,
+                        "type": "number"
+                    }
+                ],
+                "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Optimizer",
+      "children": [
+        {
+          "SGD": [
+            {
+              "key": "learning_rate",
+              "type": "number",
+              "value": 0.001
+            }
+          ]
+        },
+        {
+          "ADAM": [
+            {
+              "key": "learning_rate",
+              "type": "number",
+              "value": 0.001
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Output",
+      "children": [
+        {
+          "runtime": [
+            {
+              "key": "work_dir",
+              "type": "string",
+              "value": "/home/admin/work_dir"
+            },
+            {
+              "key": "batch_size",
+              "type": "number",
+              "value": 8
+            },
+            {
+              "key": "total_epochs",
+              "type": "number",
+              "value": 6
+            }
+          ]
+        }
+      ]
+    }
+  ]
