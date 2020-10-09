@@ -6,7 +6,7 @@
       {
         "key": "data_path",
         "type": "disabled",
-        "value": "/data/dataset/storage/cityscapes/"
+        "value": "/data/cityscapes/"
       }
     ],
     "idx": 0,
@@ -161,17 +161,17 @@
       {
         "key": "work_dir",
         "type": "string",
-        "value": "./work_dir/FCN"
+        "value": "./work_dir/seg"
       },
       {
         "key": "batch_size",
         "type": "number",
-        "value": 2
+        "value": 1
       },
       {
         "key": "total_iters",
         "type": "number",
-        "value": 10000
+        "value": 50
       }
     ],
     "idx": 5,

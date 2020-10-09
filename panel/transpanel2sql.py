@@ -56,14 +56,9 @@ def genEdges(nodes):
 
 
 def insertSql(modelName, fileName, modelUse, params):
-    # db = MySQLdb.connect("localhost", "root", "root", "ai_arts", charset='utf8')
-    db = MySQLdb.connect(
-        host='219.133.167.42',
-        port=53306,
-        user='root',
-        password='apulis#2019#wednesday',
-        db='ai_arts',
-        charset='utf8')
+    db = MySQLdb.connect("localhost", "root", "root", "ai_arts", charset='utf8')
+    # db = MySQLdb.connect(host="219.133.167.42", port=53306, user="root", password="apulis#2019#wednesday", db="ai_arts",
+    #                      charset='utf8')
 
     # 使用cursor()方法获取操作游标
     cursor = db.cursor()
@@ -98,10 +93,10 @@ VALUES ('2020-09-20 13:40:13', '2020-09-20 03:40:13', NULL, '{modelName}',
 
 
 if __name__ == '__main__':
-    modelName = 'More_Classfication'
-    fileName = 'cls'
-    modelUse = 'Model_Classfication'
-    with open('model_panel.json') as f1:
+    modelName = "More_recur_Classfication"
+    fileName = "cls"
+    modelUse = "Model_recur_Classfication"
+    with open("cls_panel.json")as f1:
         panelJson = json.load(f1)
         # nodes = genNodes(panelJson)
         # edges = genEdges(nodes)

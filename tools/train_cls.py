@@ -15,6 +15,8 @@ from mmcv import Config, DictAction
 from mmcv.runner import init_dist
 from update_cls_config import merge_from_mycfg, update_configs
 
+from model2pickle import dump_infer_model
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a model')
@@ -42,13 +44,13 @@ def parse_args():
         '--gpus',
         type=int,
         help='number of gpus to use '
-        '(only applicable to non-distributed training)')
+             '(only applicable to non-distributed training)')
     group_gpus.add_argument(
         '--gpu-ids',
         type=int,
         nargs='+',
         help='ids of gpus to use '
-        '(only applicable to non-distributed training)')
+             '(only applicable to non-distributed training)')
     parser.add_argument('--seed', type=int, default=None, help='random seed')
     parser.add_argument(
         '--deterministic',
@@ -116,7 +118,8 @@ def main():
     # create work_dir
     mmcv.mkdir_or_exist(osp.abspath(cfg.work_dir))
     # dump config
-    cfg.dump(osp.join(cfg.work_dir, osp.basename(args.config)))
+    config_file = osp.join(cfg.work_dir, osp.basename(args.config))
+    cfg.dump(config_file)
     # init the logger before other steps
     timestamp = time.strftime('%Y%m%d_%H%M%S', time.localtime())
     log_file = osp.join(cfg.work_dir, f'{timestamp}.log')
@@ -168,6 +171,11 @@ def main():
         validate=(not args.no_validate),
         timestamp=timestamp,
         meta=meta)
+
+    # 转换为pkl推理模型
+    checkpoint_file = osp.join(cfg.work_dir, "latest.pth")
+    output_file = osp.join(cfg.work_dir, "export_model.pkl")
+    dump_infer_model(checkpoint_file, config_file, output_file, target='cls', device='cuda:0')
 
 
 if __name__ == '__main__':

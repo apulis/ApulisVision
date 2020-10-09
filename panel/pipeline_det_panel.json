@@ -6,7 +6,7 @@
       {
         "key": "data_path",
         "type": "disabled",
-        "value": "/data/dataset/storage/coco/"
+        "value": "/data/coco2017/"
       }
     ],
     "idx": 0,
@@ -155,12 +155,12 @@
       {
         "key": "work_dir",
         "type": "string",
-        "value": "./work_dir"
+        "value": "./work_dir/det"
       },
       {
         "key": "batch_size",
         "type": "number",
-        "value": 2
+        "value": 16
       },
       {
         "key": "total_epochs",

@@ -6,7 +6,7 @@
       {
         "key": "data_path",
         "type": "disabled",
-        "value": "/data/dataset/storage/dog-vs-cat/"
+        "value": "/data/dog-vs-cat/"
       }
     ],
     "idx": 0,
@@ -135,17 +135,17 @@
       {
         "key": "work_dir",
         "type": "string",
-        "value": "./work_dir"
+        "value": "./work_dir/cls"
       },
       {
         "key": "batch_size",
         "type": "number",
-        "value": 4
+        "value": 16
       },
       {
         "key": "total_epochs",
         "type": "number",
-        "value": 100
+        "value": 1
       }
     ],
     "idx": 5,

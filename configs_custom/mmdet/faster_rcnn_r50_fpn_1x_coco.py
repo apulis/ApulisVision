@@ -106,7 +106,7 @@ test_cfg = dict(
         nms=dict(type='nms', iou_threshold=0.5),
         max_per_img=100))
 dataset_type = 'CocoDataset'
-data_root = 'data/coco/'
+data_root = '/data/coco2017/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
@@ -147,8 +147,8 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type='CocoDataset',
-        ann_file='data/coco/annotations/instances_train2017.json',
-        img_prefix='data/coco/train2017/',
+        ann_file='/data/coco2017/annotations/instances_train2017.json',
+        img_prefix='/data/coco2017/train2017/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(type='LoadAnnotations', with_bbox=True),
@@ -165,8 +165,8 @@ data = dict(
         ]),
     val=dict(
         type='CocoDataset',
-        ann_file='data/coco/annotations/instances_val2017.json',
-        img_prefix='data/coco/val2017/',
+        ann_file='/data/coco2017/annotations/instances_val2017.json',
+        img_prefix='/data/coco2017/val2017/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
@@ -188,8 +188,8 @@ data = dict(
         ]),
     test=dict(
         type='CocoDataset',
-        ann_file='data/coco/annotations/instances_val2017.json',
-        img_prefix='data/coco/val2017/',
+        ann_file='/data/coco2017/annotations/instances_val2017.json',
+        img_prefix='/data/coco2017/val2017/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
@@ -228,3 +228,4 @@ resume_from = None
 workflow = [('train', 1)]
 work_dir = './work_dirs/faster_rcnn_r50_fpn_1x_coco'
 gpu_ids = range(0, 1)
+

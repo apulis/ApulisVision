@@ -49,6 +49,9 @@
       "children": [
         {
           "RPNHead": []
+        },{
+          "name": "resNET",
+
         }
       ]
     },
