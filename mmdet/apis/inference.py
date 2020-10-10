@@ -76,7 +76,7 @@ class LoadImage(object):
 
 
 def inference_detector(model, img):
-    """Inference image(s) with the detector.
+    """Inference image(s) with the detector.test_pipeline
 
     Args:
         model (nn.Module): The loaded detector.

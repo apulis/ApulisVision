@@ -38,9 +38,6 @@ def init_classfication(config, checkpoint=None, device='cuda:0'):
             warnings.warn('Class names are not saved in the checkpoint\'s '
                           'meta data, use imagenet by default.')
             model.CLASSES = get_classes('imagenet')
-        print('00-------------------')
-
-        print(model.CLASSES)
 
     model.cfg = config  # save the config in the model for convenience
     model.to(device)

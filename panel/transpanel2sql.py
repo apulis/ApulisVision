@@ -96,7 +96,7 @@ if __name__ == '__main__':
     modelName = "More_recur_Classfication"
     fileName = "cls"
     modelUse = "Model_recur_Classfication"
-    with open("cls_panel.json")as f1:
+    with open("det_panel.json")as f1:
         panelJson = json.load(f1)
         # nodes = genNodes(panelJson)
         # edges = genEdges(nodes)
