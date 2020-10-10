@@ -1,13 +1,11 @@
 # Import the required modules
-import os.path as osp
-import sys
-# 鏡像新增
 import cloudpickle as pickle
-import cv2
 import numpy as np
-from mmcls.apis import inference_classfication, init_classfication
-from mmseg.apis import inference_segmentor, init_segmentor
-from mmdet.apis import inference_detector, init_detector
+
+
+# from mmcls.apis import inference_classfication, init_classfication
+# from mmseg.apis import inference_segmentor, init_segmentor
+# from mmdet.apis import inference_detector, init_detector
 
 
 def pickle_dump(obj, file):
@@ -70,13 +68,17 @@ def model_infer(pickle_file, img_bytes):
     img = Image.open(io.BytesIO(img_bytes))
     inputImg = np.asarray(img)
     infer_model = pickle_load(pickle_file)
+    # inputImg = time.strftime("%Y-%m-%d-%H_%M_%S",time.localtime(time.time()))+r"demo.jpg"
+    # with open(inputImg,"wb")as f:
+    #     f.write(img_bytes)
     result = infer_model.predict(infer_model.model, inputImg)
     print(pickle_file)
     print(str(result)[-20:])
 
 
-img_file = '../demo/demo.jpg'
-img_bytes = open(img_file, 'rb').read()
-model_infer("/home/kaiyuan.xu/ApulisVision/tools/work_dir/det/export_model.pkl", img_bytes)
-model_infer("/home/kaiyuan.xu/ApulisVision/tools/work_dir/cls/export_model.pkl", img_bytes)
-model_infer("/home/kaiyuan.xu/ApulisVision/tools/work_dir/seg/export_model.pkl", img_bytes)
+if __name__ == '__main__':
+    img_file = '../demo/demo.jpg'
+    img_bytes = open(img_file, 'rb').read()
+    model_infer("work_dir/det/export_model.pkl", img_bytes)
+    model_infer("work_dir/cls/export_model.pkl", img_bytes)
+    model_infer("work_dir/seg/export_model.pkl", img_bytes)
