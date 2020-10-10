@@ -71,9 +71,12 @@ def model_infer(pickle_file, img_bytes):
     inputImg = np.asarray(img)
     infer_model = pickle_load(pickle_file)
     result = infer_model.predict(infer_model.model, inputImg)
-    print(result)
+    print(pickle_file)
+    print(str(result)[-20:])
 
 
-    img_file = '../demo/demo.jpg'
-    img_bytes = open(img_file, 'rb').read()
-    model_infer("/home/kaiyuan.xu/ApulisVision/tools/work_dir/det/export_model.pkl", img_bytes)
+img_file = '../demo/demo.jpg'
+img_bytes = open(img_file, 'rb').read()
+model_infer("/home/kaiyuan.xu/ApulisVision/tools/work_dir/det/export_model.pkl", img_bytes)
+model_infer("/home/kaiyuan.xu/ApulisVision/tools/work_dir/cls/export_model.pkl", img_bytes)
+model_infer("/home/kaiyuan.xu/ApulisVision/tools/work_dir/seg/export_model.pkl", img_bytes)

@@ -23,7 +23,7 @@ WORKDIR /ApulisVision
 RUN pip install -r requirements/production.txt -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install -r requirements/build.txt -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip install -r requirements/optional.txt -i  https://pypi.tuna.tsinghua.edu.cn/simple
-RUN pip install "git+https://github.com/open-mmlab/cocoapi.git#subdirectory=pycocotools"
+#RUN pip install "git+https://github.com/open-mmlab/cocoapi.git#subdirectory=pycocotools"
 RUN python setup_mmdet.py develop
 RUN python setup_mmseg.py develop
 RUN python setup_mmcls.py develop
