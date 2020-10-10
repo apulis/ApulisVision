@@ -22,10 +22,11 @@ def parse_args():
 def update_configs(input_cfg):
     """load panel file."""
     my_cfg = dict()
-    for mdict in input_cfg:
+    for index, mdict in enumerate(input_cfg):
         # input module
         name = mdict['id'].lower()
-        if name == 'input':
+        # if name == 'input':
+        if index == 0:
             if mdict['name'].lower() == 'coco':
                 my_cfg['dataset_type'] = 'CocoDataset'
             elif mdict['name'].lower() == 'voc':
@@ -36,36 +37,37 @@ def update_configs(input_cfg):
             my_cfg['data']['dataset_name'] = mdict['name']
             for mconfig in mdict['config']:
                 my_cfg['data'][mconfig['key']] = mconfig['value']
-        # backbone
-        if name == 'backbone':
-            if mdict['name'].lower() in BACKBONES_:
-                my_cfg['backbone'] = {}
-                my_cfg['backbone']['type'] = BACKBONES_[mdict['name'].lower()]
-                for mconfig in mdict['config']:
-                    my_cfg['backbone'][mconfig['key']] = mconfig['value']
-        # neck
-        if name == 'neck':
-            if mdict['name'].lower() in NECKS_:
-                my_cfg['neck'] = {}
-                my_cfg['neck']['type'] = NECKS_[mdict['name'].lower()]
-        # head
-        if name == 'rpn_head':
-            if mdict['name'].lower() in RPN_HEADS_:
-                my_cfg['rpn_head'] = {}
-                my_cfg['rpn_head']['type'] = RPN_HEADS_[mdict['name'].lower()]
-        if name == 'roi_head':
-            if mdict['name'].lower() in ROI_HEAD_:
-                my_cfg['roi_head'] = {}
-                my_cfg['roi_head']['type'] = ROI_HEAD_[mdict['name'].lower()]
-        # optimizer
-        if name == 'optimizer':
-            if mdict['name'].lower() in OPTS_:
-                my_cfg['optimizer'] = {}
-                mconfig = mdict['config'][0]
-                my_cfg['optimizer']['type'] = OPTS_[mdict['name'].lower()]
-                my_cfg['optimizer']['lr'] = mconfig['value']
-        # output
-        if name == 'output':
+        # # backbone
+        # if name == 'backbone':
+        #     if mdict['name'].lower() in BACKBONES_:
+        #         my_cfg['backbone'] = {}
+        #         my_cfg['backbone']['type'] = BACKBONES_[mdict['name'].lower()]
+        #         for mconfig in mdict['config']:
+        #             my_cfg['backbone'][mconfig['key']] = mconfig['value']
+        # # neck
+        # if name == 'neck':
+        #     if mdict['name'].lower() in NECKS_:
+        #         my_cfg['neck'] = {}
+        #         my_cfg['neck']['type'] = NECKS_[mdict['name'].lower()]
+        # # head
+        # if name == 'rpn_head':
+        #     if mdict['name'].lower() in RPN_HEADS_:
+        #         my_cfg['rpn_head'] = {}
+        #         my_cfg['rpn_head']['type'] = RPN_HEADS_[mdict['name'].lower()]
+        # if name == 'roi_head':
+        #     if mdict['name'].lower() in ROI_HEAD_:
+        #         my_cfg['roi_head'] = {}
+        #         my_cfg['roi_head']['type'] = ROI_HEAD_[mdict['name'].lower()]
+        # # optimizer
+        # if name == 'optimizer':
+        #     if mdict['name'].lower() in OPTS_:
+        #         my_cfg['optimizer'] = {}
+        #         mconfig = mdict['config'][0]
+        #         my_cfg['optimizer']['type'] = OPTS_[mdict['name'].lower()]
+        #         my_cfg['optimizer']['lr'] = mconfig['value']
+        # # output
+        # if name == 'output':
+        elif index == len(input_cfg)-1:
             my_cfg['runtime'] = {}
             for mconfig in mdict['config']:
                 my_cfg['runtime'][mconfig['key']] = mconfig['value']
@@ -74,10 +76,14 @@ def update_configs(input_cfg):
 
 def merge_from_mycfg(my_cfg, cfg):
     # update model config
-    cfg.model.backbone.update(my_cfg['backbone'])
-    cfg.model.neck.update(my_cfg['neck'])
-    cfg.model.rpn_head.update(my_cfg['rpn_head'])
-    cfg.model.roi_head.update(my_cfg['roi_head'])
+    if my_cfg.__contains__('backbone'):
+        cfg.model.backbone.update(my_cfg['backbone'])
+    elif my_cfg.__contains__('neck'):
+        cfg.model.neck.update(my_cfg['neck'])
+    elif my_cfg.__contains__('rpn_head'):
+        cfg.model.rpn_head.update(my_cfg['rpn_head'])
+    elif my_cfg.__contains__('roi_head'):
+        cfg.model.roi_head.update(my_cfg['roi_head'])
     # update data config
     cfg.data.samples_per_gpu = my_cfg['runtime']['batch_size']
     cfg.data_root = my_cfg['data']['data_path']
@@ -93,7 +99,8 @@ def merge_from_mycfg(my_cfg, cfg):
     cfg.data.test.ann_file = os.path.join(
         cfg.data_root, 'annotations/instances_val2017.json')
     # update optimizer
-    cfg.optimizer.update(my_cfg['optimizer'])
+    if my_cfg.__contains__('optimizer'):
+        cfg.optimizer.update(my_cfg['optimizer'])
     # update runtime
     cfg.total_epochs = my_cfg['runtime']['total_epochs']
     cfg.work_dir = my_cfg['runtime']['work_dir']
