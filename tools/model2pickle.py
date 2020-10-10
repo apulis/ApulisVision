@@ -1,11 +1,9 @@
 # Import the required modules
 import cloudpickle as pickle
 import numpy as np
-
-
-# from mmcls.apis import inference_classfication, init_classfication
-# from mmseg.apis import inference_segmentor, init_segmentor
-# from mmdet.apis import inference_detector, init_detector
+from mmcls.apis import inference_classfication, init_classfication
+from mmseg.apis import inference_segmentor, init_segmentor
+from mmdet.apis import inference_detector, init_detector
 
 
 def pickle_dump(obj, file):

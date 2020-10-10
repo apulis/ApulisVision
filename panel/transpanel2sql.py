@@ -76,7 +76,7 @@ def insertSql(modelName, fileName, modelUse, params):
 VALUES ('2020-09-20 13:40:13', '2020-09-20 03:40:13', NULL, '{modelName}',
         '',
         'avisualis', '0.0.1', 'normal', 0,
-        'Avisualis_{modelUse}', '', '', '', '','{params}', 'apulistech/apulisvision', '', 1, '/data/premodel/code/ApulisVision/', '/home/admin/avisualis/',
+        'Avisualis_Model_{modelUse}', '', '', '', '','{params}', 'apulistech/apulisvision', '', 1, '/data/premodel/code/ApulisVision/', '/home/admin/avisualis/',
         '/home/admin/avisualis/{modelUse}', '/data/premodel/code/ApulisVision/tools/train_{fileName}.py', '', 'nvidia_gpu_amd64', 1)
         '''
 
@@ -96,7 +96,20 @@ if __name__ == '__main__':
     modelName = "More_recur_Classfication"
     fileName = "cls"
     modelUse = "Model_recur_Classfication"
-    with open("det_panel.json")as f1:
+
+    modelName = "ObjectDetection"
+    fileName = "det"
+    modelUse = "ObjectDetection"
+
+    # modelName = "Classfication"
+    # fileName = "cls"
+    # modelUse = "Classfication"
+    #
+    # modelName = "Segmentation"
+    # fileName = "seg"
+    # modelUse = "Segmentation"
+
+    with open(fileName+"_panel2.json")as f1:
         panelJson = json.load(f1)
         # nodes = genNodes(panelJson)
         # edges = genEdges(nodes)
