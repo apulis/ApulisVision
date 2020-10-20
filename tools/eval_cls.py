@@ -74,7 +74,8 @@ def main():
         init_dist(args.launcher, **cfg.dist_params)
 
     # build the dataloader
-    dataset = build_dataset(cfg.data.test)
+    # val用于测试，test用于推理
+    dataset = build_dataset(cfg.data.val)
     data_loader = build_dataloader(
         dataset,
         samples_per_gpu=cfg.data.samples_per_gpu,

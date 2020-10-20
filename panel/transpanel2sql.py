@@ -97,19 +97,19 @@ if __name__ == '__main__':
     fileName = "cls"
     modelUse = "Model_recur_Classfication"
 
-    modelName = "ObjectDetection"
-    fileName = "det"
-    modelUse = "ObjectDetection"
-
+    # modelName = "ObjectDeection"tection"
+    #     # fileName = "det"
+    #     # modelUse = "ObjectDet
+    #
     # modelName = "Classfication"
     # fileName = "cls"
     # modelUse = "Classfication"
-    #
+
     # modelName = "Segmentation"
     # fileName = "seg"
     # modelUse = "Segmentation"
-
-    with open(fileName+"_panel2.json")as f1:
+    with open("model_panel.json")as f1:
+    # with open(fileName+"_panel2.json")as f1:
         panelJson = json.load(f1)
         # nodes = genNodes(panelJson)
         # edges = genEdges(nodes)

@@ -148,21 +148,21 @@
       },
       {
         "children": [
-      {
-        "name": "ReetinaFixMixPowNet",
-        "config": [
           {
-            "key": "depth",
-            "type": "select",
-            "value": 50,
-            "options": [
-              50,
-              152
-            ]
-          }
-        ],
-        "children": []
-      },
+            "name": "ReetinaFixMixPowNet",
+            "config": [
+              {
+                "key": "depth",
+                "type": "select",
+                "value": 50,
+                "options": [
+                  50,
+                  152
+                ]
+              }
+            ],
+            "children": []
+          },
           {
             "children": [
               {
