@@ -48,7 +48,7 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type='ImageNet',
-        data_prefix='data/dog-vs-cat/dog-vs-cat/',
+        data_prefix='/data/dataset/storage/dog-vs-cat/dog-vs-cat/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(type='RandomResizedCrop', size=224),
@@ -64,7 +64,7 @@ data = dict(
         ]),
     val=dict(
         type='ImageNet',
-        data_prefix='data/dog-vs-cat/dogs-vs-cats/val',
+        data_prefix='/data/dataset/storage/dog-vs-cat/dog-vs-cat/',
         ann_file=None,
         pipeline=[
             dict(type='LoadImageFromFile'),
@@ -81,7 +81,7 @@ data = dict(
         ]),
     test=dict(
         type='ImageNet',
-        data_prefix='data/dog-vs-cat/dogs-vs-cats/val',
+        data_prefix='/data/dataset/storage/dog-vs-cat/dog-vs-cat/',
         ann_file=None,
         pipeline=[
             dict(type='LoadImageFromFile'),
@@ -101,10 +101,10 @@ evaluation = dict(interval=1, metric='accuracy')
 optimizer = dict(type='SGD', lr=0.1, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(grad_clip=None)
 lr_config = dict(policy='step', step=[30, 60, 90])
-total_epochs = 100
+total_epochs = 2
 checkpoint_config = dict(interval=1)
 log_config = dict(
-    interval=500,
+    interval=1,
     hooks=[dict(type='TextLoggerHook'),
            dict(type='TensorboardLoggerHook')])
 dist_params = dict(backend='nccl')

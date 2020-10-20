@@ -42,7 +42,7 @@ model = dict(
 train_cfg = dict()
 test_cfg = dict(mode='whole')
 dataset_type = 'CityscapesDataset'
-data_root = 'data/cityscapes/'
+data_root = '/data/dataset/storage/cityscapes/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 crop_size = (512, 1024)
@@ -85,7 +85,7 @@ data = dict(
     workers_per_gpu=0,
     train=dict(
         type='CityscapesDataset',
-        data_root='data/cityscapes/',
+        data_root='/data/dataset/storage/cityscapes/',
         img_dir='leftImg8bit/train',
         ann_dir='gtFine/train',
         pipeline=[
@@ -107,7 +107,7 @@ data = dict(
         ]),
     val=dict(
         type='CityscapesDataset',
-        data_root='data/cityscapes/',
+        data_root='/data/dataset/storage/cityscapes/',
         img_dir='leftImg8bit/val',
         ann_dir='gtFine/val',
         pipeline=[
@@ -130,7 +130,7 @@ data = dict(
         ]),
     test=dict(
         type='CityscapesDataset',
-        data_root='data/cityscapes/',
+        data_root='/data/dataset/storage/cityscapes/',
         img_dir='leftImg8bit/val',
         ann_dir='gtFine/val',
         pipeline=[
@@ -162,9 +162,8 @@ cudnn_benchmark = True
 optimizer = dict(type='SGD', lr=0.001, momentum=0.9, weight_decay=0.0005)
 optimizer_config = dict()
 lr_config = dict(policy='poly', power=0.9, min_lr=0.0001, by_epoch=False)
-total_iters = 40000
-checkpoint_config = dict(by_epoch=False, interval=4000)
+total_iters = 10000
+checkpoint_config = dict(by_epoch=False, interval=1000)
 evaluation = dict(interval=4000, metric='mIoU')
-total_epochs = 10000
-work_dir = './work_dir/FCN'
+work_dir = './work_dir/fcn_r50'
 gpu_ids = range(0, 1)
