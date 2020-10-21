@@ -124,12 +124,87 @@ def inference_detector(model, img):
     return result
 
 
+def custom_inference_detector(model, img):
+    """Inference image(s) with the detector.test_pipeline
+
+    Args:
+        model (nn.Module): The loaded detector.
+        imgs (str/ndarray or list[str/ndarray]): Either image files or loaded
+            images.
+
+    Returns:
+        If imgs is a str, a generator will be returned, otherwise return the
+        detection results directly.
+    """
+    cfg = model.cfg
+    device = next(model.parameters()).device  # model device
+    # prepare data
+    if isinstance(img, np.ndarray):
+        # directly add img
+        data = dict(img=img)
+        cfg = cfg.copy()
+        # set loading pipeline type
+        cfg.data.test.pipeline[0].type = 'LoadImageFromWebcam'
+    else:
+        # add information into dict
+        data = dict(img_info=dict(filename=img), img_prefix=None)
+    # build the data pipeline
+    test_pipeline = Compose(cfg.data.test.pipeline)
+    data = test_pipeline(data)
+    data = collate([data], samples_per_gpu=1)
+    if next(model.parameters()).is_cuda:
+        # scatter to specified GPU
+        data = scatter(data, [device])[0]
+    else:
+        # Use torchvision ops for CPU mode instead
+        for m in model.modules():
+            if isinstance(m, (RoIPool, RoIAlign)):
+                if not m.aligned:
+                    # aligned=False is not implemented on CPU
+                    # set use_torchvision on-the-fly
+                    m.use_torchvision = True
+        warnings.warn('We set use_torchvision=True in CPU mode.')
+        # just get the actual data from DataContainer
+        data['img_metas'] = data['img_metas'][0].data
+
+    # forward the model
+    with torch.no_grad():
+        result = model(return_loss=False, rescale=True, **data)[0]
+
+    if isinstance(result, tuple):
+        bbox_result, segm_result = result
+        if isinstance(segm_result, tuple):
+            segm_result = segm_result[0]  # ms rcnn
+    else:
+        bbox_result, segm_result = result, None
+        
+    # Process detection mask
+    bboxes = np.vstack(bbox_result)
+    labels = [
+        np.full(bbox.shape[0], i, dtype=np.int32)
+        for i, bbox in enumerate(bbox_result)
+    ]
+    labels = np.concatenate(labels)
+
+    output_dict = {}
+    output_dict['num_detections'] = bboxes.shape[0]
+    output_dict['detection_classes'] = labels
+    output_dict['detection_boxes'] = bboxes
+    output_dict['detection_scores'] = bboxes[-1]
+
+    # Process detection mask
+    if segm_result is not None and len(labels) > 0:  # non empty
+        segms = mmcv.concat_list(segm_result)
+        output_dict['detection_masks'] = np.array(segms)
+    return output_dict
+
+
 def FormatOutput(result):
     """
     Args:
         result (Tensor or tuple): The results to draw over `img`
             bbox_result or (bbox_result, segm_result).
-    Returns:
+    Returns: formate the results
 
     """
     if isinstance(result, tuple):
@@ -138,7 +213,8 @@ def FormatOutput(result):
             segm_result = segm_result[0]  # ms rcnn
     else:
         bbox_result, segm_result = result, None
-
+        
+    # Process detection mask
     bboxes = np.vstack(bbox_result)
     labels = [
         np.full(bbox.shape[0], i, dtype=np.int32)
