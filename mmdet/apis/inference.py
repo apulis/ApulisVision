@@ -124,6 +124,41 @@ def inference_detector(model, img):
     return result
 
 
+def FormatOutput(result):
+    """
+    Args:
+        result (Tensor or tuple): The results to draw over `img`
+            bbox_result or (bbox_result, segm_result).
+    Returns:
+
+    """
+    if isinstance(result, tuple):
+        bbox_result, segm_result = result
+        if isinstance(segm_result, tuple):
+            segm_result = segm_result[0]  # ms rcnn
+    else:
+        bbox_result, segm_result = result, None
+
+    bboxes = np.vstack(bbox_result)
+    labels = [
+        np.full(bbox.shape[0], i, dtype=np.int32)
+        for i, bbox in enumerate(bbox_result)
+    ]
+    labels = np.concatenate(labels)
+
+    output_dict = {}
+    output_dict['num_detections'] = bboxes.shape[0]
+    output_dict['detection_classes'] = labels
+    output_dict['detection_boxes'] = bboxes
+    output_dict['detection_scores'] = bboxes[-1]
+
+    # Process detection mask
+    if segm_result is not None and len(labels) > 0:  # non empty
+        segms = mmcv.concat_list(segm_result)
+        output_dict['detection_masks'] = np.array(segms)
+    return output_dict
+
+
 async def async_inference_detector(model, img):
     """Async inference image(s) with the detector.
 
