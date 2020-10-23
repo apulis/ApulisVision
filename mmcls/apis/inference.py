@@ -100,3 +100,38 @@ def inference_classfication(model, img):
         result = {'pred_label': pred_label, 'pred_score': pred_score}
     result['class_name'] = model.CLASSES[result['pred_label']]
     return result
+
+
+def custom_inference_classfication(model, img):
+    """Inference image(s) with the classifier.
+
+    Args:
+        model (nn.Module): The loaded classifier.
+        img (str/ndarray): The image filename.
+    Returns:
+        result (dict): The classification results that contains
+            `class_name`, `pred_label` and `pred_score`.
+    """
+    cfg = model.cfg
+    device = next(model.parameters()).device  # model device
+    # build the data pipeline
+    test_pipeline = [LoadImage()] + cfg.data.test.pipeline[1:]
+    test_pipeline = Compose(test_pipeline)
+    # prepare data
+    data = dict(img=img)
+    data = test_pipeline(data)
+    data = collate([data], samples_per_gpu=1)
+    if next(model.parameters()).is_cuda:
+        # scatter to specified GPU
+        data = scatter(data, [device])[0]
+
+    # forward the model
+    with torch.no_grad():
+        scores = model(return_loss=False, **data)
+        pred_score = np.max(scores, axis=1)[0]
+        pred_label = np.argmax(scores, axis=1)[0]
+        result = {'pred_label': pred_label, 'pred_score': pred_score}
+        result['logits'] = scores 
+        result['classes'] = pred_label
+    result['class_name'] = model.CLASSES[result['pred_label']]
+    return result
