@@ -189,8 +189,8 @@ def custom_inference_detector(model, img):
     output_dict = {}
     output_dict['num_detections'] = bboxes.shape[0]
     output_dict['detection_classes'] = labels
-    output_dict['detection_boxes'] = bboxes
-    output_dict['detection_scores'] = bboxes[-1]
+    output_dict['detection_boxes'] = bboxes[:,:4]
+    output_dict['detection_scores'] = bboxes[:,-1]
 
     # Process detection mask
     if segm_result is not None and len(labels) > 0:  # non empty
@@ -225,8 +225,8 @@ def FormatOutput(result):
     output_dict = {}
     output_dict['num_detections'] = bboxes.shape[0]
     output_dict['detection_classes'] = labels
-    output_dict['detection_boxes'] = bboxes
-    output_dict['detection_scores'] = bboxes[-1]
+    output_dict['detection_boxes'] = bboxes[:,:4]
+    output_dict['detection_scores'] = bboxes[:,-1]
 
     # Process detection mask
     if segm_result is not None and len(labels) > 0:  # non empty
