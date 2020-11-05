@@ -14,7 +14,6 @@ from mmseg.datasets import build_dataset
 from mmseg.models import build_segmentor
 from mmseg.utils import collect_env, get_root_logger
 from update_seg_config import merge_from_mycfg, update_configs
-from model2pickle import dump_infer_model
 
 
 def parse_args():
@@ -170,12 +169,15 @@ def main():
         validate=(not args.no_validate),
         timestamp=timestamp,
         meta=meta)
-
-    # 转换为pkl推理模型
-    checkpoint_file = osp.join(cfg.work_dir, "latest.pth")
-    output_file = osp.join(cfg.work_dir, "export_model.pkl")
-    dump_infer_model(checkpoint_file, config_file, output_file, target='seg', device='cuda:0')
-
+    # from model2pickle import dump_infer_model
+    # try:
+    #     # 转换为pkl推理模型
+    #     checkpoint_file = osp.join(cfg.work_dir, "latest.pth")
+    #     output_file = osp.join(cfg.work_dir, "export_model.pkl")
+    #     label_file = osp.join(cfg.work_dir, "class_names.json")
+    #     dump_infer_model(checkpoint_file, config_file, output_file, label_file, target='seg', device='cuda:0')
+    # except Exception as e:
+    #     print(e)
 
 if __name__ == '__main__':
     main()

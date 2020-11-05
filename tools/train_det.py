@@ -17,7 +17,6 @@ from mmdet.apis import set_random_seed, train_detector
 from mmdet.datasets import build_dataset
 from mmdet.models import build_detector
 from mmdet.utils import collect_env, get_root_logger
-from model2pickle import dump_infer_model
 
 
 def parse_args():
@@ -190,12 +189,15 @@ def main():
         validate=(not args.no_validate),
         timestamp=timestamp,
         meta=meta)
-
-    # 转换为pkl推理模型
-    checkpoint_file = osp.join(cfg.work_dir, "latest.pth")
-    output_file = osp.join(cfg.work_dir, "export_model.pkl")
-    dump_infer_model(checkpoint_file, config_file, output_file, target='det', device='cuda:0')
-
+    # from model2pickle import dump_infer_model
+    # try:
+    #     # 转换为pkl推理模型
+    #     checkpoint_file = osp.join(cfg.work_dir, "latest.pth")
+    #     output_file = osp.join(cfg.work_dir, "export_model.pkl")
+    #     label_file = osp.join(cfg.work_dir, "class_names.json")
+    #     dump_infer_model(checkpoint_file, config_file, output_file, label_file, target='det', device='cuda:0')
+    # except Exception as e:
+    #     print(e)
 
 if __name__ == '__main__':
     main()
