@@ -89,13 +89,20 @@ def cityscapes_classes():
     ]
 
 
+def xray_classes():
+    return [
+        'metal_lighter', 'lighter', 'knief', 'battery', 'scissor'
+    ]
+
+
 dataset_aliases = {
     'voc': ['voc', 'pascal_voc', 'voc07', 'voc12'],
     'imagenet_det': ['det', 'imagenet_det', 'ilsvrc_det'],
     'imagenet_vid': ['vid', 'imagenet_vid', 'ilsvrc_vid'],
     'coco': ['coco', 'mscoco', 'ms_coco'],
     'wider_face': ['WIDERFaceDataset', 'wider_face', 'WDIERFace'],
-    'cityscapes': ['cityscapes']
+    'cityscapes': ['cityscapes'],
+    'xray': ['xray', 'XRAY', 'xray_data']
 }
 
 
