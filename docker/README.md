@@ -5,7 +5,7 @@ We provide a [Dockerfile](https://github.com/apulis/ApulisVision/blob/master/doc
 
 ```shell
 # build an image with PyTorch 1.5, CUDA 10.1
-docker build -t apulisvision docker/
+docker build -t apulisvision:1.2.0 docker/apulisvision/
 ```
 
 Run it with

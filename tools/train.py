@@ -22,14 +22,14 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
     parser.add_argument('config', help='train config file path')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
-    parser.add_argument('--data_path', default='', help='the dataset dir')
+    parser.add_argument('--data_path', default='/home/data/xray', help='the dataset dir')
     parser.add_argument('--output_path', default='', help='the dir to save models')
     parser.add_argument('--visualPath', default='', help='visual tensorboard path')
-    parser.add_argument('--batch-size', type=int, default=2, metavar='N',
+    parser.add_argument('--batch_size', type=int, default=1, metavar='N',
                         help='input batch size for training (default: 64)')
-    parser.add_argument('--lr', type=float, default=1.0, metavar='LR',
+    parser.add_argument('--lr', type=float, default=0.001, metavar='LR',
                         help='learning rate (default: 1.0)')
-    parser.add_argument('--gamma', type=float, default=0.7, metavar='M',
+    parser.add_argument('--momentum', type=float, default=0.9, metavar='M',
                         help='Learning rate step gamma (default: 0.7)')
     parser.add_argument('--total_epochs', type=int, default=12, metavar='N',
                         help='total epochs to train the datasets')
@@ -98,9 +98,31 @@ def main():
     cfg = Config.fromfile(args.config)
 
     if args.data_path is not None:
-        
+        cfg.data_root = args.data_path
+        # train data
+        cfg.data.train.ann_file = os.path.join(cfg.data_root, "annotations", "train.json")
+        cfg.data.train.img_prefix = os.path.join(cfg.data_root, "restricted")
+        # val data
+        cfg.data.val.ann_file = os.path.join(cfg.data_root, "annotations", "val.json")
+        cfg.data.val.img_prefix = os.path.join(cfg.data_root, "restricted")
+        # test data
+        cfg.data.test.ann_file = os.path.join(cfg.data_root, "annotations", "val.json")
+        cfg.data.test.img_prefix = os.path.join(cfg.data_root, "restricted")
 
+    if args.batch_size is not None:
+        cfg.data.samples_per_gpu = args.batch_size
+    
+    if args.lr is not None:
+        cfg.optimizer.lr = args.lr
 
+    if args.momentum is not None:
+        cfg.optimizer.momentum = args.momentum
+
+    if args.total_epochs is not None:
+        cfg.total_epochs = args.total_epochs
+
+    if args.log_interval is not None:
+        cfg.log_config.interval = args.log_interval
 
     if args.cfg_options is not None:
         cfg.merge_from_dict(args.cfg_options)
