@@ -102,7 +102,8 @@ dataset_aliases = {
     'coco': ['coco', 'mscoco', 'ms_coco'],
     'wider_face': ['WIDERFaceDataset', 'wider_face', 'WDIERFace'],
     'cityscapes': ['cityscapes'],
-    'xray': ['xray', 'XRAY', 'xray_data']
+    'xray': ['xray', 'XRAY', 'xray_data'],
+    'helmet': ['helmet', 'lemet_data'],
 }
 
 
