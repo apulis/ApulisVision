@@ -27,7 +27,7 @@ def parse_args():
     parser.add_argument('--visualPath', default='', help='visual tensorboard path')
     parser.add_argument('--batch_size', type=int, default=1, metavar='N',
                         help='input batch size for training (default: 64)')
-    parser.add_argument('--lr', type=float, default=0.001, metavar='LR',
+    parser.add_argument('--lr', type=float, default=0.02, metavar='LR',
                         help='learning rate (default: 1.0)')
     parser.add_argument('--momentum', type=float, default=0.9, metavar='M',
                         help='Learning rate step gamma (default: 0.7)')
@@ -101,13 +101,13 @@ def main():
         cfg.data_root = args.data_path
         # train data
         cfg.data.train.ann_file = os.path.join(cfg.data_root, "annotations", "train.json")
-        cfg.data.train.img_prefix = os.path.join(cfg.data_root, "restricted")
+        cfg.data.train.img_prefix = os.path.join(cfg.data_root, "JPEGImages")
         # val data
         cfg.data.val.ann_file = os.path.join(cfg.data_root, "annotations", "val.json")
-        cfg.data.val.img_prefix = os.path.join(cfg.data_root, "restricted")
+        cfg.data.val.img_prefix = os.path.join(cfg.data_root, "JPEGImages")
         # test data
         cfg.data.test.ann_file = os.path.join(cfg.data_root, "annotations", "val.json")
-        cfg.data.test.img_prefix = os.path.join(cfg.data_root, "restricted")
+        cfg.data.test.img_prefix = os.path.join(cfg.data_root, "JPEGImages")
 
     if args.batch_size is not None:
         cfg.data.samples_per_gpu = args.batch_size

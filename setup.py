@@ -218,6 +218,7 @@ def mmsegbuild():
         version=mmseg_get_version(),
         description='Open MMLab Detection Toolbox and Benchmark',
         long_description=readme(),
+        long_description_content_type='text/markdown',
         author='OpenMMLab',
         author_email='chenkaidev@gmail.com',
         keywords='computer vision, semantic segmentation',

@@ -26,7 +26,9 @@ RUN pip install -r requirements/production.txt -i  https://mirrors.aliyun.com/py
 RUN pip install -r requirements/build.txt -i  https://mirrors.aliyun.com/pypi/simple
 RUN pip install -r requirements/optional.txt -i  https://mirrors.aliyun.com/pypi/simple
 RUN pip install "git+https://gitee.com/likyoo/cocoapi-mmlab.git#subdirectory=pycocotools"
-RUN python setup_mmdet.py develop
-RUN python setup_mmseg.py develop
-RUN python setup_mmcls.py develop
-
+# RUN python setup_mmdet.py develop
+# RUN python setup_mmseg.py develop
+# RUN python setup_mmcls.py develop
+ENV FORCE_CUDA="1"
+RUN pip install -r requirements/build.txt
+RUN pip install --no-cache-dir -e .
