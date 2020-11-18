@@ -25,7 +25,7 @@ def parse_args():
     parser.add_argument('--data_path', default='/home/data/xray', help='the dataset dir')
     parser.add_argument('--output_path', default='', help='the dir to save models')
     parser.add_argument('--visualPath', default='', help='visual tensorboard path')
-    parser.add_argument('--batch_size', type=int, default=1, metavar='N',
+    parser.add_argument('--batch_size', type=int, default=2, metavar='N',
                         help='input batch size for training (default: 64)')
     parser.add_argument('--lr', type=float, default=0.02, metavar='LR',
                         help='learning rate (default: 1.0)')

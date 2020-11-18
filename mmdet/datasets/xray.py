@@ -14,6 +14,15 @@ from mmdet.core import eval_recalls
 from .builder import DATASETS
 from .custom import CustomDataset
 
+try:
+    import pycocotools
+    assert pycocotools.__version__ >= '12.0.2'
+except AssertionError:
+    raise AssertionError('Incompatible version of pycocotools is installed. '
+                         'Run pip uninstall pycocotools first. Then run pip '
+                         'install mmpycocotools to install open-mmlab forked '
+                         'pycocotools.')
+
 
 @DATASETS.register_module()
 class XRAYDataset(CustomDataset):
@@ -29,6 +38,7 @@ class XRAYDataset(CustomDataset):
         Returns:
             list[dict]: Annotation info from COCO api.
         """
+        
         self.coco = COCO(ann_file)
         self.cat_ids = self.coco.get_cat_ids(cat_names=self.CLASSES)
         self.cat2label = {cat_id: i for i, cat_id in enumerate(self.cat_ids)}

@@ -95,6 +95,12 @@ def xray_classes():
     ]
 
 
+def helmet_classes():
+    return ['hard_hat', 'other_hat', 'no_hat', 'work_uniform', 
+            'non_uniform'
+    ]
+
+
 dataset_aliases = {
     'voc': ['voc', 'pascal_voc', 'voc07', 'voc12'],
     'imagenet_det': ['det', 'imagenet_det', 'ilsvrc_det'],
