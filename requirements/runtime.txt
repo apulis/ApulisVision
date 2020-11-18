@@ -1,6 +1,5 @@
 matplotlib
+mmpycocotools
 numpy
-# pycocotools@git+https://github.com/open-mmlab/cocoapi.git#subdirectory=pycocotools
-pycocotools@git+https://gitee.com/likyoo/cocoapi-mmlab.git#subdirectory=pycocotools
 six
 terminaltables
