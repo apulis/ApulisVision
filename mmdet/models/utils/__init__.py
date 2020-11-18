@@ -1,4 +1,3 @@
-from .gaussian_target import gaussian_radius, gen_gaussian_target
-from .res_layer import ResLayer
+from .weight_init import bias_init_with_prob
 
-__all__ = ['ResLayer', 'gaussian_radius', 'gen_gaussian_target']
+__all__ = ['bias_init_with_prob']

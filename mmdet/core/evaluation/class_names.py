@@ -89,27 +89,13 @@ def cityscapes_classes():
     ]
 
 
-def xray_classes():
-    return [
-        'metal_lighter', 'lighter', 'knief', 'battery', 'scissor'
-    ]
-
-
-def helmet_classes():
-    return ['hard_hat', 'other_hat', 'no_hat', 'work_uniform', 
-            'non_uniform'
-    ]
-
-
 dataset_aliases = {
     'voc': ['voc', 'pascal_voc', 'voc07', 'voc12'],
     'imagenet_det': ['det', 'imagenet_det', 'ilsvrc_det'],
     'imagenet_vid': ['vid', 'imagenet_vid', 'ilsvrc_vid'],
     'coco': ['coco', 'mscoco', 'ms_coco'],
     'wider_face': ['WIDERFaceDataset', 'wider_face', 'WDIERFace'],
-    'cityscapes': ['cityscapes'],
-    'xray': ['xray', 'XRAY', 'xray_data'],
-    'helmet': ['helmet', 'lemet_data'],
+    'cityscapes': ['cityscapes']
 }
 
 
@@ -124,7 +110,7 @@ def get_classes(dataset):
         if dataset in alias2name:
             labels = eval(alias2name[dataset] + '_classes()')
         else:
-            raise ValueError(f'Unrecognized dataset: {dataset}')
+            raise ValueError('Unrecognized dataset: {}'.format(dataset))
     else:
-        raise TypeError(f'dataset must a str, but got {type(dataset)}')
+        raise TypeError('dataset must a str, but got {}'.format(type(dataset)))
     return labels

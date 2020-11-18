@@ -1,10 +1,9 @@
-from ..builder import DETECTORS
+from ..registry import DETECTORS
 from .single_stage import SingleStageDetector
 
 
-@DETECTORS.register_module()
+@DETECTORS.register_module
 class FCOS(SingleStageDetector):
-    """Implementation of `FCOS <https://arxiv.org/abs/1904.01355>`_"""
 
     def __init__(self,
                  backbone,
