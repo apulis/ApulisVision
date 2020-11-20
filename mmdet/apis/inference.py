@@ -178,8 +178,11 @@ def custom_inference_detector(model, img):
     else:
         bbox_result, segm_result = result, None
         
-    # Process detection mask
-    bboxes = np.vstack(bbox_result)
+    # Process detection bbox
+    # 为了和 tensorflow serving 的推理接口保持一致，
+    # 这里将结果 fotmat
+    bboxes = np.vstack(bbox_result) # (xmin, ymin, xmax, ymax)
+    bboxes[:, [0,1,2,3]] = bboxes[:, [1,0,3,2]] # (ymin, xmin, ymax, xmax) 
     labels = [
         np.full(bbox.shape[0], i, dtype=np.int32)
         for i, bbox in enumerate(bbox_result)
