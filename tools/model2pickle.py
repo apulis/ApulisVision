@@ -4,12 +4,15 @@ from mmcls.apis import custom_inference_classfication, init_classfication
 from mmseg.apis import custom_inference_segmentor, init_segmentor
 from mmdet.apis import custom_inference_detector, init_detector
 import warnings
+from PIL import Image
+import io
+import os
+import json
 
 import matplotlib.pyplot as plt
 import mmcv
 import numpy as np
 import torch
-from mmcv.ops import RoIAlign, RoIPool
 from mmcv.parallel import collate, scatter
 from mmcv.runner import load_checkpoint
 
@@ -60,26 +63,18 @@ def dump_infer_model(checkpoint_file, config_file, output_file, labelfile, targe
 		infer_model = InferenceModel(model, custom_inference_segmentor)
 	pickle_dump(infer_model, output_file)
 	writeLabels(infer_model.model.CLASSES, labelfile)
-	# model_infer(output_file)
 	print("------------------------------")
 	print("SUCCESS EXPORT MODEL")
 	print("------------------------------")
 
 
-from PIL import Image
-import io
-import os
-import json
-
 
 def model_infer(pickle_file, img_bytes):
-	img = Image.open(io.BytesIO(img_bytes))
-	inputImg = np.asarray(img)
-	infer_model = pickle_load(pickle_file)
-	print(infer_model.model.CLASSES)
-	result = infer_model.predict(infer_model.model, inputImg)
-	print(pickle_file)
-	print(result)
+    img_np_arr = np.frombuffer(img_bytes, np.uint8)
+    image = cv2.imdecode(img_np_arr, cv2.IMREAD_COLOR)
+    infer_model = pickle_load(pickle_file)
+    print(infer_model.model.CLASSES)
+    result = infer_model.predict(infer_model.model, image)
 
 
 def writeLabels(CLASSES, label_file):
@@ -87,7 +82,7 @@ def writeLabels(CLASSES, label_file):
 	with open(label_file, 'w') as jsonfile:
 		for key, value in enumerate(CLASSES, start=1):
 			data.append({"id": int(key), "display_name": value})
-			json.dump(data, jsonfile)
+		json.dump(data, jsonfile)
 
 
 if __name__ == '__main__':
