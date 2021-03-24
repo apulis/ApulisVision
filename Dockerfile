@@ -30,3 +30,6 @@ RUN pip install -r requirements/optional.txt -i  https://mirrors.aliyun.com/pypi
 # RUN python setup_mmcls.py develop
 ENV FORCE_CUDA="1"
 RUN pip install --no-cache-dir -e .
+RUN pip install kfserving==0.3.0
+ENTRYPOINT ["python", "tools/model2pickle_kfserving.py"]
+
