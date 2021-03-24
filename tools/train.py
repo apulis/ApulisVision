@@ -22,7 +22,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
     parser.add_argument('config', help='train config file path')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
-    parser.add_argument('--data_path', default='/home/data/xray', help='the dataset dir')
+    parser.add_argument('--data_path', default=None, help='the dataset dir')
     parser.add_argument('--output_path', default='', help='the dir to save models')
     parser.add_argument('--visualPath', default='', help='visual tensorboard path')
     parser.add_argument('--batch_size', type=int, default=2, metavar='N',

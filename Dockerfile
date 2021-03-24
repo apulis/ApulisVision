@@ -3,7 +3,6 @@ ARG CUDA="10.1"
 ARG CUDNN="7"
 
 FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-devel
-
 ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0+PTX"
 ENV TORCH_NVCC_FLAGS="-Xfatbin -compressgithub.com/open-mmlab/cocoap-all"
 ENV CMAKE_PREFIX_PATH="$(dirname $(which conda))/../"
@@ -30,5 +29,4 @@ RUN pip install -r requirements/optional.txt -i  https://mirrors.aliyun.com/pypi
 # RUN python setup_mmseg.py develop
 # RUN python setup_mmcls.py develop
 ENV FORCE_CUDA="1"
-RUN pip install -r requirements/build.txt
 RUN pip install --no-cache-dir -e .

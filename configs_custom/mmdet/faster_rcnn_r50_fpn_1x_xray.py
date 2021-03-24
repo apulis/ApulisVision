@@ -1,6 +1,5 @@
 # fp16 settings
 fp16 = dict(loss_scale=512.)
-
 model = dict(
     type='FasterRCNN',
     pretrained='torchvision://resnet50',
@@ -107,7 +106,7 @@ test_cfg = dict(
     rcnn=dict(
         score_thr=0.05, nms=dict(type='nms', iou_thr=0.5), max_per_img=100))
 dataset_type = 'XRAYDataset'
-data_root = '/home/data/xray/'
+data_root = '/home/dataset/xray/'
 img_norm_cfg = dict(
     mean=[205.57, 224.54, 222.71], std=[52.01, 38.32, 56.774], to_rgb=True)
 train_pipeline = [
@@ -145,11 +144,11 @@ test_pipeline = [
 ]
 data = dict(
     samples_per_gpu=2,
-    workers_per_gpu=2,
+    workers_per_gpu=0,
     train=dict(
         type='XRAYDataset',
-        ann_file='/home/data/xray/annotations/train_restriction.json',
-        img_prefix='/home/data/xray/restricted/',
+        ann_file='/home/dataset/xray/annotations/train.json',
+        img_prefix='/home/dataset/xray/JPEGImages/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(type='LoadAnnotations', with_bbox=True),
@@ -166,8 +165,8 @@ data = dict(
         ]),
     val=dict(
         type='XRAYDataset',
-        ann_file='/home/data/xray/annotations/train_restriction.json',
-        img_prefix='/home/data/xray/restricted/',
+        ann_file='/home/dataset/xray/annotations/val.json',
+        img_prefix='/home/data/xray/JPEGImages/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
@@ -189,8 +188,8 @@ data = dict(
         ]),
     test=dict(
         type='XRAYDataset',
-        ann_file='/home/data/xray/annotations/train_restriction.json',
-        img_prefix='/home/data/xray/restricted/',
+        ann_file='/home/dataset/xray/annotations/val.json',
+        img_prefix='/home/dataset/xray/JPEGImages/',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
@@ -221,7 +220,12 @@ lr_config = dict(
     step=[8, 11])
 total_epochs = 12
 checkpoint_config = dict(interval=1)
-log_config = dict(interval=50, hooks=[dict(type='TextLoggerHook')])
+log_config = dict(
+    interval=50,
+    hooks=[
+        dict(type='TextLoggerHook'),
+        dict(type='TensorboardLoggerHook')
+    ])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 load_from = None

@@ -8,7 +8,7 @@ from PIL import Image
 import io
 import os
 import json
-
+import cv2
 import matplotlib.pyplot as plt
 import mmcv
 import numpy as np
@@ -68,13 +68,13 @@ def dump_infer_model(checkpoint_file, config_file, output_file, labelfile, targe
 	print("------------------------------")
 
 
-
 def model_infer(pickle_file, img_bytes):
     img_np_arr = np.frombuffer(img_bytes, np.uint8)
     image = cv2.imdecode(img_np_arr, cv2.IMREAD_COLOR)
     infer_model = pickle_load(pickle_file)
     print(infer_model.model.CLASSES)
     result = infer_model.predict(infer_model.model, image)
+    print(result)
 
 
 def writeLabels(CLASSES, label_file):
@@ -87,13 +87,13 @@ def writeLabels(CLASSES, label_file):
 
 if __name__ == '__main__':
 	# dump model
-	config_file = 'configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
-	checkpoint_file = 'work_dirs/faster-rcnn/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth'
-	output_file = 'work_dirs/faster-rcnn/export_model.pkl'
-	label_file = 'work_dirs/faster-rcnn/class_names.json'
+	config_file = 'configs_custom/mmdet/faster_rcnn_r50_fpn_1x_xray.py'
+	checkpoint_file = 'work_dirs/faster_rcnn_r50_fpn_1x_xray/epoch_1.pth'
+	output_file = 'work_dirs/faster_rcnn_r50_fpn_1x_xray/export_model.pkl'
+	label_file = 'work_dirs/faster_rcnn_r50_fpn_1x_xray/class_names.json'
 	dump_infer_model(checkpoint_file, config_file, output_file, label_file, target='det')
 	img_file = 'demo/demo.jpg'
 	img_bytes = open(img_file, 'rb').read()
-	model_infer("work_dirs/faster-rcnn/export_model.pkl", img_bytes)
+	model_infer("work_dirs/faster_rcnn_r50_fpn_1x_xray/export_model.pkl", img_bytes)
 	# model_infer("work_dir/cls/export_model.pkl", img_bytes)
 	# model_infer("work_dir/seg/export_model.pkl", img_bytes)
